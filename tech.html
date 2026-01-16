@@ -259,97 +259,54 @@
             font-size: 0.95rem;
         }
         
-        /* 图片展示区域 - 紧凑布局 */
-        .tech-image-section {
+        /* 深蓝色栏目顶部 - 替换原图片展示区域 */
+        .tech-header-section {
             padding: 3rem 0;
-            background-color: #f8fafc;
+            background: linear-gradient(135deg, #0f1a38 0%, #1a2b4a 50%, #253866 100%);
             margin-bottom: 2rem;
-        }
-        
-        .tech-image-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .tech-image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .tech-image-card {
-            background-color: white;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: all var(--transition-normal);
-            border: 1px solid #e5e7eb;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-        
-        .tech-image-card:nth-child(1) { animation-delay: 0.5s; }
-        .tech-image-card:nth-child(2) { animation-delay: 0.6s; }
-        .tech-image-card:nth-child(3) { animation-delay: 0.7s; }
-        
-        .tech-image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tech-image-placeholder {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #e0e7ff, #dbeafe);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #3b82f6;
-            font-size: 3rem;
+            color: white;
             position: relative;
+            overflow: hidden;
         }
         
-        .tech-image-placeholder::after {
-            content: '图片展示区域';
+        .tech-header-section::before {
+            content: '';
             position: absolute;
-            bottom: 15px;
+            top: 0;
             left: 0;
             width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M100,50 C120,30 150,40 160,60 C170,80 150,100 130,90 C110,80 90,70 100,50 Z" fill="rgba(224, 201, 138, 0.08)"/><path d="M60,80 C70,60 90,50 110,70 C130,90 120,110 100,120 C80,130 50,100 60,80 Z" fill="rgba(138, 184, 232, 0.08)"/><path d="M140,120 C150,100 170,90 180,110 C190,130 170,150 150,140 C130,130 120,110 140,120 Z" fill="rgba(138, 123, 189, 0.08)"/></svg>');
+            background-size: 300px 300px;
+            opacity: 0.4;
+            z-index: 1;
+        }
+        
+        .tech-header-content {
+            max-width: 900px;
+            margin: 0 auto;
             text-align: center;
-            color: #3b82f6;
-            font-size: 1rem;
-            font-weight: 600;
+            position: relative;
+            z-index: 2;
         }
         
-        .tech-image-placeholder i {
-            opacity: 0.7;
-        }
-        
-        .tech-image-content {
-            padding: 1.5rem;
-        }
-        
-        .tech-image-title {
-            font-size: 1.3rem;
+        .tech-header-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: #1e3a8a;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        
-        .tech-image-title i {
-            color: #f59e0b;
-        }
-        
-        .tech-image-description {
-            color: #4b5563;
-            line-height: 1.6;
             margin-bottom: 1rem;
-            font-size: 0.95rem;
+            color: white;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tech-header-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.6;
         }
         
         /* 技术流程区域 - 优化布局 */
@@ -566,8 +523,7 @@
                 font-size: 1rem;
             }
             
-            .tech-core-grid,
-            .tech-image-grid {
+            .tech-core-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
                 gap: 1.2rem;
             }
@@ -620,8 +576,7 @@
                 font-size: 1.8rem;
             }
             
-            .tech-core-grid,
-            .tech-image-grid {
+            .tech-core-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -645,7 +600,7 @@
             }
             
             .tech-core-card,
-            .tech-image-card {
+            .tech-process-content {
                 padding: 1.2rem;
             }
             
@@ -858,73 +813,14 @@
             </div>
         </section>
 
-        <!-- 图片展示区域 -->
-        <section class="tech-image-section">
+        <!-- 深蓝色栏目顶部 - 替换原图片展示区域 -->
+        <section class="tech-header-section">
             <div class="container">
-                <div class="tech-core-heading">
-                    <h2 class="tech-core-title">AIGC技术图解</h2>
-                    <p class="tech-core-subtitle">
-                        通过可视化图表理解AIGC的工作原理和架构设计
+                <div class="tech-header-content">
+                    <h2 class="tech-header-title">AIGC技术图解</h2>
+                    <p class="tech-header-subtitle">
+                        通过可视化图表理解AIGC的工作原理和架构设计，探索人工智能生成内容的技术实现路径
                     </p>
-                </div>
-                
-                <div class="tech-image-container">
-                    <div class="tech-image-grid">
-                        <!-- 图片1：Transformer架构 -->
-                        <div class="tech-image-card">
-                            <div class="tech-image-placeholder">
-                                <i class="fas fa-sitemap"></i>
-                            </div>
-                            <div class="tech-image-content">
-                                <h3 class="tech-image-title"><i class="fas fa-sitemap"></i> Transformer架构图解</h3>
-                                <p class="tech-image-description">
-                                    Transformer架构是现代AIGC模型的核心，特别是大语言模型如GPT系列。
-                                    它完全基于注意力机制，摒弃了传统的循环和卷积结构，能够并行处理序列数据，
-                                    大大提高了训练效率和模型容量。
-                                </p>
-                                <p class="tech-image-description">
-                                    图中展示了Transformer的编码器-解码器结构，包括多头注意力机制、
-                                    前馈神经网络、层归一化和残差连接等关键组件。
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <!-- 图片2：扩散模型原理 -->
-                        <div class="tech-image-card">
-                            <div class="tech-image-placeholder">
-                                <i class="fas fa-wave-square"></i>
-                            </div>
-                            <div class="tech-image-content">
-                                <h3 class="tech-image-title"><i class="fas fa-wave-square"></i> 扩散模型工作流程</h3>
-                                <p class="tech-image-description">
-                                    扩散模型是当前最先进的图像生成技术，如DALL-E 2和Stable Diffusion。
-                                    它通过逐步添加噪声破坏数据，然后学习逆向过程以从噪声中重建数据。
-                                </p>
-                                <p class="tech-image-description">
-                                    图示展示了扩散模型的正向过程（加噪）和反向过程（去噪），
-                                    以及潜在空间表示如何使模型能够生成高质量、多样化的图像。
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <!-- 图片3：大语言模型训练 -->
-                        <div class="tech-image-card">
-                            <div class="tech-image-placeholder">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="tech-image-content">
-                                <h3 class="tech-image-title"><i class="fas fa-chart-line"></i> 大语言模型训练过程</h3>
-                                <p class="tech-image-description">
-                                    大语言模型的训练分为预训练、微调和推理三个阶段。
-                                    预训练阶段使用海量文本数据学习语言的基本规律，微调阶段针对特定任务优化模型性能。
-                                </p>
-                                <p class="tech-image-description">
-                                    图表展示了模型训练过程中的损失下降曲线、参数规模增长趋势，
-                                    以及不同规模模型在各项基准测试中的性能对比。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1120,7 +1016,7 @@
         <h2 class="footer-logo">
           <a href="index.html">
             <i class="fas fa-brain" aria-hidden="true"></i>
-            AIGC探索
+            AIGC指南
           </a>
         </h2>
         <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
