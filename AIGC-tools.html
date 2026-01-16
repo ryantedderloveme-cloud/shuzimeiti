@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AIGC工具箱 - 精选人工智能生成内容工具与使用指南">
+    <title>AIGC工具箱 | AIGC探索</title>
+    <link rel="stylesheet" href="style-new.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* AIGC工具页面专属样式 - 改进版 */
+        
+        
+        /* ========== 主布局容器 ========== */
+        .tools-layout-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0;
+            gap: 2.5rem;
+            position: relative;
+            align-items: flex-start; /* 改为顶部对齐 */
+            min-height: 80vh; /* 增加最小高度 */
+        }
+        
+
+/* ========== 左侧导航区域 - 重新设计 ========== */
+.tools-left-nav {
+    position: sticky;
+    top: 210px; /* 向下移动，更居中 */
+    width: 200px; /* 减少宽度 */
+    height: auto;
+    flex-shrink: 0;
+    background: linear-gradient(155deg, #6a5bac 0%, #5a4a8c 60%, #4a3c8c 100%); /* 更柔和的蓝紫渐变 */
+    border-radius: var(--radius-xl);
+    padding: 1.2rem 1rem;
+    box-shadow: 
+        0 15px 35px rgba(90, 74, 140, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(138, 123, 189, 0.4);
+    z-index: 100;
+    overflow-y: auto;
+    transition: all var(--transition-normal);
+    margin-top: 30px; /* 向下移动 */
+}
+
+.tools-left-nav::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tools-left-nav::-webkit-scrollbar-track {
+    background: rgba(138, 123, 189, 0.1);
+    border-radius: 2px;
+}
+
+.tools-left-nav::-webkit-scrollbar-thumb {
+    background: rgba(224, 201, 138, 0.5);
+    border-radius: 2px;
+}
+
+/* 移除标题区域，替换为图形/图标 */
+.tools-left-nav-header {
+    margin-bottom: 1.8rem;
+    text-align: center;
+    padding-bottom: 1.2rem;
+    position: relative;
+}
+
+.tools-left-nav-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(224, 201, 138, 0.5) 50%, 
+        transparent 100%);
+}
+
+/* 图形化导航标识 */
+.nav-graphic {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 修改指南针图标动画为旋转效果 */
+.nav-graphic-icon {
+    font-size: 2.2rem;
+    color: #e0c98a;
+    animation: compassSpin 6s linear infinite;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 0 15px rgba(224, 201, 138, 0.5);
+    transform-origin: center center;
+}
+
+/* 指南针旋转动画 */
+@keyframes compassSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 添加指南针指针效果 */
+.nav-graphic-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: #c9a959;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+.nav-graphic-orbits {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(224, 201, 138, 0.3);
+    animation: orbitRotate 6s linear infinite;
+}
+
+.nav-orbit:nth-child(1) {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation-delay: 0s;
+    border-width: 1px;
+}
+
+.nav-orbit:nth-child(2) {
+    top: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    animation-delay: -2s;
+    animation-direction: reverse;
+    border-style: dashed;
+    border-width: 0.5px;
+}
+
+@keyframes orbitRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 导航列表样式 */
+.tools-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 主分类项目样式 */
+.tools-nav-item {
+    margin-bottom: 0.8rem; /* 增加间距 */
+    position: relative;
+}
+
+/* 移除可展开功能，所有链接都是单行 */
+.tools-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 1rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* 添加背景光泽效果 */
+.tools-nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    transition: left 0.6s ease;
+}
+
+.tools-nav-link:hover::before,
+.tools-nav-link:focus::before {
+    left: 100%;
+}
+
+.tools-nav-link:hover,
+.tools-nav-link:focus {
+    color: white;
+    background-color: rgba(138, 123, 189, 0.25);
+    border-left-color: #e0c98a;
+    text-decoration: none;
+    transform: translateX(3px);
+    box-shadow: 0 5px 15px rgba(74, 60, 140, 0.2);
+}
+
+/* 增强当前激活状态 */
+.tools-nav-link.active {
+    color: white;
+    background: linear-gradient(135deg, 
+        #8a7bbd, 
+        rgba(90, 74, 140, 0.5));
+    border-left-color: #c9a959;
+    font-weight: 600;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 5px 15px rgba(74, 60, 140, 0.3);
+    /* 增强当前状态指示 */
+    border-left-width: 4px;
+    box-shadow: 
+        inset 2px 0 0 #c9a959,
+        0 5px 20px rgba(74, 60, 140, 0.4);
+}
+
+.tools-nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #e0c98a;
+    transition: all var(--transition-fast);
+}
+
+.tools-nav-link.active i {
+    color: #c9a959;
+    transform: scale(1.1);
+}
+
+/* 增强悬停时的图标效果 */
+.tools-nav-link:hover i {
+    transform: scale(1.1) translateX(2px);
+    color: #e0c98a;
+}
+
+/* 移除子菜单相关样式 */
+.tools-submenu {
+    display: none; /* 隐藏子菜单 */
+}
+
+/* 响应式设计调整 */
+@media (max-width: 768px) {
+    .tools-left-nav {
+        background: linear-gradient(155deg, 
+            rgba(106, 91, 172, 0.95) 0%, 
+            rgba(90, 74, 140, 0.95) 100%);
+        backdrop-filter: blur(10px);
+        margin-bottom: 1.5rem;
+        margin-top: 0;
+    }
+    
+    .tools-nav-link {
+        padding: 0.8rem;
+        white-space: normal; /* 移动端允许换行 */
+    }
+}
+
+@media (max-width: 480px) {
+    .tools-left-nav {
+        padding: 1rem;
+    }
+    
+    .nav-graphic {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .nav-graphic-icon {
+        font-size: 1.8rem;
+    }
+}
+        /* ========== 右侧内容区域 ========== */
+        .tools-right-content {
+            flex: 1;
+            padding-bottom: 4rem;
+            margin-top: 20px; /* 与左侧导航对齐 */
+        }
+        
+     /* ========== Hero区域 ========== */
+.tools-hero {
+   background: #243c56;
+    color: var(--philosophy-hero-text-light);
+    padding: 6rem 0 5rem; 
+    position: relative;
+    overflow: hidden;
+    margin: -2rem -2rem 3rem -2rem; 
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.tools-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.tools-hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 1.5rem;
+}
+
+.tools-hero-title-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem; /* 增大底部外边距：从2.5rem改为3rem */
+    position: relative;
+    gap: 2rem; /* 增大图标与文本间距：从1.5rem改为2rem */
+}
+
+.tools-toolbox-icon {
+    font-size: 3.2rem; /* 增大图标大小：从2.8rem改为3.2rem */
+    color: var(--philosophy-hero-gold-primary);
+    animation: toolsIconGlow 3s infinite alternate;
+    position: relative;
+    order: -1;
+}
+
+@keyframes toolsIconGlow {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        text-shadow: 0 0 15px rgba(201, 169, 89, 0.5); /* 增大阴影：从10px改为15px */
+    }
+    50% {
+        transform: translateY(-8px) rotate(8deg); /* 增大浮动幅度：从-5px改为-8px，旋转角度从5deg改为8deg */
+        text-shadow: 0 0 25px rgba(224, 201, 138, 0.9); /* 增大阴影：从20px改为25px */
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+        text-shadow: 0 0 15px rgba(201, 169, 89, 0.5); /* 增大阴影：从10px改为15px */
+    }
+}
+
+.tools-hero-heading {
+    font-family: var(--philosophy-font-heading);
+    font-size: 3.8rem; /* 增大字体大小：从3.2rem改为3.8rem */
+    font-weight: 800;
+    margin-bottom: 0.8rem; /* 增大底部外边距：从0.5rem改为0.8rem */
+    color: var(--philosophy-hero-text-light);
+    line-height: 1.15; /* 减小行高使更紧凑：从1.2改为1.15 */
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4); /* 增强阴影：从0 2px 10px改为0 3px 15px */
+    letter-spacing: -0.5px; /* 添加轻微字距调整，使文本更紧凑 */
+}
+
+.tools-hero-subtitle {
+    font-size: 1.4rem; /* 增大字体大小：从1.3rem改为1.5rem */
+    color: var(--philosophy-hero-gold-light);
+    max-width: 750px; /* 增大最大宽度：从700px改为750px */
+    margin: 0 auto;
+    font-weight: 350; /* 增加字体粗细：从300改为350 */
+    line-height: 1.7; /* 增加行高：从1.6改为1.7 */
+    letter-spacing: 0.3px; /* 添加轻微字距 */
+}
+
+/* 响应式调整 - 确保在较小屏幕上也保持放大效果 */
+@media (max-width: 1200px) {
+    .tools-hero-heading {
+        font-size: 3.5rem; /* 调整1200px以下的大小 */
+    }
+    .tools-hero-subtitle {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .tools-hero {
+        margin: -1rem -1rem 2.5rem -1rem; /* 调整边距 */
+        padding: 5rem 0 4rem; /* 调整内边距 */
+    }
+    
+    .tools-hero-heading {
+        font-size: 3.2rem; /* 调整992px以下的大小 */
+    }
+    
+    .tools-hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .tools-toolbox-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tools-hero {
+        padding: 4rem 0 3rem; /* 调整内边距 */
+    }
+    
+    .tools-hero-heading {
+        font-size: 2.8rem; /* 调整768px以下的大小 */
+    }
+    
+    .tools-hero-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .tools-toolbox-icon {
+        font-size: 2.6rem;
+    }
+    
+    .tools-hero-title-area {
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tools-hero-heading {
+        font-size: 2.3rem; /* 调整480px以下的大小 */
+    }
+    
+    .tools-hero-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    
+    .tools-toolbox-icon {
+        font-size: 2.2rem;
+    }
+    
+    .tools-hero-title-area {
+        gap: 1.2rem;
+    }
+}
+        /* ========== 工具内容区域 ========== */
+        .tools-main-content {
+            padding: 0;
+            background-color: var(--background-color);
+        }
+        
+        .tools-section {
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background-color: var(--card-background);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            scroll-margin-top: 120px; /* 增加滚动偏移 */
+        }
+        
+        .tools-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tools-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, 
+                var(--primary-color), 
+                var(--primary-color-light),
+                var(--philosophy-accent-blue));
+        }
+        
+        .tools-section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--philosophy-gold-light);
+        }
+        
+        .tools-section-icon {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.1), rgba(26, 91, 158, 0.1));
+            border-radius: 50%;
+        }
+        
+        .tools-section-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .tools-section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* 常用工具和综合网站的网格布局 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .tool-card {
+            background-color: var(--card-background-alt);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color-pale);
+        }
+        
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--philosophy-accent-blue));
+        }
+        
+        /* 工具图标样式 - 更新为使用真实图标 */
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--border-color-light);
+        }
+        
+        /* 工具图标图片样式 */
+        .tool-icon-img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+        
+        /* 特定工具图标大小调整 */
+        .tool-icon-img.doubao {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .tool-icon-img.deepseek {
+            width: 38px;
+            height: 38px;
+        }
+        
+        .tool-icon-img.wenxin {
+            width: 42px;
+            height: 42px;
+        }
+        
+        .tool-icon-img.tongyi {
+            width: 44px;
+            height: 44px;
+        }
+        
+        .tool-icon-img.jimeng {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .tool-icon-img.kimi {
+            width: 38px;
+            height: 38px;
+        }
+        
+        .tool-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .tool-description {
+            color: var(--text-secondary);
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--philosophy-accent-blue);
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            background-color: rgba(26, 91, 158, 0.05);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            align-self: flex-start;
+        }
+        
+        .tool-link:hover,
+        .tool-link:focus {
+            color: white;
+            background-color: var(--philosophy-accent-blue);
+            text-decoration: none;
+            transform: translateX(5px);
+        }
+        
+        .tool-link i {
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* 使用指南样式 */
+        .guide-step {
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            background-color: var(--card-background-alt);
+            border-radius: var(--radius-lg);
+            border-left: 5px solid var(--primary-color);
+            transition: all var(--transition-normal);
+        }
+        
+        .guide-step:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .guide-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--philosophy-accent-blue));
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .step-content {
+            padding-left: calc(50px + 1.5rem);
+        }
+        
+        .step-description {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .step-sub-list {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .step-sub-item {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .step-sub-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--philosophy-gold-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .step-highlight {
+            background-color: rgba(201, 169, 89, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--philosophy-gold-primary);
+        }
+        
+        .step-highlight p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-highlight strong {
+            color: var(--philosophy-gold-primary);
+        }
+        
+        /* 页面底部链接 */
+        .tools-bottom-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tools-bottom-link {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-normal);
+            text-decoration: none;
+            border: 2px solid var(--border-color);
+        }
+        
+        .tools-bottom-link:hover,
+        .tools-bottom-link:focus {
+            color: white;
+            background-color: var(--primary-color);
+            text-decoration: none;
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+        
+        .tools-bottom-link i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--primary-color-light);
+            transform: translateY(-5px);
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .tools-layout-container {
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+            
+            .tools-left-nav {
+                width: 190px;
+                top: 140px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .tools-layout-container {
+                flex-direction: column;
+                padding: 1rem;
+                align-items: stretch;
+            }
+            
+            .tools-left-nav {
+                position: static;
+                width: 100%;
+                max-height: none;
+                margin-bottom: 2rem;
+                margin-top: 0;
+                top: auto;
+            }
+            
+            .tools-right-content {
+                margin-top: 0;
+            }
+            
+            .tools-hero {
+                margin: -1rem -1rem 2rem -1rem;
+                border-radius: 0;
+                padding: 4rem 0 3rem;
+            }
+            
+            .tools-hero-heading {
+                font-size: 2.8rem;
+            }
+            
+            .tools-hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .tools-section {
+                padding: 2rem;
+            }
+            
+            .tools-section-title {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .tools-submenu.expanded {
+                max-height: 800px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tools-hero {
+                padding: 3rem 0 2rem;
+            }
+            
+            .tools-hero-heading {
+                font-size: 2.4rem;
+            }
+            
+            .tools-hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .tools-section {
+                padding: 1.5rem;
+            }
+            
+            .tools-section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .tools-section-icon {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .step-content {
+                padding-left: 0;
+            }
+            
+            .step-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .tools-bottom-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tools-bottom-link {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-hero-heading {
+                font-size: 2rem;
+            }
+            
+            .tools-hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .tools-section-title {
+                font-size: 1.8rem;
+            }
+            
+            .tool-card {
+                padding: 1.5rem;
+            }
+            
+            .guide-step {
+                padding: 1.5rem;
+            }
+            
+            .tools-left-nav {
+                padding: 1.2rem 1rem;
+            }
+            
+            .tools-nav-link {
+                padding: 0.8rem;
+            }
+            
+            .nav-graphic {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-graphic-icon {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="philosophy-body">
+    <!-- 跳过导航链接 -->
+    <a class="skip-to-main" href="#main-content">跳过导航直接进入主要内容</a>
+    
+    <!-- 网站头部 -->
+    <header class="site-header philosophy-header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="site-title">
+                    <a href="index-new.html" aria-label="AIGC探索网站首页">
+                        <span class="logo-icon"><i class="fas fa-brain"></i></span>
+                        AIGC指南
+                    </a>
+                </h1>
+                <p class="site-subtitle">人工智能生成内容的前沿进展</p>
+            </div>
+            
+            <!-- 主导航 -->
+            <nav class="main-nav" aria-label="主导航">
+                <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="切换导航菜单">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+                
+                <ul id="primary-menu" class="nav-menu">
+                    <!-- 首页 -->
+                    <li class="nav-item"><a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">
+                            <span>首</span>
+                            <span>页</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 技术原理 -->
+                    <li class="nav-item"><a href="tech.html" class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <span class="nav-text">
+                            <span>技术</span>
+                            <span>原理</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 应用场景 -->
+                    <li class="nav-item"><a href="applications.html" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <span class="nav-text">
+                            <span>应用</span>
+                            <span>场景</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 发展趋势 -->
+                    <li class="nav-item"><a href="trends.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">
+                            <span>发展</span>
+                            <span>趋势</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 学习资源 -->
+                    <li class="nav-item"><a href="resources.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span class="nav-text">
+                            <span>学习</span>
+                            <span>资源</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- AIGC工具 -->
+                    <li class="nav-item current"><a href="AIGC-tools.html" class="nav-link">
+                        <i class="fas fa-tools"></i>
+                        <span class="nav-text">
+                            <span>实用</span>
+                            <span>工具</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 案例研究 -->
+                    <li class="nav-item"><a href="case-study.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">
+                            <span>案例</span>
+                            <span>实践</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 最新研究 -->
+                    <li class="nav-item"><a href="lately.html" class="nav-link">
+  <i class="fas fa-infinity"></i> <!-- 已改为无限符号图标 -->
+  <span class="nav-text">
+    <span>研究</span>
+    <span>前沿</span>
+  </span>
+</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 主内容区域 -->
+    <main id="main-content" class="tools-main-content" tabindex="-1">
+        <!-- Hero区域 -->
+        <section class="tools-hero" aria-labelledby="hero-heading">
+            <div class="tools-hero-container">
+                <div class="tools-hero-content">
+                    <div class="tools-hero-title-area">
+                        <div class="tools-toolbox-icon">
+                            <i class="fas fa-toolbox"></i>
+                        </div>
+                        <div class="philosophy-title-text">
+                            <h1 id="hero-heading" class="tools-hero-heading">AIGC工具箱</h1>
+                            <p class="tools-hero-subtitle">精选人工智能生成内容工具与实用指南，助力您的创作之旅</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="tools-layout-container">
+            <!-- 左侧导航区域 - 重新设计 -->
+           <nav class="tools-left-nav" aria-label="工具箱导航">
+    <!-- 图形化导航标识（无文字） -->
+    <div class="tools-left-nav-header">
+        <div class="nav-graphic">
+            <div class="nav-graphic-orbits">
+                <div class="nav-orbit"></div>
+                <div class="nav-orbit"></div>
+            </div>
+            <div class="nav-graphic-icon">
+                <i class="fas fa-compass"></i>
+            </div>
+        </div>
+    </div>
+    
+    <ul class="tools-nav-list">
+        <!-- 常用工具（不可展开） -->
+        <li class="tools-nav-item">
+            <a href="#common-tools" class="tools-nav-link active">
+                <i class="fas fa-star"></i>
+                <span>常用工具</span>
+            </a>
+        </li>
+        
+        <!-- 综合网站 -->
+        <li class="tools-nav-item">
+            <a href="#comprehensive-websites" class="tools-nav-link">
+                <i class="fas fa-globe"></i>
+                <span>综合网站</span>
+            </a>
+        </li>
+        
+        <!-- 使用指南 -->
+        <li class="tools-nav-item">
+            <a href="#usage-guide" class="tools-nav-link">
+                <i class="fas fa-book-open"></i>
+                <span>使用指南</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+            
+            <!-- 右侧内容区域 -->
+            <div class="tools-right-content">
+                <!-- 常用工具部分 -->
+                <section id="common-tools" class="tools-section" aria-labelledby="common-tools-heading">
+                    <div class="tools-section-header">
+                        <div class="tools-section-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <h2 id="common-tools-heading" class="tools-section-title">常用工具</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="tools-grid">
+                        <!-- 即梦 -->
+                        <div class="tool-card" data-tool="jimeng">
+                            <div class="tool-icon">
+                                <img src="https://gd-hbimg.huaban.com/8727416896b8617e4ab18097e70a0116e4594bc16696-tIXlju_fw658webp" 
+                                     alt="即梦图标" 
+                                     class="tool-icon-img jimeng">
+                            </div>
+                            <h3 class="tool-name">即梦</h3>
+                            <p class="tool-description">创意AI生成工具，提供多种内容创作功能</p>
+                            <a href="https://jimeng.jianying.com/" target="_blank" class="tool-link">访问工具 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        
+                        <!-- Deepseek -->
+                        <div class="tool-card" data-tool="deepseek">
+                            <div class="tool-icon">
+                                <img src="https://ts4.tc.mm.bing.net/th/id/OIP-C.yPEHZe8RW6nRjVbKXrSQPgHaHB?rs=1&pid=ImgDetMain&o=7&rm=3" 
+                                     alt="Deepseek图标" 
+                                     class="tool-icon-img deepseek">
+                            </div>
+                            <h3 class="tool-name">Deepseek</h3>
+                            <p class="tool-description">强大的AI对话与内容生成工具</p>
+                            <a href="https://www.deepseek.com" target="_blank" class="tool-link">访问工具 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        
+                        <!-- 豆包 -->
+                        <div class="tool-card" data-tool="doubao">
+                            <div class="tool-icon">
+                                <img src="https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/chat/static/image/logo-icon-white-bg.72df0b1a.png" 
+                                     alt="豆包图标" 
+                                     class="tool-icon-img doubao">
+                            </div>
+                            <h3 class="tool-name">豆包</h3>
+                            <p class="tool-description">智能对话助手，提供便捷的AI交互体验</p>
+                            <a href="https://www.doubao.com/chat/" target="_blank" class="tool-link">访问工具 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        
+                        <!-- 文心一言 -->
+                        <div class="tool-card" data-tool="wenxin">
+                            <div class="tool-icon">
+                                <img src="https://eb118-file.cdn.bcebos.com/aisuda/2025-06/lf4IKUMDOKWxUrTkV3nhV7.png" 
+                                     alt="文心一言图标" 
+                                     class="tool-icon-img wenxin">
+                            </div>
+                            <h3 class="tool-name">文心一言</h3>
+                            <p class="tool-description">百度推出的AI对话与内容生成平台</p>
+                            <a href="https://yiyan.baidu.com/" target="_blank" class="tool-link">访问工具 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        
+                        <!-- 通义千问 -->
+                        <div class="tool-card" data-tool="tongyi">
+                            <div class="tool-icon">
+                                <img src="https://img.alicdn.com/imgextra/i4/O1CN01JQ3IpN1kYp1zlzIrC_!!6000000004696-2-tps-174-60.png" 
+                                     alt="通义千问图标" 
+                                     class="tool-icon-img tongyi">
+                            </div>
+                            <h3 class="tool-name">通义千问</h3>
+                            <p class="tool-description">阿里巴巴的AI对话与内容生成工具</p>
+                            <a href="https://www.qianwen.com" target="_blank" class="tool-link">访问工具 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        
+                        <!-- Kimi -->
+                        <div class="tool-card" data-tool="kimi">
+                            <div class="tool-icon">
+                                <img src="https://i-blog.csdnimg.cn/blog_migrate/a73a7092bee2fa1d1be0cdf587f4ecef.png" 
+                                     alt="Kimi图标" 
+                                     class="tool-icon-img kimi">
+                            </div>
+                            <h3 class="tool-name">Kimi</h3>
+                            <p class="tool-description">智能AI助手，提供多领域内容生成服务</p>
+                            <a href="https://www.kimi.com/" target="_blank" class="tool-link">访问工具 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 综合网站部分 -->
+                <section id="comprehensive-websites" class="tools-section" aria-labelledby="comprehensive-websites-heading">
+                    <div class="tools-section-header">
+                        <div class="tools-section-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div>
+                            <h2 id="comprehensive-websites-heading" class="tools-section-title">综合网站</h2>
+                            <p class="tools-section-subtitle">汇集各类AIGC资源的导航平台</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tools-grid">
+                        <!-- AIGC导航网站1 -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-compass"></i>
+                            </div>
+                            <h3 class="tool-name">AIGC综合导航</h3>
+                            <p class="tool-description">提供全面的AIGC工具和资源导航服务</p>
+                            <a href="https://aigc.izzi.cn/" target="_blank" class="tool-link">访问网站 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        
+                        <!-- AIGC导航网站2 -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-list-alt"></i>
+                            </div>
+                            <h3 class="tool-name">AIGC资源导航</h3>
+                            <p class="tool-description">汇集各类AIGC工具和资源的导航平台</p>
+                            <a href="https://www.aigc138.com/" target="_blank" class="tool-link">访问网站 <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 使用指南部分 -->
+                <section id="usage-guide" class="tools-section" aria-labelledby="usage-guide-heading">
+                    <div class="tools-section-header">
+                        <div class="tools-section-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div>
+                            <h2 id="usage-guide-heading" class="tools-section-title">AIGC使用指南</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤1 -->
+                    <div class="guide-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h3 class="step-title">明确使用目标</h3>
+                        </div>
+                        <div class="step-content">
+                            <p class="step-description">先确定想要生成的内容类型（文字、图片、音频、视频等）以及具体需求（如创意文案、产品海报、教学材料）。</p>
+                            <p class="step-description">设定使用范围和受众，避免涉及个人隐私信息（真实姓名、地址、身份证号等）。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤2 -->
+                    <div class="guide-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h3 class="step-title">选择合适的 AIGC 工具</h3>
+                        </div>
+                        <div class="step-content">
+                            <p class="step-description">根据内容类型挑选对应的模型或平台：</p>
+                            <ul class="step-sub-list">
+                                <li class="step-sub-item">文本生成 → ChatGPT、Claude、DeepSeek 等大语言模型。</li>
+                                <li class="step-sub-item">图像生成 → Midjourney、Stable Diffusion、即梦AI 等。</li>
+                                <li class="step-sub-item">音频/视频 → 生成式音频模型、文本转视频平台。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤3 -->
+                    <div class="guide-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h3 class="step-title">编写清晰的提示词（Prompt）</h3>
+                        </div>
+                        <div class="step-content">
+                            <p class="step-description">提供清晰、具体的指令</p>
+                            <p class="step-description">说明目标读者或使用场景，包含必要的上下文信息</p>
+                            <div class="step-highlight">
+                                <p><strong>分解复杂任务，</strong>将大目标拆成多个子任务（如先生成大纲，再细化章节）。</p>
+                                <p><strong>使用肯定性指令，</strong>如"请直接输出完整的营销文案"。</p>
+                                <p><strong>示例驱动，</strong>提供示例或参考风格，帮助模型对齐输出。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤4 -->
+                    <div class="guide-step">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <h3 class="step-title">输入提示并生成内容</h3>
+                        </div>
+                        <div class="step-content">
+                            <p class="step-description">在工具界面输入准备好的提示</p>
+                            <p class="step-description">调整必要参数（如创造性程度、长度等）</p>
+                            <p class="step-description">点击生成按钮获取初步结果</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤5 -->
+                    <div class="guide-step">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <h3 class="step-title">评估与优化</h3>
+                        </div>
+                        <div class="step-content">
+                            <p class="step-description">检查生成内容是否符合预期</p>
+                            <p class="step-description">评估内容质量、准确性和相关性</p>
+                            <p class="step-description">必要时修改提示词重新生成</p>
+                            <p class="step-description">或对生成内容进行人工编辑和完善</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤6 -->
+                    <div class="guide-step">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <h3 class="step-title">应用与分享</h3>
+                        </div>
+                        <div class="step-content">
+                            <p class="step-description">将最终内容应用于目标场景</p>
+                            <p class="step-description">注明AI辅助创作（如适用）</p>
+                            <p class="step-description">收集反馈用于后续优化</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop" aria-label="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- 统一网站页脚 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- 关于我们区域 -->
+      <div class="footer-about">
+        <h2 class="footer-logo">
+          <a href="index.html">
+            <i class="fas fa-brain" aria-hidden="true"></i>
+            AIGC探索
+          </a>
+        </h2>
+        <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
+        <div class="footer-social">
+          <a href="https://weibo.com" aria-label="访问微博" target="_blank"><i class="fab fa-weibo"></i></a>
+          <a href="https://www.bilibili.com" aria-label="访问B站" target="_blank"><i class="fab fa-bilibili"></i></a>
+          <a href="https://www.qq.com" aria-label="访问QQ" target="_blank"><i class="fab fa-qq"></i></a>
+          <a href="https://www.zhihu.com" aria-label="访问知乎" target="_blank"><i class="fab fa-zhihu"></i></a>
+        </div>
+      </div>
+      
+      <!-- 快速链接区域 - 更新为8个导航链接 -->
+      <div class="footer-nav">
+        <h3 class="footer-nav-title">核心导航</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="tech.html">技术原理</a></li>
+          <li><a href="applications.html">应用场景</a></li>
+          <li><a href="trends.html">发展趋势</a></li>
+          <li><a href="resources.html">学习资源</a></li>
+          <li><a href="AIGC-tools.html">实用工具</a></li>
+          <li><a href="case-study.html">案例实践</a></li>
+          <li><a href="lately.html">研究前沿</a></li>
+        </ul>
+      </div>
+      
+      <!-- 联系区域 -->
+      <div class="footer-contact">
+        <h3 class="footer-contact-title">联系我们</h3>
+        <ul class="footer-contact-list">
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">邮箱</span>
+              <a href="mailto:zyh20070814@163.com">zyh20070814@163.com</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">电话</span>
+              <a href="tel:123456789">123456789</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">地址</span>
+              <a href="#">北京市海淀区中关村科技园</a>
+            </div>
+          </li>
+        </ul>
+        
+        
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span>&copy; 2025 数字媒体技术课程项目 - AIGC探索小组 | 本网站仅供教育用途</span>
+        <a >知识共享许可协议</a>
+      </div>
+      <div class="footer-legal">
+        <div class="accessibility-statement">
+          <a  aria-label="查看我们的无障碍声明">
+            <i class="fas fa-universal-access" aria-hidden="true"></i>
+            无障碍声明
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- 辅助功能工具 -->
+    <div class="accessibility-tools">
+        <button id="contrast-toggle" class="accessibility-btn" aria-label="切换高对比度模式">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button id="font-increase" class="accessibility-btn" aria-label="增大字体大小">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button id="font-decrease" class="accessibility-btn" aria-label="减小字体大小">
+            <i class="fas fa-text-width"></i>
+        </button>
+    </div>
+    
+    <script>
+        // 页面交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // ========== 移动菜单功能 ==========
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                
+                // 点击菜单外区域关闭菜单
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        mobileMenuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // ========== 左侧导航扩展功能 ==========
+            const expandableNavLinks = document.querySelectorAll('.tools-nav-link[data-expandable="true"]');
+            const sections = document.querySelectorAll('.tools-section');
+            
+            // 展开/收起子菜单功能
+            expandableNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const parentItem = this.closest('.tools-nav-item');
+                    const submenu = parentItem.querySelector('.tools-submenu');
+                    const expandIcon = this.querySelector('.nav-expand-icon');
+                    
+                    if (submenu) {
+                        // 切换子菜单状态
+                        submenu.classList.toggle('expanded');
+                        expandIcon.classList.toggle('expanded');
+                        
+                        // 平滑滚动到对应区域
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            // 计算偏移量
+                            const headerHeight = document.querySelector('.site-header').offsetHeight;
+                            const offset = headerHeight + 60;
+                            
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                            
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            // 更新URL哈希
+                            history.pushState(null, null, targetId);
+                        }
+                    }
+                });
+            });
+            
+            // 子菜单链接点击功能
+            const submenuLinks = document.querySelectorAll('.tools-submenu-link');
+            submenuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有活动状态
+                    submenuLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // 计算偏移量
+                        const headerHeight = document.querySelector('.site-header').offsetHeight;
+                        const offset = headerHeight + 60;
+                        
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 更新URL哈希
+                        history.pushState(null, null, targetId);
+                        
+                        // 高亮对应的工具卡片
+                        const toolId = this.getAttribute('data-tool');
+                        highlightToolCard(toolId);
+                    }
+                });
+            });
+            
+            // 主分类链接点击功能（非可展开的）
+            const mainNavLinks = document.querySelectorAll('.tools-nav-link:not([data-expandable="true"])');
+            mainNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有活动状态
+                    mainNavLinks.forEach(l => l.classList.remove('active'));
+                    expandableNavLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // 计算偏移量
+                        const headerHeight = document.querySelector('.site-header').offsetHeight;
+                        const offset = headerHeight + 60;
+                        
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 更新URL哈希
+                        history.pushState(null, null, targetId);
+                    }
+                });
+            });
+            
+            // 高亮对应工具卡片的函数
+            function highlightToolCard(toolId) {
+                // 移除所有高亮
+                const toolCards = document.querySelectorAll('.tool-card');
+                toolCards.forEach(card => {
+                    card.style.boxShadow = '';
+                    card.style.transform = '';
+                    card.style.zIndex = '';
+                });
+                
+                // 高亮对应的工具卡片
+                const targetCard = document.querySelector(`.tool-card[data-tool="${toolId}"]`);
+                if (targetCard) {
+                    targetCard.style.boxShadow = '0 20px 40px rgba(74, 60, 140, 0.3)';
+                    targetCard.style.transform = 'translateY(-15px) scale(1.02)';
+                    targetCard.style.zIndex = '10';
+                    
+                    // 3秒后取消高亮
+                    setTimeout(() => {
+                        targetCard.style.boxShadow = '';
+                        targetCard.style.transform = '';
+                        targetCard.style.zIndex = '';
+                    }, 3000);
+                }
+            }
+            
+            // 滚动时更新导航状态
+            function updateLeftNav() {
+                const scrollPosition = window.scrollY + 200;
+                
+                // 重置所有链接的活动状态
+                mainNavLinks.forEach(link => link.classList.remove('active'));
+                expandableNavLinks.forEach(link => link.classList.remove('active'));
+                submenuLinks.forEach(link => link.classList.remove('active'));
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        // 根据sectionId激活对应的导航链接
+                        if (sectionId === 'common-tools') {
+                            const commonToolsLink = document.querySelector('.tools-nav-link[href="#common-tools"]');
+                            if (commonToolsLink) commonToolsLink.classList.add('active');
+                        } else if (sectionId === 'comprehensive-websites') {
+                            const websitesLink = document.querySelector('.tools-nav-link[href="#comprehensive-websites"]');
+                            if (websitesLink) websitesLink.classList.add('active');
+                        } else if (sectionId === 'usage-guide') {
+                            const guideLink = document.querySelector('.tools-nav-link[href="#usage-guide"]');
+                            if (guideLink) guideLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+            
+            // ========== 返回顶部功能 ==========
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            function toggleBackToTop() {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            }
+            
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // ========== 辅助功能工具 ==========
+            const contrastToggle = document.getElementById('contrast-toggle');
+            const fontIncrease = document.getElementById('font-increase');
+            const fontDecrease = document.getElementById('font-decrease');
+            
+            if (contrastToggle) {
+                contrastToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('high-contrast');
+                    
+                    // 保存用户偏好
+                    const isHighContrast = document.body.classList.contains('high-contrast');
+                    localStorage.setItem('highContrast', isHighContrast);
+                    
+                    // 提供视觉反馈
+                    this.style.backgroundColor = isHighContrast ? '#000' : '#3498db';
+                });
+            }
+            
+            if (fontIncrease) {
+                fontIncrease.addEventListener('click', function() {
+                    changeFontSize(1);
+                });
+            }
+            
+            if (fontDecrease) {
+                fontDecrease.addEventListener('click', function() {
+                    changeFontSize(-1);
+                });
+            }
+            
+            function changeFontSize(direction) {
+                const currentSize = parseInt(getComputedStyle(document.documentElement).fontSize);
+                const newSize = currentSize + direction;
+                
+                // 限制字体大小范围
+                if (newSize >= 12 && newSize <= 24) {
+                    document.documentElement.style.fontSize = newSize + 'px';
+                    
+                    // 保存用户偏好
+                    localStorage.setItem('fontSize', newSize);
+                }
+            }
+            
+            // ========== 恢复用户偏好 ==========
+            function restoreUserPreferences() {
+                // 恢复高对比度设置
+                const highContrast = localStorage.getItem('highContrast');
+                if (highContrast === 'true') {
+                    document.body.classList.add('high-contrast');
+                    if (contrastToggle) {
+                        contrastToggle.style.backgroundColor = '#000';
+                    }
+                }
+                
+                // 恢复字体大小
+                const fontSize = localStorage.getItem('fontSize');
+                if (fontSize) {
+                    document.documentElement.style.fontSize = fontSize + 'px';
+                }
+            }
+            
+            // ========== 工具卡片交互效果 ==========
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.style.boxShadow) {
+                        this.style.transform = 'translateY(-10px)';
+                        this.style.boxShadow = 'var(--shadow-xl)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    // 如果卡片没有被高亮，则恢复原位
+                    if (!this.style.boxShadow || this.style.boxShadow.includes('0 20px 40px')) {
+                        return; // 保持高亮状态
+                    }
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+                
+                // 点击工具卡片时，激活对应的子菜单项
+                card.addEventListener('click', function() {
+                    const toolId = this.getAttribute('data-tool');
+                    if (toolId) {
+                        // 移除所有子菜单项的活动状态
+                        submenuLinks.forEach(link => link.classList.remove('active'));
+                        
+                        // 激活对应的子菜单项
+                        const correspondingLink = document.querySelector(`.tools-submenu-link[data-tool="${toolId}"]`);
+                        if (correspondingLink) {
+                            correspondingLink.classList.add('active');
+                        }
+                        
+                        // 高亮当前卡片
+                        highlightToolCard(toolId);
+                    }
+                });
+            });
+            
+            // ========== 指南步骤交互效果 ==========
+            const guideSteps = document.querySelectorAll('.guide-step');
+            guideSteps.forEach(step => {
+                step.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(10px)';
+                });
+                
+                step.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+            
+            // ========== 初始化页面 ==========
+            function initPage() {
+                // 恢复用户偏好
+                restoreUserPreferences();
+                
+                // 初始更新左侧导航状态
+                updateLeftNav();
+                toggleBackToTop();
+                
+                // 设置当前导航项
+                const currentNavItem = document.querySelector('.nav-item:nth-child(6)');
+                if (currentNavItem) currentNavItem.classList.add('current');
+                
+                console.log('AIGC工具页面已加载完成。');
+            }
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                updateLeftNav();
+                toggleBackToTop();
+            });
+            
+            // 页面加载完成后初始化
+            window.addEventListener('load', initPage);
+            
+            // 如果页面已经加载，直接初始化
+            if (document.readyState === 'complete') {
+                initPage();
+            }
+        });
+    </script>
+</body>
+</html>

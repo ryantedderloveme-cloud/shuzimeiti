@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="青春活力风格AIGC(人工智能生成内容)技术探索平台">
+    <meta name="keywords" content="AIGC,人工智能,内容生成,青春活力,AI创作,机器学习">
+    <title>AIGC指南:从原理到应用</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style-new.css">
+    <style>
+        /* ========== 全局优化 ========== */
+        :root {
+            --card-shadow: 0 15px 35px rgba(44, 62, 118, 0.1);
+            --card-shadow-hover: 0 25px 50px rgba(44, 62, 118, 0.2);
+            --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--primary-color-light));
+            --gradient-gold: linear-gradient(135deg, var(--philosophy-hero-gold-primary), #f0c350);
+            --main-bg-light: #f8f9fa; /* 新增：淡灰色背景 */
+        }
+
+        /* 防止左右滑动 */
+        body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* ========== 图片样式优化 ========== */
+        .hero-image-container {
+            display: flex;
+            justify-content: center;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .hero-main-image {
+            width: 90%;
+            max-width: 900px;
+            height: 380px;
+            border-radius: 24px;
+            object-fit: cover;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border: 4px solid var(--philosophy-hero-gold-primary);
+            transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        .hero-main-image:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* 优化：移除黑色覆盖层和图片脚注 */
+        .card-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .card-image-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-smooth);
+        }
+
+        .youth-card:hover .card-image-top {
+            transform: scale(1.05);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            transition: all var(--transition-smooth);
+        }
+
+        .featured-card:hover .featured-image {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ========== 英雄区域优化 ========== */
+        .hero-section {
+            background: var(--philosophy-hero-gradient);
+            color: var(--philosophy-hero-text-light);
+            padding: 6rem 0 7rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .hero-star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            animation: twinkle 4s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.2); 
+            }
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            position: relative;
+            gap: 1.8rem;
+        }
+
+        .hero-icon-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-icon {
+            font-size: 3.5rem;
+            color: var(--philosophy-hero-gold-primary);
+            animation: heroIconGlow 3s infinite alternate;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-icon-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(201, 169, 89, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        @keyframes heroIconGlow {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                text-shadow: 0 0 15px rgba(201, 169, 89, 0.6);
+            }
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+                text-shadow: 0 0 25px rgba(224, 201, 138, 0.8);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+                text-shadow: 0 0 15px rgba(201, 169, 89, 0.6);
+            }
+        }
+
+        .hero-title-text {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-heading {
+            font-family: var(--philosophy-font-heading);
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--philosophy-hero-text-light);
+            line-height: 1.15;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--philosophy-hero-gold-light);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .special-font {
+            color: var(--philosophy-hero-gold-primary);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .special-font::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-heading:hover .special-font::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-weight: 700;
+            transition: all var(--transition-smooth);
+            border: 3px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            z-index: -1;
+            transition: opacity var(--transition-smooth);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            transform: translateX(0);
+        }
+
+        .btn i {
+            margin-left: 10px;
+            transition: transform var(--transition-smooth);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(44, 62, 118, 0.3);
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(44, 62, 118, 0.4);
+        }
+
+        .btn-primary:hover i, .btn-primary:focus i {
+            transform: translateX(5px) rotate(15deg);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--hero-text-color);
+            border-color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover, .btn-secondary:focus {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--hero-text-color);
+            text-decoration: none;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-secondary:hover i, .btn-secondary:focus i {
+            transform: translateX(5px) rotate(15deg);
+        }
+
+        /* ========== 内容区域优化 ========== */
+        .features-section, .featured-section, .news-section, .multimedia-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: var(--philosophy-font-heading);
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        /* 网格布局优化 */
+        .features-grid, .featured-grid, .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* 卡片样式优化 */
+        .youth-card, .featured-card, .youth-news-card {
+            background-color: var(--card-background);
+            border-radius: 20px;
+            padding: 2.8rem 2.2rem;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-smooth);
+            border: 1px solid rgba(44, 62, 118, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .youth-card::before, .featured-card::before, .youth-news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform var(--transition-smooth);
+        }
+
+        .youth-card:hover::before, 
+        .featured-card:hover::before, 
+        .youth-news-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .youth-card:hover, .youth-card:focus-within,
+        .featured-card:hover, .featured-card:focus-within,
+        .youth-news-card:hover, .youth-news-card:focus-within {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: var(--card-shadow-hover);
+            text-decoration: none;
+            border-color: rgba(44, 62, 118, 0.2);
+        }
+
+        .card-icon-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+        }
+
+        .card-icon-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            transform: rotate(45deg);
+            transition: transform var(--transition-smooth);
+        }
+
+        .youth-card:hover .card-icon-bg {
+            transform: rotate(135deg);
+        }
+
+        .card-icon {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            transition: transform var(--transition-smooth);
+        }
+
+        .youth-card:hover .card-icon {
+            transform: scale(1.1) rotate(-10deg);
+        }
+
+        .card-title, .featured-card-title, .news-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--philosophy-accent-blue);
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .card-title::after, .featured-card-title::after, .news-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
+        }
+
+        .card-description, .featured-card-content, .news-excerpt {
+            color: var(--text-secondary);
+            flex-grow: 1;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            text-align: center;
+        }
+
+        .card-meta, .news-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 700;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(44, 62, 118, 0.1);
+        }
+
+        .card-meta i, .news-meta i {
+            margin-right: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .news-category {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            letter-spacing: 1px;
+            border: none;
+            align-self: flex-start;
+            box-shadow: 0 5px 15px rgba(44, 62, 118, 0.2);
+        }
+
+        .section-actions {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .youth-link {
+            color: var(--primary-color);
+            font-weight: 700;
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .youth-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition-smooth);
+        }
+
+        .youth-link:hover, .youth-link:focus {
+            color: var(--secondary-color);
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .youth-link:hover::after, .youth-link:focus::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .youth-link i {
+            transition: transform var(--transition-smooth);
+        }
+
+        .youth-link:hover i, .youth-link:focus i {
+            transform: translateX(8px) rotate(15deg);
+        }
+
+        /* ========== 多媒体展示区域优化 ========== */
+        .multimedia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 3.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 992px) {
+            .multimedia-grid {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+            }
+        }
+
+        .multimedia-card {
+            background-color: var(--card-background);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-smooth);
+            border: 1px solid rgba(44, 62, 118, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .multimedia-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .multimedia-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .multimedia-icon {
+            font-size: 2.5rem;
+            color: white;
+            background: var(--gradient-primary);
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(44, 62, 118, 0.2);
+            transition: transform var(--transition-smooth);
+        }
+
+        .multimedia-card:hover .multimedia-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .multimedia-title {
+            font-size: 1.8rem;
+            color: var(--card-title-color);
+            margin-bottom: 0;
+            font-weight: 700;
+        }
+
+        /* 视频容器样式优化 */
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            background-color: #000;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform var(--transition-smooth);
+        }
+
+        .multimedia-card:hover .video-container {
+            transform: scale(1.02);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+        }
+
+        /* 音频容器样式优化 */
+        .audio-container {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .audio-container audio {
+            width: 100%;
+            border-radius: 16px;
+            background-color: var(--light-gray);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 自定义音频播放器样式增强 */
+        .audio-container audio::-webkit-media-controls-panel {
+            background-color: var(--light-gray);
+            border-radius: 16px;
+        }
+
+        .multimedia-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            flex-grow: 1;
+            font-size: 1.05rem;
+        }
+
+        .multimedia-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1.2rem 0;
+            border-top: 1px solid var(--border-color-light);
+            border-bottom: 1px solid var(--border-color-light);
+            margin-bottom: 2rem;
+        }
+
+        .multimedia-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .multimedia-meta i {
+            color: var(--secondary-color);
+        }
+
+        /* 音频章节样式优化 */
+        .audio-chapters {
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.03), rgba(44, 62, 118, 0.08));
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(44, 62, 118, 0.1);
+        }
+
+        .audio-chapters h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .audio-chapters h4 i {
+            color: var(--secondary-color);
+        }
+
+        .audio-chapters ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .audio-chapters li {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed rgba(44, 62, 118, 0.2);
+            transition: transform var(--transition-smooth);
+        }
+
+        .audio-chapters li:hover {
+            transform: translateX(5px);
+        }
+
+        .audio-chapters li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .audio-chapters a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .audio-chapters a:hover, .audio-chapters a:focus {
+            color: var(--primary-color);
+        }
+
+        .audio-chapters a::after {
+            content: '▶';
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            transition: transform var(--transition-smooth);
+        }
+
+        .audio-chapters a:hover::after, .audio-chapters a:focus::after {
+            transform: translateX(5px);
+        }
+
+        /* ========== 侧边栏优化 ========== */
+        .sidebar {
+            background-color: var(--card-background);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(44, 62, 118, 0.1);
+            position: sticky;
+            top: 140px;
+            height: fit-content;
+            max-height: 600px; /* 限制侧边栏最大高度 */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-self: flex-start;
+        }
+
+        /* 侧边栏滚动条美化 */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(44, 62, 118, 0.05);
+            border-radius: 3px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(44, 62, 118, 0.2);
+            border-radius: 3px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(44, 62, 118, 0.3);
+        }
+
+        .sidebar-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(44, 62, 118, 0.1);
+        }
+
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .sidebar-title {
+            font-family: var(--philosophy-font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .sidebar-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-article {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.03), rgba(44, 62, 118, 0.08));
+            border-radius: 16px;
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            border: 1px solid rgba(44, 62, 118, 0.1);
+        }
+
+        .sidebar-article:hover, .sidebar-article:focus {
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.05), rgba(44, 62, 118, 0.12));
+            transform: translateX(8px);
+            border-left: 4px solid var(--primary-color);
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(44, 62, 118, 0.1);
+        }
+
+        .sidebar-article-number {
+            font-family: var(--philosophy-font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .sidebar-article-content {
+            flex: 1;
+        }
+
+        .sidebar-article-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .sidebar-article-meta {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar-article-meta i {
+            color: var(--primary-color);
+        }
+
+        .sidebar-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sidebar-tag {
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.05), rgba(44, 62, 118, 0.1));
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            transition: all var(--transition-smooth);
+            border: 1px solid rgba(44, 62, 118, 0.15);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .sidebar-tag:hover, .sidebar-tag:focus {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(44, 62, 118, 0.2);
+            border-color: transparent;
+            text-decoration: none;
+        }
+
+        .sidebar-tag.large {
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.03), rgba(44, 62, 118, 0.08));
+            border-radius: 16px;
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(44, 62, 118, 0.1);
+        }
+
+        .sidebar-link:hover, .sidebar-link:focus {
+            transform: translateX(8px);
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(44, 62, 118, 0.1);
+            background: linear-gradient(135deg, rgba(44, 62, 118, 0.05), rgba(44, 62, 118, 0.12));
+        }
+
+        .sidebar-link-icon {
+            width: 55px;
+            height: 55px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all var(--transition-smooth);
+            box-shadow: 0 8px 20px rgba(44, 62, 118, 0.2);
+        }
+
+        .sidebar-link:hover .sidebar-link-icon, .sidebar-link:focus .sidebar-link-icon {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 12px 30px rgba(44, 62, 118, 0.3);
+        }
+
+        .sidebar-link-content {
+            flex: 1;
+        }
+
+        .sidebar-link-title {
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-link-desc {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* ========== 主内容区域布局优化 ========== */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 3.5rem;
+            padding: 3rem 0;
+            align-items: start;
+            min-height: 0;
+        }
+
+        /* 新增：主内容左侧背景色 */
+        .main-content-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            background-color: var(--main-bg-light); /* 淡灰色背景 */
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* 修复：确保内容区域不会溢出 */
+        .main-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        /* ========== 返回顶部按钮优化 ========== */
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-smooth);
+            z-index: 999;
+            box-shadow: 0 15px 35px rgba(44, 62, 118, 0.3);
+            font-weight: bold;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover, .back-to-top:focus {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 25px 50px rgba(44, 62, 118, 0.4);
+            outline: none;
+        }
+
+        /* ========== 辅助功能工具优化 ========== */
+        .accessibility-tools {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .accessibility-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: var(--gradient-primary);
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(44, 62, 118, 0.3);
+            transition: all var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+        }
+
+        .accessibility-btn:hover, .accessibility-btn:focus {
+            background: var(--gradient-primary);
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 15px 35px rgba(44, 62, 118, 0.4);
+            outline: none;
+        }
+
+        /* ========== 精选内容布局优化 ========== */
+        .featured-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .featured-grid-row {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            width: 100%;
+        }
+
+        /* 技术前沿单独一行，居中 */
+        .featured-card.technology {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* 应用场景和发展趋势在同一行 */
+        .featured-card.application,
+        .featured-card.trend {
+            flex: 1;
+            max-width: 450px;
+            min-width: 300px;
+        }
+
+        @media (max-width: 1100px) {
+            .featured-grid-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .featured-card.application,
+            .featured-card.trend {
+                max-width: 500px;
+                width: 100%;
+            }
+        }
+
+        /* ========== 动画效果 ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* ========== 响应式设计优化 ========== */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 var(--space-md);
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr 340px;
+                gap: 3rem;
+            }
+            
+            .hero-heading {
+                font-size: 3.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-content-left {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .site-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-heading {
+                font-size: 2.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .sidebar {
+                position: static;
+                max-height: none;
+                margin-top: 2rem;
+                align-self: stretch;
+            }
+            
+            .features-grid,
+            .news-grid,
+            .featured-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 2.5rem;
+            }
+            
+            .hero-main-image {
+                height: 300px;
+            }
+            
+            .multimedia-grid {
+                grid-template-columns: 1fr;
+                max-width: 700px;
+            }
+            
+            .main-content-left {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-header .container {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .site-title {
+                font-size: 1.6rem;
+            }
+            
+            .logo-icon {
+                font-size: 1.5rem;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height var(--transition-normal);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: var(--nav-bg-color);
+                box-shadow: 0 10px 30px rgba(138, 123, 189, 0.15);
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+                z-index: 999;
+                backdrop-filter: blur(15px);
+            }
+            
+            .nav-menu.active {
+                max-height: 400px;
+                padding: var(--space-sm) 0;
+            }
+            
+            .nav-item {
+                width: 100%;
+            }
+            
+            .nav-link {
+                padding: var(--space-sm) var(--space-md);
+                justify-content: flex-start;
+                flex-direction: row;
+                border-radius: 0;
+                font-size: 1rem;
+                min-height: auto;
+                text-align: left;
+                gap: 10px;
+                border-bottom: 1px solid rgba(138, 123, 189, 0.05);
+            }
+            
+            .nav-link .nav-text {
+                flex-direction: row;
+                gap: 0;
+            }
+            
+            .nav-link::after {
+                display: none;
+            }
+            
+            .nav-link:hover, .nav-link:focus {
+                transform: translateX(5px) scale(1);
+            }
+            
+            .hero-heading {
+                font-size: 2.3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-icon {
+                font-size: 2.5rem;
+            }
+            
+            .hero-title-area {
+                gap: 1rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 15px;
+            }
+            
+            .features-grid,
+            .news-grid,
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-main-image {
+                height: 240px;
+                width: 95%;
+            }
+            
+            .card-image-top {
+                height: 180px;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .back-to-top {
+                bottom: 25px;
+                right: 25px;
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .accessibility-tools {
+                bottom: 25px;
+                right: 25px;
+            }
+            
+            .main-content-left {
+                padding: 1rem;
+                border-radius: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-title {
+                font-size: 1.4rem;
+            }
+            
+            .logo-icon {
+                font-size: 1.3rem;
+                margin-right: 8px;
+                width: 30px;
+                height: 30px;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+            }
+            
+            .hero-heading {
+                font-size: 2rem;
+            }
+            
+            .hero-section {
+                padding: 4rem 0 5rem;
+                min-height: 70vh;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-main-image {
+                height: 200px;
+            }
+            
+            .card-image-top {
+                height: 160px;
+            }
+            
+            .btn {
+                padding: 14px 24px;
+                min-width: auto;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+            
+            .accessibility-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .main-content-left {
+                padding: 0.8rem;
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 跳过导航链接 -->
+    <a href="#main-content" class="skip-to-main">跳转到主要内容</a>
+    
+    <!-- 统一网站头部 -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-area">
+                <div class="site-title">
+                    <a href="index.html">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span>AIGC指南</span>
+                    </a>
+                    <div class="site-subtitle">AIGC指南:从原理到应用</div>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" aria-label="菜单">
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item current">
+                        <a href="index.html" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">
+                                <span>首</span>
+                                <span>页</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tech.html" class="nav-link">
+                            <i class="fas fa-cogs"></i>
+                            <span class="nav-text">
+                                <span>技术</span>
+                                <span>原理</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="applications.html" class="nav-link">
+                            <i class="fas fa-th-large"></i>
+                            <span class="nav-text">
+                                <span>应用</span>
+                                <span>场景</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="trends.html" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="nav-text">
+                                <span>发展</span>
+                                <span>趋势</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="resources.html" class="nav-link">
+                            <i class="fas fa-book-open"></i>
+                            <span class="nav-text">
+                                <span>学习</span>
+                                <span>资源</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="AIGC-tools.html" class="nav-link">
+                            <i class="fas fa-tools"></i>
+                            <span class="nav-text">
+                                <span>实用</span>
+                                <span>工具</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="case-study.html" class="nav-link">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span class="nav-text">
+                                <span>案例</span>
+                                <span>实践</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="lately.html" class="nav-link">
+                            <i class="fas fa-flask"></i>
+                            <span class="nav-text">
+                                <span>研究</span>
+                                <span>前沿</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="main-content container">
+        <div class="main-content-left">
+            <!-- 青春活力英雄区域 -->
+            <section class="hero-section fade-in">
+                <div class="hero-decoration">
+                    <div class="hero-stars">
+                        <!-- 装饰星星 -->
+                        <div class="hero-star" style="width: 2px; height: 2px; top: 15%; left: 10%; animation-delay: 0s;"></div>
+                        <div class="hero-star" style="width: 3px; height: 3px; top: 25%; left: 25%; animation-delay: 0.5s;"></div>
+                        <div class="hero-star" style="width: 2px; height: 2px; top: 40%; left: 15%; animation-delay: 1s;"></div>
+                        <div class="hero-star" style="width: 4px; height: 4px; top: 20%; left: 40%; animation-delay: 1.5s;"></div>
+                        <div class="hero-star" style="width: 2px; height: 2px; top: 35%; left: 50%; animation-delay: 2s;"></div>
+                        <div class="hero-star" style="width: 3px; height: 3px; top: 50%; left: 30%; animation-delay: 2.5s;"></div>
+                        <div class="hero-star" style="width: 2px; height: 2px; top: 60%; left: 20%; animation-delay: 3s;"></div>
+                        <div class="hero-star" style="width: 3px; height: 3px; top: 70%; left: 60%; animation-delay: 3.5s;"></div>
+                        <div class="hero-star" style="width: 2px; height: 2px; top: 45%; left: 75%; animation-delay: 4s;"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-title-area">
+                            <div class="hero-icon-container">
+                                <div class="hero-icon-bg"></div>
+                                <div class="hero-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                            </div>
+                            <div class="hero-title-text">
+                                <h1 class="hero-heading">AIGC指南<span class="special-font">:从原理到应用</span></h1>
+                                <p class="hero-subtitle">
+                                    AIGC正在重塑内容创作、媒体传播和创意产业的未来。加入我们，探索这一变革性技术的核心原理、应用场景与发展趋势。
+                                    <span class="special-font">内容丰富</span>的AI内容生成平台，带你进入数字创作的新纪元。
+                                </p>
+                            </div>
+                        </div>
+                        <!-- 第1张图片：英雄区域 -->
+                        <div class="hero-image-container delay-1">
+                            <img src="image/ai-art.png" alt="AIGC技术展示：人工智能创造未来" class="hero-main-image">
+                        </div>
+                        <div class="hero-actions delay-2">
+                            <a href="tech.html" class="btn btn-primary">
+                                <i class="fas fa-brain"></i>
+                                <span>了解技术原理</span>
+                            </a>
+                            <a href="applications.html" class="btn btn-secondary">
+                                <i class="fas fa-rocket"></i>
+                                <span>探索应用场景</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 青春活力特色内容区域 -->
+            <section class="features-section" aria-labelledby="features-heading">
+                <div class="section-header fade-in">
+                    <h2 id="features-heading" class="section-title">AIGC核心领域</h2>
+                    <p class="section-subtitle">深入了解人工智能生成内容的关键技术和应用，体验青春活力风格的交互界面</p>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- 技术原理卡片 -->
+                    <a href="tech.html" class="youth-card fade-in delay-1">
+                        <!-- 第2张图片：技术原理 - 已优化显示 -->
+                        <div class="card-image-container">
+                            <img src="image/AI%20zhongji.png" alt="人工智能技术原理展示" class="card-image-top">
+                        </div>
+                        <div class="card-icon-container">
+                            <div class="card-icon-bg"></div>
+                            <div class="card-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                        </div>
+                        <h3 class="card-title">技术原理</h3>
+                        <p class="card-description">探索生成式AI、大语言模型和扩散模型等核心技术的工作原理。深入了解神经网络架构和训练方法，揭开AI创作的神秘面纱。</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-book"></i> 12篇技术文章</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 应用场景卡片 -->
+                    <a href="applications.html" class="youth-card fade-in delay-2">
+                        <!-- 第3张图片：应用场景 - 已优化显示 -->
+                        <div class="card-image-container">
+                            <img src="image/AI%20gaoji.png" alt="AIGC应用场景展示" class="card-image-top">
+                        </div>
+                        <div class="card-icon-container">
+                            <div class="card-icon-bg"></div>
+                            <div class="card-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                        </div>
+                        <h3 class="card-title">应用场景</h3>
+                        <p class="card-description">了解AIGC在文本创作、图像生成、视频制作等领域的实际应用。探索AI在创意产业的无限可能，发现改变世界的创新案例。</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-layer-group"></i> 8大应用领域</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 发展趋势卡片 -->
+                    <a href="trends.html" class="youth-card fade-in delay-3">
+                        <div class="card-icon-container">
+                            <div class="card-icon-bg"></div>
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <h3 class="card-title">发展趋势</h3>
+                        <p class="card-description">洞察AIGC技术的未来发展方向和行业变革趋势。预测AI内容生成的下一波创新浪潮，把握数字时代的发展脉搏。</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-chart-line"></i> 行业趋势分析</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 工具资源卡片 -->
+                    <a href="AIGC-tools.html" class="youth-card fade-in delay-4">
+                        <div class="card-icon-container">
+                            <div class="card-icon-bg"></div>
+                            <div class="card-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                        </div>
+                        <h3 class="card-title">AIGC工具</h3>
+                        <p class="card-description">发现实用的AIGC工具和平台，提升内容创作效率。从文本生成到图像创作的一站式工具指南，助力你的创意之旅。</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-wrench"></i> 50+实用工具</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 精选内容区域 -->
+            <section class="featured-section" aria-labelledby="featured-heading">
+                <div class="section-header fade-in">
+                    <h2 id="featured-heading" class="section-title">精选内容</h2>
+                    <p class="section-subtitle">探索AIGC核心技术与最新突破，了解生成式AI如何学习与创造</p>
+                </div>
+                
+                <div class="featured-grid">
+                    <!-- 技术前沿单独一行 -->
+                    <div class="featured-card technology fade-in delay-1">
+                        <!-- 第4张图片：精选内容 -->
+                        <img src="image/apply.png" alt="AIGC技术突破" class="featured-image">
+                        <h3 class="featured-card-title">技术前沿</h3>
+                        <div class="featured-card-content">
+                            <p>探索AIGC核心技术与最新突破，了解生成式AI如何学习与创造。从大语言模型到扩散模型，深入解析AI内容生成的技术原理，揭示智能创作背后的科学奥秘。</p>
+                        </div>
+                        <div class="featured-card-actions" style="text-align: center;">
+                            <a href="https://developer.aliyun.com/article/1682755" class="youth-link">
+                                <span>深入了解</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 应用场景和发展趋势在同一行 -->
+                    <div class="featured-grid-row">
+                        <div class="featured-card application fade-in delay-2" style="text-align: center;">
+                            <h3 class="featured-card-title">应用场景</h3>
+                            <div class="featured-card-content">
+                                <p>发现AIGC在各行业的创新应用，从艺术创作到商业解决方案。探索AI在内容创作、营销、教育等领域的实际应用案例，见证技术如何赋能各行各业。</p>
+                            </div>
+                            <div class="featured-card-actions">
+                                <a href="https://developer.aliyun.com/article/1659328" class="youth-link">
+                                    <span>探索案例</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="featured-card trend fade-in delay-3" style="text-align: center;">
+                            <h3 class="featured-card-title">发展趋势</h3>
+                            <div class="featured-card-content">
+                                <p>了解AIGC未来发展方向，以及对创意产业和社会的深远影响。预测AI内容生成的下一波创新浪潮和行业变革趋势，为未来做好准备。</p>
+                            </div>
+                            <div class="featured-card-actions">
+                                <a href="https://36kr.com/p/2768437057780486" class="youth-link">
+                                    <span>展望未来</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 多媒体展示区域 -->
+            <section class="multimedia-section" aria-labelledby="multimedia-heading">
+                <div class="section-header fade-in">
+                    <h2 id="multimedia-heading" class="section-title">多媒体展示</h2>
+                    <p class="section-subtitle">通过视频和音频了解AIGC的精彩内容</p>
+                </div>
+                
+                <div class="multimedia-grid">
+                    <!-- 视频展示 -->
+                    <div class="multimedia-card fade-in delay-1">
+                        <div class="multimedia-header">
+                            <i class="fas fa-video multimedia-icon"></i>
+                            <h3 class="multimedia-title">AIGC技术介绍视频</h3>
+                        </div>
+                        <div class="video-container">
+                            <video controls poster="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                                <source src="video/ai%20introduce.mp4" type="video/mp4">
+                                <source src="video/ai%20introduce.mp4" type="video/ogg">
+                                您的浏览器不支持视频播放，请尝试更新浏览器。
+                            </video>
+                        </div>
+                        <div class="multimedia-description">
+                            <p>观看这段视频了解AIGC技术的基本原理和应用场景。视频展示了生成式AI如何工作以及它在创意产业中的潜力，带你直观感受人工智能的创造力。</p>
+                        </div>
+                        <div class="multimedia-meta">
+                            <span><i class="far fa-clock"></i> 时长: 2:17</span>
+                            <span><i class="far fa-eye"></i> 已播放: 1.2k次</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 音频展示 -->
+                    <div class="multimedia-card fade-in delay-2">
+                        <div class="multimedia-header">
+                            <i class="fas fa-volume-up multimedia-icon"></i>
+                            <h3 class="multimedia-title">AIGC专家访谈音频</h3>
+                        </div>
+                        <div class="audio-container">
+                            <audio controls>
+                                <source src="audio/AI%20INTRODUCE.mov" type="audio/mpeg">
+                                <source src="audio/AI%20INTRODUCE.mov" type="audio/ogg">
+                                您的浏览器不支持音频播放，请尝试更新浏览器。
+                            </audio>
+                        </div>
+                        <div class="multimedia-description">
+                            <p>收听对AIGC领域专家的独家访谈，了解行业最新趋势和技术挑战。包含关于AI伦理和未来发展的深入讨论，为你提供专业的前沿见解。</p>
+                        </div>
+                        <div class="multimedia-meta">
+                            <span><i class="far fa-clock"></i> 时长: 14:42</span>
+                            <span><i class="fas fa-headphones"></i> 已收听: 850次</span>
+                        </div>
+                        <!-- 可选的音频章节 -->
+                        <div class="audio-chapters">
+                            <h4><i class="fas fa-list"></i> 快速导航</h4>
+                            <ul>
+                                <li><a href="#" data-time="0">00:00 - 介绍</a></li>
+                                <li><a href="#" data-time="120">02:00 - 技术原理</a></li>
+                                <li><a href="#" data-time="300">05:00 - 应用案例</a></li>
+                                <li><a href="#" data-time="420">07:00 - 未来展望</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 青春活力最新动态区域 -->
+            <section class="news-section" aria-labelledby="news-heading">
+                <div class="section-header fade-in">
+                    <h2 id="news-heading" class="section-title">最新动态与研究</h2>
+                    <p class="section-subtitle">关注AIGC领域的最新进展和研究成果，获取前沿技术资讯</p>
+                </div>
+                
+                <div class="news-grid">
+                    <!-- 最新文章 -->
+                    <article class="youth-news-card fade-in delay-1">
+                        <div class="news-category">技术研究</div>
+                        <h3 class="news-title">生成式AI在多模态内容创作中的突破</h3>
+                        <p class="news-excerpt">最新研究表明，多模态AIGC模型在跨媒体内容生成方面取得显著进展，能够实现文本、图像、音频和视频的协同创作，为创意产业带来全新可能。</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-calendar"></i> 2025年3月15日</span>
+                            <a href="https://zhuanlan.zhihu.com/p/1936527834194621766" class="youth-link">
+                                <span>阅读更多</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- 案例研究 -->
+                    <article class="youth-news-card fade-in delay-2">
+                        <div class="news-category">案例研究</div>
+                        <h3 class="news-title">AIGC在数字营销中的成功应用</h3>
+                        <p class="news-excerpt">某国际品牌利用AIGC技术生成个性化广告内容，实现营销效率提升300%，展示了AI在商业领域的巨大潜力，为行业创新提供宝贵经验。</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-calendar"></i> 2025年3月10日</span>
+                            <a href="https://zhuanlan.zhihu.com/p/16736646725" class="youth-link">
+                                <span>阅读更多</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- 学习资源 -->
+                    <article class="youth-news-card fade-in delay-3">
+                        <div class="news-category">学习资源</div>
+                        <h3 class="news-title">AIGC入门指南与学习路径</h3>
+                        <p class="news-excerpt">我们整理了AIGC的学习资源与路径，帮助初学者系统掌握人工智能内容生成的核心概念和实践技能，为你的AI创作之旅提供全面指导。</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-calendar"></i> 2025年3月5日</span>
+                            <a href="https://zhuanlan.zhihu.com/p/1951328026794136482" class="youth-link">
+                                <span>阅读更多</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+
+        <!-- 侧边栏 -->
+        <aside class="sidebar" aria-label="侧边栏">
+            <!-- 热门文章 -->
+            <div class="sidebar-section fade-in">
+                <h3 class="sidebar-title">热门文章</h3>
+                <div class="sidebar-articles">
+                    <a href="tech.html" class="sidebar-article">
+                        <div class="sidebar-article-number">01</div>
+                        <div class="sidebar-article-content">
+                            <h4 class="sidebar-article-title">生成式AI技术原理深度解析</h4>
+                            <div class="sidebar-article-meta">
+                                <span><i class="far fa-eye"></i> 2.5k</span>
+                                <span><i class="far fa-calendar"></i> 3天前</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="applications.html" class="sidebar-article">
+                        <div class="sidebar-article-number">02</div>
+                        <div class="sidebar-article-content">
+                            <h4 class="sidebar-article-title">10个AIGC在创意产业的应用案例</h4>
+                            <div class="sidebar-article-meta">
+                                <span><i class="far fa-eye"></i> 1.8k</span>
+                                <span><i class="far fa-calendar"></i> 1周前</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="trends.html" class="sidebar-article">
+                        <div class="sidebar-article-number">03</div>
+                        <div class="sidebar-article-content">
+                            <h4 class="sidebar-article-title">2025年AIGC发展趋势预测</h4>
+                            <div class="sidebar-article-meta">
+                                <span><i class="far fa-eye"></i> 1.2k</span>
+                                <span><i class="far fa-calendar"></i> 2周前</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 标签云 -->
+            <div class="sidebar-section fade-in delay-1">
+                <h3 class="sidebar-title">热门标签</h3>
+                <div class="sidebar-tags">
+                    <a href="#" class="sidebar-tag large">ChatGPT</a>
+                    <a href="#" class="sidebar-tag">AI绘画</a>
+                    <a href="#" class="sidebar-tag">大语言模型</a>
+                    <a href="#" class="sidebar-tag">Midjourney</a>
+                    <a href="#" class="sidebar-tag">生成式AI</a>
+                    <a href="#" class="sidebar-tag">Stable Diffusion</a>
+                    <a href="#" class="sidebar-tag">内容创作</a>
+                    <a href="#" class="sidebar-tag">数字艺术</a>
+                    <a href="#" class="sidebar-tag">机器学习</a>
+                </div>
+            </div>
+
+            <!-- 快速链接 -->
+            <div class="sidebar-section fade-in delay-2">
+                <h3 class="sidebar-title">快速链接</h3>
+                <div class="sidebar-links">
+                    <a href="resources.html" class="sidebar-link">
+                        <div class="sidebar-link-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="sidebar-link-content">
+                            <h4 class="sidebar-link-title">学习资源</h4>
+                            <p class="sidebar-link-desc">教程、论文与学习路径</p>
+                        </div>
+                    </a>
+                    <a href="AIGC-tools.html" class="sidebar-link">
+                        <div class="sidebar-link-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="sidebar-link-content">
+                            <h4 class="sidebar-link-title">AIGC工具</h4>
+                            <p class="sidebar-link-desc">精选工具与平台评测</p>
+                        </div>
+                    </a>
+                    <a href="case-study.html" class="sidebar-link">
+                        <div class="sidebar-link-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="sidebar-link-content">
+                            <h4 class="sidebar-link-title">案例研究</h4>
+                            <p class="sidebar-link-desc">行业应用与成功案例</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 统一网站页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- 关于我们区域 -->
+                <div class="footer-about">
+                    <h2 class="footer-logo">
+                        <a href="index.html">
+                            <i class="fas fa-brain" aria-hidden="true"></i>
+                            AIGC探索
+                        </a>
+                    </h2>
+                    <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
+                    <div class="footer-social">
+                        <a href="https://weibo.com" aria-label="访问微博" target="_blank"><i class="fab fa-weibo"></i></a>
+                        <a href="https://www.bilibili.com" aria-label="访问B站" target="_blank"><i class="fab fa-bilibili"></i></a>
+                        <a href="https://www.qq.com" aria-label="访问QQ" target="_blank"><i class="fab fa-qq"></i></a>
+                        <a href="https://www.zhihu.com" aria-label="访问知乎" target="_blank"><i class="fab fa-zhihu"></i></a>
+                    </div>
+                </div>
+                
+                <!-- 快速链接区域 - 更新为8个导航链接 -->
+                <div class="footer-nav">
+                    <h3 class="footer-nav-title">核心导航</h3>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="tech.html">技术原理</a></li>
+                        <li><a href="applications.html">应用场景</a></li>
+                        <li><a href="trends.html">发展趋势</a></li>
+                        <li><a href="resources.html">学习资源</a></li>
+                        <li><a href="AIGC-tools.html">实用工具</a></li>
+                        <li><a href="case-study.html">案例实践</a></li>
+                        <li><a href="lately.html">研究前沿</a></li>
+                    </ul>
+                </div>
+                
+                <!-- 联系区域 -->
+                <div class="footer-contact">
+                    <h3 class="footer-contact-title">联系我们</h3>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <div class="footer-contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="footer-contact-text">
+                                <span class="footer-contact-label">邮箱</span>
+                                <a href="mailto:zyh20070814@163.com">zyh20070814@163.com</a>
+                            </div>
+                        </li>
+                        <li class="footer-contact-item">
+                            <div class="footer-contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="footer-contact-text">
+                                <span class="footer-contact-label">电话</span>
+                                <a href="tel:123456789">123456789</a>
+                            </div>
+                        </li>
+                        <li class="footer-contact-item">
+                            <div class="footer-contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="footer-contact-text">
+                                <span class="footer-contact-label">地址</span>
+                                <a href="#">北京市海淀区中关村科技园</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <span>&copy; 2025 数字媒体技术课程项目 - AIGC探索小组 | 本网站仅供教育用途</span>
+                    <a>知识共享许可协议</a>
+                </div>
+                <div class="footer-legal">
+                    <div class="accessibility-statement">
+                        <a>
+                            <i class="fas fa-universal-access" aria-hidden="true"></i>
+                            无障碍声明
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- 辅助功能工具 -->
+    <div class="accessibility-tools">
+        <button class="accessibility-btn" id="contrast-toggle" aria-label="切换高对比度模式">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button class="accessibility-btn" id="font-increase" aria-label="增大字体大小">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button class="accessibility-btn" id="font-decrease" aria-label="减小字体大小">
+            <i class="fas fa-text-width"></i>
+        </button>
+    </div>
+
+    <script>
+        // 移动菜单切换
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // 导航高亮
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (currentPath.includes(href) || (currentPath === '/' && href === 'index.html')) {
+                    link.parentElement.classList.add('current');
+                } else {
+                    link.parentElement.classList.remove('current');
+                }
+            });
+        });
+
+        // ========== 辅助功能工具 ==========
+        const contrastToggle = document.getElementById('contrast-toggle');
+        const fontIncrease = document.getElementById('font-increase');
+        const fontDecrease = document.getElementById('font-decrease');
+        
+        if (contrastToggle) {
+            contrastToggle.addEventListener('click', function() {
+                document.body.classList.toggle('high-contrast');
+                
+                // 保存用户偏好
+                const isHighContrast = document.body.classList.contains('high-contrast');
+                localStorage.setItem('highContrast', isHighContrast);
+                
+                // 提供视觉反馈
+                this.style.backgroundColor = isHighContrast ? '#000' : '#3498db';
+                this.setAttribute('aria-label', isHighContrast ? '切换普通模式' : '切换高对比度模式');
+            });
+        }
+        
+        if (fontIncrease) {
+            fontIncrease.addEventListener('click', function() {
+                changeFontSize(1);
+            });
+        }
+        
+        if (fontDecrease) {
+            fontDecrease.addEventListener('click', function() {
+                changeFontSize(-1);
+            });
+        }
+        
+        function changeFontSize(direction) {
+            const html = document.documentElement;
+            const currentSize = parseFloat(getComputedStyle(html).fontSize);
+            const newSize = direction > 0 ? 
+                Math.min(currentSize + 2, 24) : 
+                Math.max(currentSize - 2, 12);
+            
+            html.style.fontSize = newSize + 'px';
+            localStorage.setItem('fontSize', newSize);
+        }
+        
+        // 恢复用户偏好
+        function restoreUserPreferences() {
+            const highContrast = localStorage.getItem('highContrast');
+            if (highContrast === 'true') {
+                document.body.classList.add('high-contrast');
+                if (contrastToggle) contrastToggle.style.backgroundColor = '#000';
+            }
+            
+            const fontSize = localStorage.getItem('fontSize');
+            if (fontSize) {
+                document.documentElement.style.fontSize = fontSize + 'px';
+            }
+        }
+        
+        // 页面加载时恢复用户偏好
+        document.addEventListener('DOMContentLoaded', restoreUserPreferences);
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 返回顶部按钮功能
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 音频章节导航功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioElement = document.querySelector('audio');
+            const chapterLinks = document.querySelectorAll('.audio-chapters a[data-time]');
+            
+            if (audioElement && chapterLinks.length > 0) {
+                chapterLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const time = parseInt(this.getAttribute('data-time'));
+                        audioElement.currentTime = time;
+                        audioElement.play();
+                        
+                        // 添加视觉反馈
+                        chapterLinks.forEach(l => l.style.color = '');
+                        this.style.color = 'var(--primary-color)';
+                        this.style.fontWeight = 'bold';
+                    });
+                });
+            }
+            
+            // 视频封面加载失败处理
+            const videoElement = document.querySelector('video');
+            if (videoElement) {
+                videoElement.addEventListener('error', function() {
+                    console.log('视频加载失败，尝试备用源');
+                });
+            }
+            
+            // 图片加载失败处理
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    this.src = 'images/placeholder.jpg'; // 替换为备用图片
+                    this.alt = '图片加载失败，请稍后重试';
+                });
+            });
+            
+            // 滚动动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

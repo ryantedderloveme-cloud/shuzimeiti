@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AIGC(人工智能生成内容)技术原理详解">
+    <meta name="keywords" content="AIGC,人工智能,技术原理,生成式AI,大语言模型,神经网络">
+    <title>AIGC技术原理 | AIGC探索</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style-new.css">
+    <style>
+        /* ========== 技术原理页面专属样式 ========== */
+        .tech-main-content {
+            padding-top: 2rem;
+            min-height: 70vh;
+        }
+        
+        /* 技术原理英雄区域 - 深蓝色主题 */
+        .tech-hero {
+            background: linear-gradient(135deg, #0f1a38 0%, #1a2b4a 50%, #253866 100%);
+            color: white;
+            padding: 3rem 0 2.5rem;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 鸢尾花图案背景 */
+        .tech-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M100,50 C120,30 150,40 160,60 C170,80 150,100 130,90 C110,80 90,70 100,50 Z" fill="rgba(224, 201, 138, 0.08)"/><path d="M60,80 C70,60 90,50 110,70 C130,90 120,110 100,120 C80,130 50,100 60,80 Z" fill="rgba(138, 184, 232, 0.08)"/><path d="M140,120 C150,100 170,90 180,110 C190,130 170,150 150,140 C130,130 120,110 140,120 Z" fill="rgba(138, 123, 189, 0.08)"/></svg>');
+            background-size: 300px 300px;
+            opacity: 0.4;
+            z-index: 1;
+        }
+        
+        .tech-hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .tech-hero-heading {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tech-hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        
+        .tech-hero-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: techIconFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes techIconFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                text-shadow: 0 0 15px rgba(201, 169, 89, 0.5);
+            }
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+                text-shadow: 0 0 25px rgba(224, 201, 138, 0.7);
+            }
+        }
+        
+        /* 技术概览区域 - 紧凑布局 */
+        .tech-overview {
+            padding: 2.5rem 0;
+            background-color: #f8fafc;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+        }
+        
+        .tech-overview-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .tech-overview-text {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tech-overview-text h2 {
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .tech-overview-text h2 i {
+            color: var(--accent-color);
+        }
+        
+        .tech-overview-text p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        /* 技术核心组件 - 紧凑布局 */
+        .tech-core-section {
+            padding: 3rem 0;
+            background-color: #f8fafc;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-core-heading {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-core-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+        
+        /* 移除横线 */
+        .tech-core-title::after {
+            display: none;
+        }
+        
+        .tech-core-subtitle {
+            text-align: center;
+            color: #4b5563;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.4s;
+        }
+        
+        .tech-core-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .tech-core-card {
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all var(--transition-normal);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .tech-core-card:nth-child(1) { animation-delay: 0.5s; }
+        .tech-core-card:nth-child(2) { animation-delay: 0.6s; }
+        .tech-core-card:nth-child(3) { animation-delay: 0.7s; }
+        
+        .tech-core-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        }
+        
+        .tech-core-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-core-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .tech-core-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #1e3a8a;
+        }
+        
+        .tech-core-card p {
+            color: #4b5563;
+            flex-grow: 1;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+        
+        /* 图片展示区域 - 紧凑布局 */
+        .tech-image-section {
+            padding: 3rem 0;
+            background-color: #f8fafc;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-image-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tech-image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .tech-image-card {
+            background-color: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all var(--transition-normal);
+            border: 1px solid #e5e7eb;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .tech-image-card:nth-child(1) { animation-delay: 0.5s; }
+        .tech-image-card:nth-child(2) { animation-delay: 0.6s; }
+        .tech-image-card:nth-child(3) { animation-delay: 0.7s; }
+        
+        .tech-image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e0e7ff, #dbeafe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            font-size: 3rem;
+            position: relative;
+        }
+        
+        .tech-image-placeholder::after {
+            content: '图片展示区域';
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #3b82f6;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .tech-image-placeholder i {
+            opacity: 0.7;
+        }
+        
+        .tech-image-content {
+            padding: 1.5rem;
+        }
+        
+        .tech-image-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        
+        .tech-image-title i {
+            color: #f59e0b;
+        }
+        
+        .tech-image-description {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        /* 技术流程区域 - 优化布局 */
+        .tech-process-section {
+            padding: 3rem 0;
+            background-color: #f8fafc;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-process-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* 优化流程图连接线 */
+        .tech-process-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+        
+        .tech-process-step {
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-left: 50%;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: techProcessFadeIn 0.8s ease forwards;
+        }
+        
+        .tech-process-step:nth-child(even) {
+            padding-left: 0;
+            padding-right: 50%;
+            text-align: right;
+        }
+        
+        .tech-process-step:nth-child(1) { animation-delay: 0.2s; }
+        .tech-process-step:nth-child(2) { animation-delay: 0.4s; }
+        .tech-process-step:nth-child(3) { animation-delay: 0.6s; }
+        .tech-process-step:nth-child(4) { animation-delay: 0.8s; }
+        .tech-process-step:nth-child(5) { animation-delay: 1.0s; }
+        
+        @keyframes techProcessFadeIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* 优化流程节点 */
+        .tech-process-step::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            border: 4px solid #3b82f6;
+            z-index: 2;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        
+        .tech-process-step:nth-child(even)::before {
+            left: 50%;
+        }
+        
+        /* 添加流程节点图标 */
+        .tech-process-step::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            z-index: 3;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: pulseDot 2s infinite;
+        }
+        
+        @keyframes pulseDot {
+            0%, 100% {
+                opacity: 0.3;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.3);
+            }
+        }
+        
+        .tech-process-content {
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-process-content:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tech-process-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 0.8rem;
+        }
+        
+        .tech-process-step:nth-child(even) .tech-process-header {
+            justify-content: flex-end;
+        }
+        
+        .tech-process-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .tech-process-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin: 0;
+        }
+        
+        .tech-process-description {
+            color: #4b5563;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        /* 技术比较表格 - 紧凑布局 */
+        .tech-comparison-section {
+            padding: 3rem 0;
+            background-color: #f8fafc;
+            margin-bottom: 2rem;
+        }
+        
+        .tech-comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background-color: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+        
+        .tech-comparison-table th {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 0.8rem;
+            text-align: left;
+            border-bottom: 2px solid #1d4ed8;
+        }
+        
+        .tech-comparison-table td {
+            padding: 1rem 0.8rem;
+            border-bottom: 1px solid #e5e7eb;
+            color: #333;
+        }
+        
+        .tech-comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .tech-comparison-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .tech-comparison-table tr:hover {
+            background-color: #f0f9ff;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .tech-hero-heading {
+                font-size: 2.2rem;
+            }
+            
+            .tech-hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .tech-core-grid,
+            .tech-image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.2rem;
+            }
+            
+            .tech-process-container::before {
+                left: 30px;
+            }
+            
+            .tech-process-step {
+                padding-left: 60px;
+                padding-right: 0;
+            }
+            
+            .tech-process-step:nth-child(even) {
+                padding-left: 60px;
+                padding-right: 0;
+                text-align: left;
+            }
+            
+            .tech-process-step::before,
+            .tech-process-step::after {
+                left: 24px;
+            }
+            
+            .tech-process-step:nth-child(even)::before,
+            .tech-process-step:nth-child(even)::after {
+                left: 24px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tech-hero {
+                padding: 2.5rem 0 2rem;
+                min-height: 40vh;
+            }
+            
+            .tech-hero-heading {
+                font-size: 1.8rem;
+            }
+            
+            .tech-hero-subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .tech-hero-icon {
+                font-size: 2.5rem;
+            }
+            
+            .tech-core-title {
+                font-size: 1.8rem;
+            }
+            
+            .tech-core-grid,
+            .tech-image-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tech-comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tech-hero-heading {
+                font-size: 1.6rem;
+            }
+            
+            .tech-hero {
+                padding: 2rem 0 1.5rem;
+            }
+            
+            .tech-overview-text {
+                padding: 1.2rem;
+            }
+            
+            .tech-core-card,
+            .tech-image-card {
+                padding: 1.2rem;
+            }
+            
+            .tech-process-step {
+                padding-left: 50px;
+            }
+            
+            .tech-process-step:nth-child(even) {
+                padding-left: 50px;
+            }
+            
+            .tech-process-step::before,
+            .tech-process-step::after {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="philosophy-body">
+    <!-- 跳过导航链接 -->
+    <a href="#main-content" class="skip-to-main">跳转到主要内容</a>
+    
+    <!-- 统一网站头部 -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-area">
+                <div class="site-title">
+                    <a href="index.html">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span>AIGC指南</span>
+                    </a>
+                    <div class="site-subtitle">从原理到应用</div>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" aria-label="菜单">
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+
+            <nav class="main-nav">
+                <ul class="nav-menu" id="primary-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">
+                                <span>首</span>
+                                <span>页</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item current">
+                        <a href="tech.html" class="nav-link">
+                            <i class="fas fa-cogs"></i>
+                            <span class="nav-text">
+                                <span>技术</span>
+                                <span>原理</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="applications.html" class="nav-link">
+                            <i class="fas fa-th-large"></i>
+                            <span class="nav-text">
+                                <span>应用</span>
+                                <span>场景</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="trends.html" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="nav-text">
+                                <span>发展</span>
+                                <span>趋势</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="resources.html" class="nav-link">
+                            <i class="fas fa-book-open"></i>
+                            <span class="nav-text">
+                                <span>学习</span>
+                                <span>资源</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="AIGC-tools.html" class="nav-link">
+                            <i class="fas fa-tools"></i>
+                            <span class="nav-text">
+                                <span>实用</span>
+                                <span>工具</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="case-study.html" class="nav-link">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span class="nav-text">
+                                <span>案例</span>
+                                <span>实践</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="lately.html" class="nav-link">
+                            <i class="fas fa-flask"></i>
+                            <span class="nav-text">
+                                <span>研究</span>
+                                <span>前沿</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="tech-main-content">
+        <!-- 技术原理英雄区域 -->
+        <section class="tech-hero">
+            <div class="container">
+                <div class="tech-hero-content">
+                    <div class="tech-hero-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h1 class="tech-hero-heading">AIGC技术原理深度解析</h1>
+                    <p class="tech-hero-subtitle">
+                        探索生成式人工智能的核心工作机制，从神经网络基础到先进的大语言模型架构，
+                        了解AIGC如何学习、推理并创造出令人惊叹的内容。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术概览 -->
+        <section class="tech-overview">
+            <div class="container">
+                <div class="tech-overview-content">
+                    <div class="tech-overview-text">
+                        <h2><i class="fas fa-info-circle"></i> AIGC技术概览</h2>
+                        <p>
+                            人工智能生成内容（AIGC）是指利用人工智能技术自动生成文本、图像、音频、视频等内容的技术。
+                            与传统的基于规则的内容生成不同，AIGC通过学习大量数据中的模式和规律，能够创造出新颖、多样且高质量的内容。
+                        </p>
+                        <p>
+                            AIGC的核心技术基于深度学习和神经网络，特别是生成式模型。这些模型通过分析海量数据，
+                            学习数据的潜在分布和特征表示，然后基于学习到的知识生成新的内容。
+                        </p>
+                        <p>
+                            近年来，随着Transformer架构的出现和大型预训练模型的发展，AIGC在文本生成、图像创作、
+                            代码编写等各个领域都取得了突破性进展，成为人工智能领域最活跃的研究方向之一。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术核心组件 -->
+        <section class="tech-core-section">
+            <div class="container">
+                <div class="tech-core-heading">
+                    <h2 class="tech-core-title">核心技术组件</h2>
+                    <p class="tech-core-subtitle">
+                        AIGC技术体系由多个关键组件构成，每个组件在内容生成过程中扮演着不同的角色
+                    </p>
+                </div>
+                
+                <div class="tech-core-grid">
+                    <!-- 神经网络基础 -->
+                    <div class="tech-core-card">
+                        <div class="tech-core-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3>神经网络基础</h3>
+                        <p>
+                            深度神经网络是AIGC的基础架构，通过多层非线性变换学习数据的复杂表示。
+                            前馈网络、循环神经网络和卷积神经网络是构成各种AIGC模型的基本组件。
+                        </p>
+                    </div>
+                    
+                    <!-- 注意力机制 -->
+                    <div class="tech-core-card">
+                        <div class="tech-core-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>注意力机制</h3>
+                        <p>
+                            注意力机制使模型能够聚焦于输入数据中最相关的部分，大大提高了处理长序列数据的能力。
+                            Transformer架构基于自注意力机制，已成为现代AIGC模型的核心。
+                        </p>
+                    </div>
+                    
+                    <!-- 生成式模型 -->
+                    <div class="tech-core-card">
+                        <div class="tech-core-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>生成式模型</h3>
+                        <p>
+                            生成对抗网络(GANs)、变分自编码器(VAEs)和扩散模型是主要的生成式模型架构。
+                            它们能够学习数据分布并生成新的、与训练数据相似但又不完全相同的内容。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 图片展示区域 -->
+        <section class="tech-image-section">
+            <div class="container">
+                <div class="tech-core-heading">
+                    <h2 class="tech-core-title">AIGC技术图解</h2>
+                    <p class="tech-core-subtitle">
+                        通过可视化图表理解AIGC的工作原理和架构设计
+                    </p>
+                </div>
+                
+                <div class="tech-image-container">
+                    <div class="tech-image-grid">
+                        <!-- 图片1：Transformer架构 -->
+                        <div class="tech-image-card">
+                            <div class="tech-image-placeholder">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <div class="tech-image-content">
+                                <h3 class="tech-image-title"><i class="fas fa-sitemap"></i> Transformer架构图解</h3>
+                                <p class="tech-image-description">
+                                    Transformer架构是现代AIGC模型的核心，特别是大语言模型如GPT系列。
+                                    它完全基于注意力机制，摒弃了传统的循环和卷积结构，能够并行处理序列数据，
+                                    大大提高了训练效率和模型容量。
+                                </p>
+                                <p class="tech-image-description">
+                                    图中展示了Transformer的编码器-解码器结构，包括多头注意力机制、
+                                    前馈神经网络、层归一化和残差连接等关键组件。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 图片2：扩散模型原理 -->
+                        <div class="tech-image-card">
+                            <div class="tech-image-placeholder">
+                                <i class="fas fa-wave-square"></i>
+                            </div>
+                            <div class="tech-image-content">
+                                <h3 class="tech-image-title"><i class="fas fa-wave-square"></i> 扩散模型工作流程</h3>
+                                <p class="tech-image-description">
+                                    扩散模型是当前最先进的图像生成技术，如DALL-E 2和Stable Diffusion。
+                                    它通过逐步添加噪声破坏数据，然后学习逆向过程以从噪声中重建数据。
+                                </p>
+                                <p class="tech-image-description">
+                                    图示展示了扩散模型的正向过程（加噪）和反向过程（去噪），
+                                    以及潜在空间表示如何使模型能够生成高质量、多样化的图像。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 图片3：大语言模型训练 -->
+                        <div class="tech-image-card">
+                            <div class="tech-image-placeholder">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="tech-image-content">
+                                <h3 class="tech-image-title"><i class="fas fa-chart-line"></i> 大语言模型训练过程</h3>
+                                <p class="tech-image-description">
+                                    大语言模型的训练分为预训练、微调和推理三个阶段。
+                                    预训练阶段使用海量文本数据学习语言的基本规律，微调阶段针对特定任务优化模型性能。
+                                </p>
+                                <p class="tech-image-description">
+                                    图表展示了模型训练过程中的损失下降曲线、参数规模增长趋势，
+                                    以及不同规模模型在各项基准测试中的性能对比。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术流程 -->
+        <section class="tech-process-section">
+            <div class="container">
+                <div class="tech-core-heading">
+                    <h2 class="tech-core-title">AIGC工作流程</h2>
+                    <p class="tech-core-subtitle">
+                        从数据准备到内容生成的完整技术流程
+                    </p>
+                </div>
+                
+                <div class="tech-process-container">
+                    <!-- 步骤1：数据收集与预处理 -->
+                    <div class="tech-process-step">
+                        <div class="tech-process-content">
+                            <div class="tech-process-header">
+                                <div class="tech-process-number">01</div>
+                                <h3 class="tech-process-title">数据收集与预处理</h3>
+                            </div>
+                            <div class="tech-process-description">
+                                <p>
+                                    AIGC模型的训练始于大规模数据收集。文本模型需要数十亿到数万亿的token，
+                                    图像模型需要数百万到数十亿的标注图像。数据预处理包括清洗、去重、格式化，
+                                    以及创建适合模型训练的数据结构。
+                                </p>
+                                <p>
+                                    对于多模态模型，还需要对齐不同模态的数据（如文本-图像对），
+                                    使模型能够学习跨模态的对应关系。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤2：模型架构设计 -->
+                    <div class="tech-process-step">
+                        <div class="tech-process-content">
+                            <div class="tech-process-header">
+                                <div class="tech-process-number">02</div>
+                                <h3 class="tech-process-title">模型架构设计</h3>
+                            </div>
+                            <div class="tech-process-description">
+                                <p>
+                                    根据任务需求选择合适的模型架构。对于文本生成，Transformer是主流选择；
+                                    对于图像生成，扩散模型和GANs是常用架构；对于多模态任务，
+                                    需要设计能够处理多种输入类型的统一架构。
+                                </p>
+                                <p>
+                                    架构设计还包括确定模型规模（参数量）、注意力机制配置、
+                                    激活函数选择等关键决策，这些直接影响模型的性能和效率。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤3：训练与优化 -->
+                    <div class="tech-process-step">
+                        <div class="tech-process-content">
+                            <div class="tech-process-header">
+                                <div class="tech-process-number">03</div>
+                                <h3 class="tech-process-title">训练与优化</h3>
+                            </div>
+                            <div class="tech-process-description">
+                                <p>
+                                    使用大规模计算资源（如GPU/TPU集群）训练模型。训练过程通常包括：
+                                    无监督预训练学习数据的基本规律，有监督微调针对特定任务优化，
+                                    以及强化学习对齐人类偏好。
+                                </p>
+                                <p>
+                                    优化技术包括混合精度训练、梯度累积、学习率调度等，
+                                    这些技术帮助在有限的计算资源下训练更大的模型。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤4：推理与生成 -->
+                    <div class="tech-process-step">
+                        <div class="tech-process-content">
+                            <div class="tech-process-header">
+                                <div class="tech-process-number">04</div>
+                                <h3 class="tech-process-title">推理与内容生成</h3>
+                            </div>
+                            <div class="tech-process-description">
+                                <p>
+                                    训练完成的模型可以用于内容生成。对于文本生成，常见的策略包括：
+                                    贪婪解码、束搜索、top-k和top-p采样等，平衡生成质量与多样性。
+                                </p>
+                                <p>
+                                    对于图像生成，扩散模型通过迭代去噪过程从随机噪声生成高质量图像。
+                                    生成过程可以接受文本提示、参考图像等多种形式的条件输入。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤5：评估与迭代 -->
+                    <div class="tech-process-step">
+                        <div class="tech-process-content">
+                            <div class="tech-process-header">
+                                <div class="tech-process-number">05</div>
+                                <h3 class="tech-process-title">评估与迭代优化</h3>
+                            </div>
+                            <div class="tech-process-description">
+                                <p>
+                                    使用自动评估指标和人工评估相结合的方法评估生成内容的质量。
+                                    常见指标包括：BLEU、ROUGE（文本），FID、IS（图像），
+                                    以及人类偏好评分。
+                                </p>
+                                <p>
+                                    基于评估结果迭代优化模型，包括调整超参数、增加训练数据、
+                                    改进模型架构等。持续迭代是保持模型竞争力的关键。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术比较 -->
+        <section class="tech-comparison-section">
+            <div class="container">
+                <div class="tech-core-heading">
+                    <h2 class="tech-core-title">主要AIGC技术比较</h2>
+                    <p class="tech-core-subtitle">
+                        不同AIGC技术在架构、性能和应用场景上的对比
+                    </p>
+                </div>
+                
+                <div class="tech-comparison-container">
+                    <table class="tech-comparison-table">
+                        <thead>
+                            <tr>
+                                <th>技术类型</th>
+                                <th>代表模型</th>
+                                <th>核心原理</th>
+                                <th>优势</th>
+                                <th>应用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>自回归模型</td>
+                                <td>GPT系列、PaLM</td>
+                                <td>基于Transformer的解码器，逐个token预测</td>
+                                <td>生成连贯长文本，逻辑推理能力强</td>
+                                <td>文本生成、对话系统、代码编写</td>
+                            </tr>
+                            <tr>
+                                <td>扩散模型</td>
+                                <td>DALL-E 2、Stable Diffusion</td>
+                                <td>逐步加噪与去噪过程，学习数据分布</td>
+                                <td>生成高质量多样化图像，控制性强</td>
+                                <td>图像生成、图像编辑、风格迁移</td>
+                            </tr>
+                            <tr>
+                                <td>生成对抗网络</td>
+                                <td>StyleGAN、BigGAN</td>
+                                <td>生成器与判别器对抗训练</td>
+                                <td>生成逼真细节，训练相对稳定</td>
+                                <td>人脸生成、艺术创作、数据增强</td>
+                            </tr>
+                            <tr>
+                                <td>多模态模型</td>
+                                <td>CLIP、Flamingo</td>
+                                <td>对齐不同模态的表示空间</td>
+                                <td>跨模态理解与生成，应用广泛</td>
+                                <td>图文生成、视觉问答、视频理解</td>
+                            </tr>
+                            <tr>
+                                <td>代码生成模型</td>
+                                <td>Codex、AlphaCode</td>
+                                <td>针对代码结构优化的语言模型</td>
+                                <td>理解编程逻辑，生成可执行代码</td>
+                                <td>代码补全、程序合成、Bug修复</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 统一网站页脚 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- 关于我们区域 -->
+      <div class="footer-about">
+        <h2 class="footer-logo">
+          <a href="index.html">
+            <i class="fas fa-brain" aria-hidden="true"></i>
+            AIGC探索
+          </a>
+        </h2>
+        <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
+        <div class="footer-social">
+          <a href="https://weibo.com" aria-label="访问微博" target="_blank"><i class="fab fa-weibo"></i></a>
+          <a href="https://www.bilibili.com" aria-label="访问B站" target="_blank"><i class="fab fa-bilibili"></i></a>
+          <a href="https://www.qq.com" aria-label="访问QQ" target="_blank"><i class="fab fa-qq"></i></a>
+          <a href="https://www.zhihu.com" aria-label="访问知乎" target="_blank"><i class="fab fa-zhihu"></i></a>
+        </div>
+      </div>
+      
+      <!-- 快速链接区域 - 更新为8个导航链接 -->
+      <div class="footer-nav">
+        <h3 class="footer-nav-title">核心导航</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="tech.html">技术原理</a></li>
+          <li><a href="applications.html">应用场景</a></li>
+          <li><a href="trends.html">发展趋势</a></li>
+          <li><a href="resources.html">学习资源</a></li>
+          <li><a href="AIGC-tools.html">实用工具</a></li>
+          <li><a href="case-study.html">案例实践</a></li>
+          <li><a href="lately.html">研究前沿</a></li>
+        </ul>
+      </div>
+      
+      <!-- 联系区域 -->
+      <div class="footer-contact">
+        <h3 class="footer-contact-title">联系我们</h3>
+        <ul class="footer-contact-list">
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">邮箱</span>
+              <a href="mailto:zyh20070814@163.com">zyh20070814@163.com</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">电话</span>
+              <a href="tel:123456789">123456789</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">地址</span>
+              <a href="#">北京市海淀区中关村科技园</a>
+            </div>
+          </li>
+        </ul>
+        
+        
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span>&copy; 2025 数字媒体技术课程项目 - AIGC探索小组 | 本网站仅供教育用途</span>
+        <a >知识共享许可协议</a>
+      </div>
+      <div class="footer-legal">
+        <div class="accessibility-statement">
+          <a aria-label="查看我们的无障碍声明">
+            <i class="fas fa-universal-access" aria-hidden="true"></i>
+            无障碍声明
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- 辅助功能工具 -->
+    <div class="accessibility-tools">
+        <button id="contrast-toggle" class="accessibility-btn" aria-label="切换高对比度模式">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button id="font-increase" class="accessibility-btn" aria-label="增大字体大小">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button id="font-decrease" class="accessibility-btn" aria-label="减小字体大小">
+            <i class="fas fa-text-width"></i>
+        </button>
+    </div>
+
+    <!-- 引用外部JavaScript -->
+    <script src="script-new.js"></script>
+    
+    <script>
+        // 页面特定交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前导航项
+            const currentNavItem = document.querySelector('.nav-item.current a');
+            if (currentNavItem) {
+                currentNavItem.setAttribute('aria-current', 'page');
+            }
+            
+            // 平滑滚动到锚点
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 120,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 技术流程步骤动画触发
+            const techProcessSteps = document.querySelectorAll('.tech-process-step');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            techProcessSteps.forEach(step => {
+                observer.observe(step);
+            });
+            
+            // 页面加载完成提示
+            console.log('AIGC技术原理页面已加载完成。');
+            
+            // 辅助功能工具功能
+            const contrastToggle = document.getElementById('contrast-toggle');
+            const fontIncrease = document.getElementById('font-increase');
+            const fontDecrease = document.getElementById('font-decrease');
+            
+            if (contrastToggle) {
+                contrastToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('high-contrast');
+                    
+                    // 保存用户偏好
+                    const isHighContrast = document.body.classList.contains('high-contrast');
+                    localStorage.setItem('highContrast', isHighContrast);
+                    
+                    // 提供视觉反馈
+                    this.style.backgroundColor = isHighContrast ? '#000' : '#3a4e8c';
+                });
+            }
+            
+            if (fontIncrease) {
+                fontIncrease.addEventListener('click', function() {
+                    changeFontSize(1);
+                });
+            }
+            
+            if (fontDecrease) {
+                fontDecrease.addEventListener('click', function() {
+                    changeFontSize(-1);
+                });
+            }
+            
+            function changeFontSize(direction) {
+                const currentSize = parseInt(getComputedStyle(document.documentElement).fontSize);
+                const newSize = currentSize + direction;
+                
+                // 限制字体大小范围
+                if (newSize >= 12 && newSize <= 24) {
+                    document.documentElement.style.fontSize = newSize + 'px';
+                    
+                    // 保存用户偏好
+                    localStorage.setItem('fontSize', newSize);
+                }
+            }
+            
+            // 恢复用户偏好
+            function restoreUserPreferences() {
+                // 恢复高对比度设置
+                const highContrast = localStorage.getItem('highContrast');
+                if (highContrast === 'true') {
+                    document.body.classList.add('high-contrast');
+                    if (contrastToggle) {
+                        contrastToggle.style.backgroundColor = '#000';
+                    }
+                }
+                
+                // 恢复字体大小
+                const fontSize = localStorage.getItem('fontSize');
+                if (fontSize) {
+                    document.documentElement.style.fontSize = fontSize + 'px';
+                }
+            }
+            
+            restoreUserPreferences();
+        });
+    </script>
+</body>
+</html>

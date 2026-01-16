@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="探索人工智能生成内容(AIGC)在各领域的创新应用与典型案例">
+    <title>AIGC应用场景 | AIGC探索</title>
+    <link rel="stylesheet" href="style-new.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;800&family=Noto+Serif+SC:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== 应用场景页面专属样式 ========== */
+        
+        /* 英雄区域 - 优化版 */
+        .applications-hero {
+            background: linear-gradient(135deg, 
+                #1a2b4a 0%, 
+                #2c3e76 50%, 
+                #3a4e8c 100%);
+            color: #ffffff;
+            padding: 3rem 0 4rem; /* 减少内边距 */
+            position: relative;
+            overflow: hidden;
+            min-height: 50vh; /* 减小最小高度 */
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+        
+        .applications-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .applications-hero-content {
+            max-width: 700px; /* 减小最大宽度 */
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 0.5rem; /* 减小顶部内边距 */
+        }
+        
+        .applications-hero-title-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem; /* 减小底部外边距 */
+            position: relative;
+        }
+        
+        .applications-hero-icon {
+            font-size: 2.2rem; /* 减小图标大小 */
+            color: rgba(224, 201, 138, 0.9);
+            margin-bottom: 0.8rem; /* 减小间距 */
+            animation: applicationsIconFloat 4s infinite ease-in-out;
+            filter: drop-shadow(0 0 8px rgba(224, 201, 138, 0.3));
+        }
+        
+        @keyframes applicationsIconFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(3deg);
+            }
+        }
+        
+        .applications-hero-heading {
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
+            font-size: 2.5rem; /* 减小字体大小 */
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+            color: #ffffff;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.5),
+                0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .applications-hero-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%; /* 减小宽度 */
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(212, 175, 55, 0.3) 20%, 
+                rgba(212, 175, 55, 0.5) 50%, 
+                rgba(212, 175, 55, 0.3) 80%, 
+                transparent 100%);
+            border-radius: 1px;
+            opacity: 0.6;
+        }
+        
+        .applications-hero-subtitle {
+            font-size: 1.1rem; /* 减小字体大小 */
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 550px; /* 减小最大宽度 */
+            font-weight: 300;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* 应用领域图标装饰 - 减少到3个 */
+        .applications-hero-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .application-icon-node {
+            position: absolute;
+            width: 35px; /* 减小大小 */
+            height: 35px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(224, 201, 138, 0.8);
+            font-size: 1rem; /* 减小图标大小 */
+            animation: applicationNodeFloat 6s infinite ease-in-out;
+            filter: drop-shadow(0 0 5px rgba(224, 201, 138, 0.3));
+        }
+        
+        @keyframes applicationNodeFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(180deg);
+            }
+        }
+        
+        /* ========== 应用场景主内容区域 ========== */
+        .applications-section {
+            padding: 4rem 0; /* 减小内边距 */
+            scroll-margin-top: 40px;
+        }
+        
+        .applications-section:nth-child(even) {
+            background-color: #f0f4f8; /* 增加对比度，更深的浅蓝灰色 */
+        }
+        
+        .applications-section:nth-child(odd) {
+            background-color: #ffffff; /* 使用纯白增加对比 */
+        }
+        
+        .applications-section-heading {
+            font-family: var(--font-heading);
+            font-size: 2.2rem; /* 减小字体大小 */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .applications-section-icon {
+            color: var(--primary-color-light);
+            font-size: 1.8rem; /* 减小图标大小 */
+        }
+        
+        .applications-section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2.5rem; /* 减小底部间距 */
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* ========== 应用领域网格布局 ========== */
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .application-card {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 2rem; /* 减小内边距 */
+            box-shadow: var(--shadow-md); /* 增加阴影深度 */
+            transition: all var(--transition-normal);
+            border: 2px solid var(--border-color); /* 加粗边框 */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .application-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+        }
+        
+        .application-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color-light); /* 悬停时边框变色 */
+        }
+        
+        .application-icon {
+            width: 70px; /* 减小大小 */
+            height: 70px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--primary-color), var(--philosophy-accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            color: var(--text-on-dark);
+            font-size: 1.8rem; /* 减小图标大小 */
+            transition: all var(--transition-normal);
+        }
+        
+        .application-card:hover .application-icon {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--primary-color-light), var(--philosophy-accent-blue-light));
+        }
+        
+        .application-title {
+            font-size: 1.4rem; /* 减小字体大小 */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--card-title-color);
+            line-height: 1.3;
+        }
+        
+        .application-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 0.95rem; /* 减小字体大小 */
+        }
+        
+        .application-features {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .application-features li {
+            padding: 0.5rem 0;
+            color: var(--text-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            font-weight: 500; /* 增加字体重量 */
+        }
+        
+        .application-features li i {
+            color: var(--philosophy-accent-blue);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+        
+        .application-examples {
+            margin-top: auto;
+            background-color: rgba(44, 62, 118, 0.05); /* 增加背景透明度 */
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            border-left: 3px solid var(--philosophy-accent-blue);
+        }
+        
+        .application-examples-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--philosophy-accent-blue);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .application-examples-list {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 500; /* 增加字体重量 */
+        }
+        
+        /* ========== 行业案例展示 ========== */
+        .industry-cases-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .industry-case {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.8rem; /* 减小内边距 */
+            box-shadow: var(--shadow-md); /* 增加阴影深度 */
+            transition: all var(--transition-normal);
+            border: 2px solid var(--border-color); /* 加粗边框 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .industry-case::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--philosophy-accent-blue));
+        }
+        
+        .industry-case:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color-light); /* 悬停时边框变色 */
+        }
+        
+        .industry-case-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem; /* 减小间距 */
+            gap: 1rem;
+        }
+        
+        .industry-icon {
+            width: 55px; /* 减小大小 */
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-color-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-on-dark);
+            font-size: 1.3rem; /* 减小图标大小 */
+            flex-shrink: 0;
+        }
+        
+        .industry-case-title {
+            font-size: 1.3rem; /* 减小字体大小 */
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            line-height: 1.3;
+        }
+        
+        .industry-case-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem; /* 减小字体大小 */
+        }
+        
+        .industry-case-highlight {
+            background-color: rgba(201, 169, 89, 0.12); /* 增加背景透明度 */
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-top: 1.2rem; /* 减小间距 */
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .industry-case-highlight-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent-color-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ========== 应用趋势与展望 ========== */
+        .applications-trends {
+            background: linear-gradient(135deg, #f5f8fc 0%, #e9eef6 100%); /* 增加对比度 */
+            border-radius: var(--radius-lg);
+            padding: 2.5rem; /* 减小内边距 */
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--border-color); /* 添加边框 */
+        }
+        
+        .applications-trends::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(201, 169, 89, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .trend-item {
+            margin-bottom: 2rem; /* 减小间距 */
+            position: relative;
+            padding-left: 2.2rem; /* 减小缩进 */
+        }
+        
+        .trend-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .trend-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 12px; /* 减小大小 */
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--philosophy-accent-blue);
+            box-shadow: 0 0 10px rgba(26, 91, 158, 0.3);
+        }
+        
+        .trend-title {
+            font-size: 1.2rem; /* 减小字体大小 */
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.6rem; /* 减小间距 */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .trend-title i {
+            color: var(--accent-color);
+        }
+        
+        .trend-description {
+            color: var(--text-color);
+            line-height: 1.7;
+            font-weight: 500; /* 增加字体重量 */
+        }
+        
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 1200px) {
+            .applications-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 1.8rem;
+            }
+            
+            .industry-cases-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .applications-hero-heading {
+                font-size: 2.2rem;
+            }
+            
+            .applications-hero-subtitle {
+                font-size: 1.05rem;
+                max-width: 500px;
+            }
+            
+            .applications-section-heading {
+                font-size: 2rem;
+            }
+            
+            .applications-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .application-card {
+                padding: 1.8rem;
+            }
+            
+            .industry-cases-container {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .industry-case {
+                padding: 1.8rem 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .applications-hero {
+                padding: 2.5rem 0 3.5rem;
+                min-height: 45vh;
+            }
+            
+            .applications-hero-heading {
+                font-size: 1.9rem;
+            }
+            
+            .applications-hero-icon {
+                font-size: 1.9rem;
+            }
+            
+            .applications-hero-subtitle {
+                font-size: 1rem;
+                max-width: 450px;
+            }
+            
+            .applications-section {
+                padding: 3.5rem 0;
+            }
+            
+            .applications-section-heading {
+                font-size: 1.8rem;
+            }
+            
+            .applications-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .industry-cases-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .applications-trends {
+                padding: 2rem;
+            }
+            
+            .trend-item {
+                margin-bottom: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .applications-hero-heading {
+                font-size: 1.7rem;
+            }
+            
+            .applications-hero {
+                min-height: 40vh;
+                padding: 2rem 0 3rem;
+            }
+            
+            .applications-section {
+                padding: 3rem 0;
+            }
+            
+            .applications-section-heading {
+                font-size: 1.6rem;
+            }
+            
+            .application-card {
+                padding: 1.5rem;
+            }
+            
+            .application-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
+            
+            .application-title {
+                font-size: 1.3rem;
+            }
+            
+            .industry-case {
+                padding: 1.5rem;
+            }
+            
+            .industry-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .industry-case-title {
+                font-size: 1.2rem;
+            }
+            
+            .applications-trends {
+                padding: 1.5rem;
+            }
+            
+            .trend-title {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            .applications-hero {
+                display: none;
+            }
+            
+            .applications-section {
+                padding: 2rem 0;
+                background-color: white !important;
+                page-break-inside: avoid;
+            }
+            
+            .application-card, .industry-case {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 跳过导航链接 - 辅助功能 -->
+    <a class="skip-to-main" href="#main-content">跳过导航直接进入主要内容</a>
+    
+    <!-- 网站头部 -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="site-title">
+                    <a href="index-new.html" aria-label="AIGC探索网站首页">
+                        <!-- 使用fa-brain图标表示人工智能 -->
+                        <span class="logo-icon"><i class="fas fa-brain"></i></span>
+                        AIGC指南
+                    </a>
+                </h1>
+                <!-- 副标题已通过CSS隐藏 -->
+                <p class="site-subtitle">人工智能生成内容的前沿进展</p>
+            </div>
+            
+            <!-- 统一主导航 - 八大栏目 -->
+            <nav class="main-nav" aria-label="主导航">
+                <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="切换导航菜单">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+                
+                <ul id="primary-menu" class="nav-menu">
+                    <!-- 首页 -->
+                    <li class="nav-item"><a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">
+                            <span>首</span>
+                            <span>页</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 技术原理 -->
+                    <li class="nav-item"><a href="tech.html" class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <span class="nav-text">
+                            <span>技术</span>
+                            <span>原理</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 应用场景（当前页面） -->
+                    <li class="nav-item"><a href="applications.html" class="nav-link current">
+                        <i class="fas fa-th-large"></i>
+                        <span class="nav-text">
+                            <span>应用</span>
+                            <span>场景</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 发展趋势 -->
+                    <li class="nav-item"><a href="trends.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">
+                            <span>发展</span>
+                            <span>趋势</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 学习资源 -->
+                    <li class="nav-item"><a href="resources.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span class="nav-text">
+                            <span>学习</span>
+                            <span>资源</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- AIGC工具 -->
+                    <li class="nav-item"><a href="AIGC-tools.html" class="nav-link">
+                        <i class="fas fa-tools"></i>
+                        <span class="nav-text">
+                            <span>实用</span>
+                            <span>工具</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 案例研究 -->
+                    <li class="nav-item"><a href="case-study.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">
+                            <span>案例</span>
+                            <span>实践</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 最新研究 -->
+                    <li class="nav-item"><a href="lately.html" class="nav-link">
+                        <i class="fas fa-infinity"></i>
+                        <span class="nav-text">
+                            <span>研究</span>
+                            <span>前沿</span>
+                        </span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 主内容区域 -->
+    <main id="main-content" class="main-content" tabindex="-1">
+        <!-- 应用场景英雄区域 -->
+        <section class="applications-hero" aria-labelledby="hero-heading">
+            <div class="applications-hero-decoration">
+                <!-- 应用图标装饰 - 减少到3个图标 -->
+                <div class="application-icon-node" style="top: 30%; left: 20%; animation-delay: 0s;"><i class="fas fa-paint-brush"></i></div>
+                <div class="application-icon-node" style="top: 50%; left: 60%; animation-delay: 1s;"><i class="fas fa-music"></i></div>
+                <div class="application-icon-node" style="top: 70%; left: 40%; animation-delay: 2s;"><i class="fas fa-cube"></i></div>
+            </div>
+            
+            <div class="applications-hero-container">
+                <div class="applications-hero-content">
+                    <div class="applications-hero-title-area">
+                        <div class="applications-hero-icon">
+                            <!-- 鸢尾花图标（使用fa-seedling作为近似） -->
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h1 id="hero-heading" class="applications-hero-heading">AIGC应用场景</h1>
+                        <p class="applications-hero-subtitle">探索人工智能生成内容在创意产业、商业应用、教育医疗等领域的创新实践与变革力量</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- AIGC主要应用领域 -->
+        <section id="applications" class="applications-section">
+            <div class="container">
+                <h2 class="applications-section-heading">
+                    <i class="fas fa-cubes applications-section-icon"></i>
+                    AIGC主要应用领域
+                </h2>
+                <p class="applications-section-subtitle">
+                    从文本生成到图像创作，从音乐合成到视频制作，AIGC技术正在重塑内容创作方式，为各行各业带来创新解决方案
+                </p>
+                
+                <div class="applications-grid">
+                    <!-- 文本生成 -->
+                    <div class="application-card">
+                        <div class="application-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <h3 class="application-title">文本生成与创作</h3>
+                        <p class="application-description">
+                            基于大语言模型的文本生成技术，能够创作文章、报告、诗歌、剧本等各类文本内容，提高写作效率与创意表达。
+                        </p>
+                        <ul class="application-features">
+                            <li><i class="fas fa-check-circle"></i> 智能内容创作助手</li>
+                            <li><i class="fas fa-check-circle"></i> 多语言翻译与摘要</li>
+                            <li><i class="fas fa-check-circle"></i> 广告文案与营销内容</li>
+                            <li><i class="fas fa-check-circle"></i> 代码注释与文档生成</li>
+                        </ul>
+                        <div class="application-examples">
+                            <div class="application-examples-title">典型应用</div>
+                            <div class="application-examples-list">ChatGPT写作助手、Jasper营销文案、GitHub Copilot代码生成</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 图像生成 -->
+                    <div class="application-card">
+                        <div class="application-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="application-title">图像生成与编辑</h3>
+                        <p class="application-description">
+                            扩散模型等AI技术能够根据文本描述生成高质量图像，支持风格迁移、图像修复、超分辨率等高级图像处理功能。
+                        </p>
+                        <ul class="application-features">
+                            <li><i class="fas fa-check-circle"></i> 文本到图像生成</li>
+                            <li><i class="fas fa-check-circle"></i> 艺术风格迁移</li>
+                            <li><i class="fas fa-check-circle"></i> 图像修复与增强</li>
+                            <li><i class="fas fa-check-circle"></i> 角色与场景设计</li>
+                        </ul>
+                        <div class="application-examples">
+                            <div class="application-examples-title">典型应用</div>
+                            <div class="application-examples-list">DALL·E 3、Midjourney、Stable Diffusion、Adobe Firefly</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 音频生成 -->
+                    <div class="application-card">
+                        <div class="application-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="application-title">音频与音乐生成</h3>
+                        <p class="application-description">
+                            AI能够创作原创音乐、生成语音、模拟乐器声音，并为视频、游戏等多媒体内容提供定制化的音频解决方案。
+                        </p>
+                        <ul class="application-features">
+                            <li><i class="fas fa-check-circle"></i> 智能作曲与编曲</li>
+                            <li><i class="fas fa-check-circle"></i> 文本到语音合成</li>
+                            <li><i class="fas fa-check-circle"></i> 音效设计与生成</li>
+                            <li><i class="fas fa-check-circle"></i> 音频修复与增强</li>
+                        </ul>
+                        <div class="application-examples">
+                            <div class="application-examples-title">典型应用</div>
+                            <div class="application-examples-list">Jukebox音乐生成、ElevenLabs语音合成、AIVA智能作曲</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 视频生成 -->
+                    <div class="application-card">
+                        <div class="application-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="application-title">视频生成与编辑</h3>
+                        <p class="application-description">
+                            AIGC技术能够从文本或图像生成视频内容，实现视频剪辑、特效添加、风格转换等自动化视频制作流程。
+                        </p>
+                        <ul class="application-features">
+                            <li><i class="fas fa-check-circle"></i> 文本到视频生成</li>
+                            <li><i class="fas fa-check-circle"></i> 视频风格迁移</li>
+                            <li><i class="fas fa-check-circle"></i> 智能剪辑与合成</li>
+                            <li><i class="fas fa-check-circle"></i> 深度伪造检测</li>
+                        </ul>
+                        <div class="application-examples">
+                            <div class="application-examples-title">典型应用</div>
+                            <div class="application-examples-list">Runway ML、Synthesia虚拟主播、Pika Labs视频生成</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D内容生成 -->
+                    <div class="application-card">
+                        <div class="application-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="application-title">3D内容生成</h3>
+                        <p class="application-description">
+                            利用AI技术快速生成3D模型、场景和动画，为游戏开发、虚拟现实、建筑设计等领域提供高效的内容创作工具。
+                        </p>
+                        <ul class="application-features">
+                            <li><i class="fas fa-check-circle"></i> 文本到3D模型生成</li>
+                            <li><i class="fas fa-check-circle"></i> 3D场景自动构建</li>
+                            <li><i class="fas fa-check-circle"></i> 材质与纹理生成</li>
+                            <li><i class="fas fa-check-circle"></i> 动画与动作生成</li>
+                        </ul>
+                        <div class="application-examples">
+                            <div class="application-examples-title">典型应用</div>
+                            <div class="application-examples-list">Point·E、DreamFusion、Luma AI 3D生成</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 代码生成 -->
+                    <div class="application-card">
+                        <div class="application-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="application-title">代码生成与编程辅助</h3>
+                        <p class="application-description">
+                            AI编程助手能够根据自然语言描述生成代码片段、修复bug、优化算法，大幅提升软件开发效率与质量。
+                        </p>
+                        <ul class="application-features">
+                            <li><i class="fas fa-check-circle"></i> 自然语言到代码转换</li>
+                            <li><i class="fas fa-check-circle"></i> 代码补全与建议</li>
+                            <li><i class="fas fa-check-circle"></i> 错误检测与修复</li>
+                            <li><i class="fas fa-check-circle"></i> 代码重构与优化</li>
+                        </ul>
+                        <div class="application-examples">
+                            <div class="application-examples-title">典型应用</div>
+                            <div class="application-examples-list">GitHub Copilot、Amazon CodeWhisperer、Tabnine代码助手</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 行业应用案例 -->
+        <section id="industry-cases" class="applications-section" style="background-color: #f0f4f8;">
+            <div class="container">
+                <h2 class="applications-section-heading">
+                    <i class="fas fa-industry applications-section-icon"></i>
+                    行业应用案例
+                </h2>
+                <p class="applications-section-subtitle">
+                    AIGC技术已渗透到各行各业，为传统产业带来数字化转型与创新机遇，重塑商业模式与用户体验
+                </p>
+                
+                <div class="industry-cases-container">
+                    <!-- 广告营销 -->
+                    <div class="industry-case">
+                        <div class="industry-case-header">
+                            <div class="industry-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h3 class="industry-case-title">广告与营销</h3>
+                        </div>
+                        <div class="industry-case-content">
+                            <p>AIGC在广告营销领域的应用包括个性化广告内容生成、营销文案创作、社交媒体内容策划等。AI能够分析用户数据，生成高度个性化的广告内容，提高转化率与用户参与度。</p>
+                            <div class="industry-case-highlight">
+                                <div class="industry-case-highlight-title">创新亮点</div>
+                                <p>实时A/B测试内容生成、多平台自适应营销材料、情感分析驱动的个性化广告</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 教育领域 -->
+                    <div class="industry-case">
+                        <div class="industry-case-header">
+                            <div class="industry-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3 class="industry-case-title">教育与培训</h3>
+                        </div>
+                        <div class="industry-case-content">
+                            <p>AIGC为教育行业提供了个性化学习资源生成、智能辅导系统、虚拟实验室等创新应用。AI能够根据学生的学习进度和知识掌握程度，生成定制化的学习材料和练习题。</p>
+                            <div class="industry-case-highlight">
+                                <div class="industry-case-highlight-title">创新亮点</div>
+                                <p>自适应学习路径设计、多语言教育内容生成、虚拟导师与智能评估系统</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 游戏开发 -->
+                    <div class="industry-case">
+                        <div class="industry-case-header">
+                            <div class="industry-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <h3 class="industry-case-title">游戏与娱乐</h3>
+                        </div>
+                        <div class="industry-case-content">
+                            <p>在游戏开发中，AIGC用于自动生成游戏场景、角色设计、对话系统和任务剧情。AI还能创建动态游戏内容，根据玩家行为调整游戏难度和故事情节，提供沉浸式游戏体验。</p>
+                            <div class="industry-case-highlight">
+                                <div class="industry-case-highlight-title">创新亮点</div>
+                                <p>程序化内容生成、NPC智能对话系统、动态难度调整、用户生成内容(UGC)增强</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 医疗健康 -->
+                    <div class="industry-case">
+                        <div class="industry-case-header">
+                            <div class="industry-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3 class="industry-case-title">医疗与健康</h3>
+                        </div>
+                        <div class="industry-case-content">
+                            <p>AIGC在医疗领域的应用包括医学影像分析、个性化治疗计划生成、医学文献摘要等。AI能够辅助医生进行诊断决策，生成患者教育材料，提高医疗服务的效率与质量。</p>
+                            <div class="industry-case-highlight">
+                                <div class="industry-case-highlight-title">创新亮点</div>
+                                <p>医学图像合成与增强、个性化康复方案、药物发现辅助、远程医疗支持</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 建筑设计 -->
+                    <div class="industry-case">
+                        <div class="industry-case-header">
+                            <div class="industry-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h3 class="industry-case-title">建筑与设计</h3>
+                        </div>
+                        <div class="industry-case-content">
+                            <p>AIGC技术能够根据设计需求自动生成建筑方案、室内布局和景观设计。AI可以分析环境因素、功能需求和审美偏好，创建优化设计方案，大幅缩短设计周期。</p>
+                            <div class="industry-case-highlight">
+                                <div class="industry-case-highlight-title">创新亮点</div>
+                                <p>参数化设计生成、可持续性优化、虚拟现实预览、材料与成本估算</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 媒体新闻 -->
+                    <div class="industry-case">
+                        <div class="industry-case-header">
+                            <div class="industry-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <h3 class="industry-case-title">媒体与新闻</h3>
+                        </div>
+                        <div class="industry-case-content">
+                            <p>新闻机构利用AIGC技术自动生成财经报道、体育赛事总结和天气预报等标准化内容。AI能够实时分析数据源，快速生成准确、及时的新闻报道，释放记者进行深度调查工作。</p>
+                            <div class="industry-case-highlight">
+                                <div class="industry-case-highlight-title">创新亮点</div>
+                                <p>实时新闻生成、多语言内容本地化、事实核查辅助、个性化新闻推荐</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 应用趋势与展望 -->
+        <section id="trends" class="applications-section">
+            <div class="container">
+                <h2 class="applications-section-heading">
+                    <i class="fas fa-chart-line applications-section-icon"></i>
+                    应用趋势与展望
+                </h2>
+                <p class="applications-section-subtitle">
+                    AIGC技术正快速发展，未来将在更多领域带来颠覆性创新，同时面临技术、伦理与监管等多重挑战
+                </p>
+                
+                <div class="applications-trends">
+                    <!-- 趋势1 -->
+                    <div class="trend-item">
+                        <h3 class="trend-title"><i class="fas fa-rocket"></i> 多模态融合与交互</h3>
+                        <p class="trend-description">
+                            未来AIGC将实现文本、图像、音频、视频等多种模态的无缝融合与转换，用户可以通过自然语言与AI进行更直观的交互，生成复杂、连贯的多媒体内容。跨模态内容理解与生成能力将成为AIGC系统的核心竞争优势。
+                        </p>
+                    </div>
+                    
+                    <!-- 趋势2 -->
+                    <div class="trend-item">
+                        <h3 class="trend-title"><i class="fas fa-users"></i> 个性化与可定制化</h3>
+                        <p class="trend-description">
+                            AIGC将更加注重个性化内容生成，根据用户的偏好、历史行为和上下文信息，生成高度定制化的内容。企业将利用AIGC技术为客户提供个性化产品推荐、定制化营销内容和专属用户体验。
+                        </p>
+                    </div>
+                    
+                    <!-- 趋势3 -->
+                    <div class="trend-item">
+                        <h3 class="trend-title"><i class="fas fa-cogs"></i> 实时生成与交互式创作</h3>
+                        <p class="trend-description">
+                            随着计算能力的提升和模型优化，AIGC将实现更快速的实时内容生成。用户可以与AI进行交互式创作，通过多轮对话和反馈不断优化生成结果，形成人机协作的创意工作流程。
+                        </p>
+                    </div>
+                    
+                    <!-- 趋势4 -->
+                    <div class="trend-item">
+                        <h3 class="trend-title"><i class="fas fa-shield-alt"></i> 伦理、安全与监管</h3>
+                        <p class="trend-description">
+                            随着AIGC技术的普及，内容真实性、版权归属、数据隐私和算法偏见等问题日益凸显。未来将发展更完善的内容溯源技术、深伪造检测工具和伦理审查机制，同时建立行业标准与监管框架。
+                        </p>
+                    </div>
+                    
+                    <!-- 趋势5 -->
+                    <div class="trend-item">
+                        <h3 class="trend-title"><i class="fas fa-handshake"></i> 行业深度整合与专业化</h3>
+                        <p class="trend-description">
+                            AIGC将与各行业专业知识深度融合，发展垂直领域的专业生成模型。医疗、法律、金融、工程等专业领域将出现专门的AIGC工具，提供符合行业标准和规范的专业内容生成服务。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- 统一网站页脚 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- 关于我们区域 -->
+      <div class="footer-about">
+        <h2 class="footer-logo">
+          <a href="index.html">
+            <i class="fas fa-brain" aria-hidden="true"></i>
+            AIGC探索
+          </a>
+        </h2>
+        <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
+        <div class="footer-social">
+          <a href="https://weibo.com" aria-label="访问微博" target="_blank"><i class="fab fa-weibo"></i></a>
+          <a href="https://www.bilibili.com" aria-label="访问B站" target="_blank"><i class="fab fa-bilibili"></i></a>
+          <a href="https://www.qq.com" aria-label="访问QQ" target="_blank"><i class="fab fa-qq"></i></a>
+          <a href="https://www.zhihu.com" aria-label="访问知乎" target="_blank"><i class="fab fa-zhihu"></i></a>
+        </div>
+      </div>
+      
+      <!-- 快速链接区域 - 更新为8个导航链接 -->
+      <div class="footer-nav">
+        <h3 class="footer-nav-title">核心导航</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="tech.html">技术原理</a></li>
+          <li><a href="applications.html">应用场景</a></li>
+          <li><a href="trends.html">发展趋势</a></li>
+          <li><a href="resources.html">学习资源</a></li>
+          <li><a href="AIGC-tools.html">实用工具</a></li>
+          <li><a href="case-study.html">案例实践</a></li>
+          <li><a href="lately.html">研究前沿</a></li>
+        </ul>
+      </div>
+      
+      <!-- 联系区域 -->
+      <div class="footer-contact">
+        <h3 class="footer-contact-title">联系我们</h3>
+        <ul class="footer-contact-list">
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">邮箱</span>
+              <a href="mailto:zyh20070814@163.com">zyh20070814@163.com</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">电话</span>
+              <a href="tel:123456789">123456789</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">地址</span>
+              <a href="#">北京市海淀区中关村科技园</a>
+            </div>
+          </li>
+        </ul>
+        
+        
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span>&copy; 2025 数字媒体技术课程项目 - AIGC探索小组 | 本网站仅供教育用途</span>
+        <a >知识共享许可协议</a>
+      </div>
+      <div class="footer-legal">
+        <div class="accessibility-statement">
+          <a  aria-label="查看我们的无障碍声明">
+            <i class="fas fa-universal-access" aria-hidden="true"></i>
+            无障碍声明
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- 辅助功能工具 -->
+    <div class="accessibility-tools">
+        <button id="contrast-toggle" class="accessibility-btn" aria-label="切换高对比度模式">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button id="font-increase" class="accessibility-btn" aria-label="增大字体大小">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button id="font-decrease" class="accessibility-btn" aria-label="减小字体大小">
+            <i class="fas fa-text-width"></i>
+        </button>
+    </div>
+    
+    <!-- 引入外部JavaScript文件 -->
+    <script src="script-new.js"></script>
+    
+    <script>
+        // 应用场景页面特有脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 将应用场景设为当前（第3个栏目）
+            const currentNavItem = document.querySelector('.nav-item:nth-child(3)');
+            if (currentNavItem) currentNavItem.classList.add('current');
+            
+            // 卡片动画效果
+            const applicationCards = document.querySelectorAll('.application-card');
+            applicationCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // 行业案例悬停效果
+            const industryCases = document.querySelectorAll('.industry-case');
+            industryCases.forEach(caseItem => {
+                caseItem.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.industry-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1) rotate(5deg)';
+                    }
+                });
+                
+                caseItem.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.industry-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1) rotate(0deg)';
+                    }
+                });
+            });
+            
+            // 趋势项动画
+            const trendItems = document.querySelectorAll('.trend-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            trendItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>

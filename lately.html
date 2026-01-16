@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="探索人工智能生成内容(AIGC)的最新研究进展与突破性技术">
+    <title>AIGC最新研究 | AIGC探索</title>
+    <link rel="stylesheet" href="style-new.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;800&family=Noto+Serif+SC:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== 最新研究页面专属样式 ========== */
+        
+        /* 英雄区域 - 缩小版 */
+        .latest-hero {
+            background: linear-gradient(135deg, 
+                #1a2b4a 0%, 
+                #2c3e76 30%, 
+                #3a4e8c 70%, 
+                #4a5e9c 100%);
+            color: #ffffff;
+            padding: 4rem 0 5rem; /* 缩小内边距 */
+            position: relative;
+            overflow: hidden;
+            min-height: 60vh; /* 减小最小高度 */
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+        
+        .latest-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .latest-hero-content {
+            max-width: 800px; /* 减小最大宽度 */
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 1rem; /* 减小顶部内边距 */
+        }
+        
+        .latest-hero-title-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem; /* 减小底部外边距 */
+            position: relative;
+            padding-bottom: 15px; /* 减小边框点缀空间 */
+        }
+        
+        .latest-hero-icon {
+            font-size: 2.5rem; /* 减小图标大小 */
+            color: rgba(224, 201, 138, 0.9);
+            margin-bottom: 1rem; /* 减小间距 */
+            animation: latestIconFloat 4s infinite ease-in-out;
+            filter: drop-shadow(0 0 8px rgba(224, 201, 138, 0.3));
+        }
+        
+        @keyframes latestIconFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(3deg);
+            }
+        }
+        
+        .latest-hero-heading {
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
+            font-size: 2.9rem; /* 减小字体大小 */
+            font-weight: 800;
+            margin-bottom: 0.8rem; /* 减小间距 */
+            line-height: 1.2;
+            color: #ffffff;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.5),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                0 0 10px rgba(212, 175, 55, 0.1),
+                0 0 20px rgba(212, 175, 55, 0.05);
+            position: relative;
+        }
+        
+        .latest-hero-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%; /* 减小宽度 */
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(212, 175, 55, 0.3) 20%, 
+                rgba(212, 175, 55, 0.5) 50%, 
+                rgba(212, 175, 55, 0.3) 80%, 
+                transparent 100%);
+            border-radius: 1px;
+            opacity: 0.6;
+        }
+        
+        .latest-hero-subtitle {
+            font-size: 1.2rem; /* 减小字体大小 */
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 600px; /* 减小最大宽度 */
+            font-weight: 300;
+            line-height: 1.5; /* 减小行高 */
+            margin-bottom: 1.5rem; /* 减小间距 */
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* AIGC科技动画效果 - 缩小版 */
+        .latest-hero-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .latest-data-node {
+            position: absolute;
+            width: 8px; /* 减小大小 */
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(224, 201, 138, 0.6);
+            animation: latestNodePulse 3s infinite ease-in-out;
+            filter: drop-shadow(0 0 5px rgba(224, 201, 138, 0.3));
+        }
+        
+        @keyframes latestNodePulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        .latest-data-connection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, transparent 5%, rgba(138, 184, 232, 0.08) 15%, transparent 25%),
+                radial-gradient(circle at 20% 60%, transparent 5%, rgba(74, 94, 156, 0.08) 15%, transparent 25%),
+                radial-gradient(circle at 70% 40%, transparent 5%, rgba(255, 107, 139, 0.08) 15%, transparent 25%);
+        }
+        
+        .latest-circuit-line {
+            position: absolute;
+            height: 1px; /* 减小高度 */
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(224, 201, 138, 0.3), 
+                rgba(138, 184, 232, 0.3), 
+                transparent);
+            animation: latestCircuitFlow 8s infinite linear;
+        }
+        
+        @keyframes latestCircuitFlow {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .latest-tech-halo {
+            position: absolute;
+            width: 200px; /* 减小大小 */
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid rgba(224, 201, 138, 0.1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: latestHaloRotate 20s infinite linear;
+        }
+        
+        @keyframes latestHaloRotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        
+        .latest-tech-halo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(138, 184, 232, 0.08);
+            transform: scale(1.5);
+        }
+        
+        /* ========== 侧边导航栏（左移版本） ========== */
+        .sidebar-nav-container {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 998;
+            display: flex;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+        }
+        
+        .sidebar-nav-toggle {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-color-light));
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: none;
+            z-index: 999;
+            position: relative;
+        }
+        
+        .sidebar-nav-toggle:hover {
+            background: linear-gradient(135deg, var(--primary-color-light), var(--primary-color-lighter));
+            width: 45px;
+        }
+        
+        /* 初始状态 - 三条线图标 */
+        .sidebar-nav-toggle .menu-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-nav-toggle .menu-line {
+            width: 20px;
+            height: 2px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        /* 展开状态 - 箭头图标 */
+        .sidebar-nav-toggle.active .menu-icon {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-nav-toggle.active .menu-line:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+        
+        .sidebar-nav-toggle.active .menu-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .sidebar-nav-toggle.active .menu-line:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+        }
+        
+        .sidebar-nav {
+            background: linear-gradient(135deg, 
+                rgba(248, 245, 240, 0.97) 0%, 
+                rgba(248, 245, 240, 0.99) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 0;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border-right: 1px solid rgba(138, 123, 189, 0.1);
+            border-bottom: 1px solid rgba(138, 123, 189, 0.1);
+            transition: width 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .sidebar-nav.active {
+            width: 250px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+        
+        .sidebar-nav-header {
+            padding: 1.5rem 1.5rem 1rem;
+            border-bottom: 1px solid rgba(138, 123, 189, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease 0.1s;
+            background: linear-gradient(135deg, 
+                rgba(44, 62, 118, 0.03) 0%, 
+                rgba(44, 62, 118, 0.01) 100%);
+        }
+        
+        .sidebar-nav.active .sidebar-nav-header {
+            opacity: 1;
+        }
+        
+        .sidebar-nav-header h3 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .sidebar-nav-list {
+            list-style: none;
+            padding: 1rem 0;
+            margin: 0;
+            flex: 1;
+        }
+        
+        .sidebar-nav-item {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .sidebar-nav-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--nav-text-color);
+            font-weight: 500;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+            position: relative;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-nav.active .sidebar-nav-link {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* 延迟每个链接的显示 */
+        .sidebar-nav.active .sidebar-nav-link:nth-child(1) { transition-delay: 0.05s; }
+        .sidebar-nav.active .sidebar-nav-link:nth-child(2) { transition-delay: 0.05s; }
+        .sidebar-nav.active .sidebar-nav-link:nth-child(3) { transition-delay: 0.05s; }
+        .sidebar-nav.active .sidebar-nav-link:nth-child(4) { transition-delay: 0.05s; }
+        
+        .sidebar-nav-link:hover, 
+        .sidebar-nav-link:focus {
+            background-color: rgba(138, 123, 189, 0.08);
+            color: var(--nav-text-hover);
+            padding-left: 1.8rem;
+            border-left-color: rgba(138, 123, 189, 0.5);
+        }
+        
+        .sidebar-nav-link.active {
+            background-color: rgba(44, 62, 118, 0.08);
+            color: var(--primary-color);
+            font-weight: 600;
+            border-left-color: var(--primary-color);
+        }
+        
+        .sidebar-nav-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(138, 123, 189, 0.1);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.2s ease 0.2s;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .sidebar-nav.active .sidebar-nav-footer {
+            opacity: 1;
+        }
+        
+        /* ========== 研究内容区域 ========== */
+        .latest-section {
+            padding: 4rem 0; /* 减小内边距 */
+            scroll-margin-top: 40px; /* 调整锚点跳转位置 */
+        }
+        
+        .latest-section:nth-child(even) {
+            background-color: var(--section-background);
+        }
+        
+        .latest-section-heading {
+            font-family: var(--font-heading);
+            font-size: 2.2rem; /* 减小字体大小 */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .latest-section-icon {
+            color: var(--primary-color-light);
+            font-size: 1.8rem; /* 减小图标大小 */
+        }
+        
+        .latest-section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2.5rem; /* 减小底部间距 */
+            font-size: 1.05rem; /* 减小字体大小 */
+            line-height: 1.6;
+        }
+        
+        /* ========== 研究热点与技术趋势表格 ========== */
+        .research-table-container {
+            overflow-x: auto;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+        
+        .research-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        
+        .research-table thead {
+            background-color: var(--primary-color);
+            color: var(--text-on-dark);
+        }
+        
+        .research-table th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .research-table tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-fast);
+        }
+        
+        .research-table tbody tr:nth-child(even) {
+            background-color: var(--card-background-alt);
+        }
+        
+        .research-table tbody tr:hover {
+            background-color: rgba(44, 62, 118, 0.05);
+        }
+        
+        .research-table td {
+            padding: 1.2rem 1rem;
+            vertical-align: top;
+            color: var(--text-color);
+        }
+        
+        .research-direction {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 150px;
+        }
+        
+        .research-tech {
+            color: var(--philosophy-accent-blue);
+            min-width: 180px;
+        }
+        
+        .research-focus {
+            color: var(--text-secondary);
+        }
+        
+        .research-representative {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            min-width: 250px;
+        }
+        
+        /* ========== 重要学术论文与报告 ========== */
+        .papers-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .papers-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 30px;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .paper-item {
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-left: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .paper-item:nth-child(1) { animation-delay: 0.1s; }
+        .paper-item:nth-child(2) { animation-delay: 0.2s; }
+        .paper-item:nth-child(3) { animation-delay: 0.3s; }
+        .paper-item:nth-child(4) { animation-delay: 0.4s; }
+        .paper-item:nth-child(5) { animation-delay: 0.5s; }
+        
+        .paper-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 22px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--background-color);
+            border: 4px solid var(--primary-color);
+            z-index: 2;
+        }
+        
+        .paper-date {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .paper-date i {
+            color: var(--accent-color);
+        }
+        
+        .paper-content {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
+        }
+        
+        .paper-content:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .paper-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+        
+        .paper-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* ========== 未来研究方向 ========== */
+        .future-directions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .future-direction-card {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .future-direction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+        }
+        
+        .future-direction-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .future-direction-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--philosophy-accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            color: var(--text-on-dark);
+            font-size: 1.5rem;
+        }
+        
+        .future-direction-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--card-title-color);
+        }
+        
+        .future-direction-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        
+        /* ========== 总结区域 ========== */
+        .summary-section {
+            background: linear-gradient(135deg, var(--section-background) 0%, var(--background-color) 100%);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .summary-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(201, 169, 89, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .summary-category {
+            margin-bottom: 2.5rem;
+        }
+        
+        .summary-category:last-child {
+            margin-bottom: 0;
+        }
+        
+        .summary-category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .summary-category-title i {
+            color: var(--accent-color);
+        }
+        
+        .summary-category-content {
+            color: var(--text-color);
+            line-height: 1.7;
+            padding-left: 2.2rem;
+        }
+        
+        .summary-highlight {
+            background-color: rgba(201, 169, 89, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            color: var(--accent-color-dark);
+        }
+        
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 992px) {
+            .latest-hero-heading {
+                font-size: 2.2rem;
+            }
+            
+            .latest-hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .latest-section-heading {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .latest-hero {
+                padding: 3rem 0 4rem;
+                min-height: 50vh;
+            }
+            
+            .latest-hero-heading {
+                font-size: 1.8rem;
+            }
+            
+            .latest-hero-icon {
+                font-size: 2rem;
+            }
+            
+            /* 侧边导航在移动设备上调整 */
+            .sidebar-nav-container {
+                top: auto;
+                bottom: 20px;
+                transform: none;
+            }
+            
+            .sidebar-nav-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .sidebar-nav.active {
+                width: 220px;
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
+            .research-table {
+                font-size: 0.9rem;
+            }
+            
+            .research-table th,
+            .research-table td {
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .future-directions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .latest-hero-heading {
+                font-size: 1.6rem;
+            }
+            
+            .latest-hero {
+                min-height: 40vh;
+            }
+            
+            .latest-section {
+                padding: 3rem 0;
+            }
+            
+            .paper-item {
+                padding-left: 60px;
+            }
+            
+            .papers-timeline::before {
+                left: 20px;
+            }
+            
+            .paper-item::before {
+                left: 12px;
+            }
+            
+            /* 移动设备上侧边导航更小 */
+            .sidebar-nav.active {
+                width: 200px;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            .sidebar-nav-container {
+                display: none;
+            }
+            
+            .latest-section {
+                padding: 2rem 0;
+            }
+        }
+        
+           /* ========== 总结区域布局优化 ========== */
+.summary-category {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-color-light);
+    position: relative;
+}
+
+.summary-category:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.summary-category-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* 罗马数字样式优化 */
+.roman-numeral {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    min-width: 40px;
+    text-align: center;
+    margin-right: 1rem;
+}
+
+.summary-category-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.summary-category-content {
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-left: calc(40px + 1rem); /* 与罗马数字对齐 */
+}
+
+.summary-highlight {
+    background-color: rgba(201, 169, 89, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    color: var(--accent-color-dark);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .summary-category {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    .roman-numeral {
+        font-size: 1.6rem;
+        min-width: 35px;
+        margin-right: 0.8rem;
+    }
+    
+    .summary-category-title {
+        font-size: 1.3rem;
+    }
+    
+    .summary-category-content {
+        margin-left: calc(35px + 0.8rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-category {
+        margin-bottom: 1.8rem;
+        padding-bottom: 1.8rem;
+    }
+    
+    .summary-category-header {
+        margin-bottom: 0.8rem;
+    }
+    
+    .roman-numeral {
+        font-size: 1.4rem;
+        min-width: 30px;
+        margin-right: 0.6rem;
+    }
+    
+    .summary-category-title {
+        font-size: 1.2rem;
+    }
+    
+    .summary-category-content {
+        margin-left: 0; /* 移动端取消缩进 */
+        padding-left: 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- 跳过导航链接 - 辅助功能 -->
+    <a class="skip-to-main" href="#main-content">跳过导航直接进入主要内容</a>
+    
+    <!-- 网站头部 -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="site-title">
+                    <a href="index-new.html" aria-label="AIGC探索网站首页">
+                        <!-- 使用fa-brain图标表示人工智能 -->
+                        <span class="logo-icon"><i class="fas fa-brain"></i></span>
+                        AIGC指南
+                    </a>
+                </h1>
+                <!-- 副标题已通过CSS隐藏 -->
+                <p class="site-subtitle">人工智能生成内容的前沿进展</p>
+            </div>
+            
+            <!-- 统一主导航 - 八大栏目 -->
+            <nav class="main-nav" aria-label="主导航">
+                <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="切换导航菜单">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+                
+                <ul id="primary-menu" class="nav-menu">
+                    <!-- 首页 -->
+                    <li class="nav-item"><a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">
+                            <span>首</span>
+                            <span>页</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 技术原理 -->
+                    <li class="nav-item"><a href="tech.html" class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <span class="nav-text">
+                            <span>技术</span>
+                            <span>原理</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 应用场景 -->
+                    <li class="nav-item"><a href="applications.html" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <span class="nav-text">
+                            <span>应用</span>
+                            <span>场景</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 发展趋势 -->
+                    <li class="nav-item"><a href="trends.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">
+                            <span>发展</span>
+                            <span>趋势</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 学习资源 -->
+                    <li class="nav-item"><a href="resources.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span class="nav-text">
+                            <span>学习</span>
+                            <span>资源</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- AIGC工具 -->
+                    <li class="nav-item"><a href="AIGC-tools.html" class="nav-link">
+                        <i class="fas fa-tools"></i>
+                        <span class="nav-text">
+                            <span>实用</span>
+                            <span>工具</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 案例研究 -->
+                    <li class="nav-item"><a href="case-study.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">
+                            <span>案例</span>
+                            <span>实践</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 最新研究（当前页面） -->
+                    <li class="nav-item"><a href="lately.html" class="nav-link current">
+                        <i class="fas fa-infinity"></i>
+                        <span class="nav-text">
+                            <span>研究</span>
+                            <span>前沿</span>
+                        </span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 侧边导航栏（改进版） -->
+    <div class="sidebar-nav-container">
+        <button class="sidebar-nav-toggle" id="sidebarToggle" aria-label="展开/收起页内导航">
+            <div class="menu-icon">
+                <span class="menu-line"></span>
+                <span class="menu-line"></span>
+                <span class="menu-line"></span>
+            </div>
+        </button>
+        <nav class="sidebar-nav" id="sidebarNav" aria-label="页内导航">
+            <div class="sidebar-nav-header">
+                <h3>页面导航</h3>
+            </div>
+            <ul class="sidebar-nav-list">
+                <li class="sidebar-nav-item">
+                    <a href="#trends" class="sidebar-nav-link active">
+                        研究热点与技术趋势
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#papers" class="sidebar-nav-link">
+                        重要学术论文与报告
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#future" class="sidebar-nav-link">
+                        未来研究方向
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#summary" class="sidebar-nav-link">
+                        总结与展望
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- 主内容区域 -->
+    <main id="main-content" class="main-content" tabindex="-1">
+        <!-- 最新研究英雄区域 -->
+        <section class="latest-hero" aria-labelledby="hero-heading">
+            <div class="latest-hero-decoration">
+                <!-- AIGC科技动画效果 -->
+                <div class="latest-data-node" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+                <div class="latest-data-node" style="top: 40%; left: 25%; animation-delay: 0.5s;"></div>
+                <div class="latest-data-node" style="top: 60%; left: 35%; animation-delay: 1s;"></div>
+                <div class="latest-data-node" style="top: 30%; left: 65%; animation-delay: 1.5s;"></div>
+                <div class="latest-data-node" style="top: 50%; left: 75%; animation-delay: 2s;"></div>
+                <div class="latest-data-node" style="top: 70%; left: 85%; animation-delay: 2.5s;"></div>
+                
+                <div class="latest-data-connection"></div>
+                
+                <div class="latest-circuit-line" style="top: 30%; left: 0; width: 100%; animation-delay: 0s;"></div>
+                <div class="latest-circuit-line" style="top: 50%; left: 0; width: 100%; animation-delay: 2s;"></div>
+                <div class="latest-circuit-line" style="top: 70%; left: 0; width: 100%; animation-delay: 4s;"></div>
+                
+                <div class="latest-tech-halo"></div>
+            </div>
+            
+            <div class="latest-hero-container">
+                <div class="latest-hero-content">
+                    <div class="latest-hero-title-area">
+                        <div class="latest-hero-icon">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <h1 id="hero-heading" class="latest-hero-heading">AIGC最新研究进展</h1>
+                        <p class="latest-hero-subtitle">探索人工智能生成内容的前沿突破与革命性技术，见证AI创造力的无限可能</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 研究热点与技术趋势 -->
+        <section id="trends" class="latest-section">
+            <div class="container">
+                <h2 class="latest-section-heading">
+                    <i class="fas fa-chart-line latest-section-icon"></i>
+                    研究热点与技术趋势
+                </h2>
+            
+                <div class="research-table-container">
+                    <table class="research-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%">研究方向</th>
+                                <th style="width: 25%">关键技术/方法</th>
+                                <th style="width: 30%">代表性成果（2024-2025）</th>
+                                <th style="width: 20%">主要关注点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="research-direction">多模态生成</td>
+                                <td class="research-tech">扩散模型、跨模态 Transformer、视觉‑语言提示学习</td>
+                                <td class="research-representative">《AIGC for Various Data Modalities: A Survey》（2024‑12）系统梳理了图像、视频、3D 形体、音频等模态的最新方法；《Spatio‑Temporal Evolution Analysis of AIGC Public Sentiment Based on Bi‑LSTM‑Attention Algorithm》（2025‑04）展示了跨模态情感分析的实证研究</td>
+                                <td class="research-focus">跨模态对齐、统一表示、数据稀缺问题</td>
+                            </tr>
+                            <tr>
+                                <td class="research-direction">大语言模型（LLM）与提示工程</td>
+                                <td class="research-tech">软提示、链式思考、RLHF（强化学习人类反馈）</td>
+                                <td class="research-representative">《Recent advances in artificial intelligence generated content》（2024）详细阐述了提示学习在文本/图像生成中的最新进展</td>
+                                <td class="research-focus">提示的可解释性、自动化生成</td>
+                            </tr>
+                            <tr>
+                                <td class="research-direction">3D 内容生成</td>
+                                <td class="research-tech">神经隐式场（NeRF、SDF）、点云‑到‑网格转换、动作捕捉生成</td>
+                                <td class="research-representative">3D 形体、场景、人物 Avatar 的最新生成框架</td>
+                                <td class="research-focus">真实感渲染、交互式编辑</td>
+                            </tr>
+                            <tr>
+                                <td class="research-direction">音频/音乐生成</td>
+                                <td class="research-tech">文本‑到‑语音（TTS）与文本‑到‑音乐（TTM）模型、细粒度强化学习</td>
+                                <td class="research-representative">《AI‑Generated Content (AIGC) for Various Data Modalities: A Survey》（2023‑08）对音频生成技术进行系统回顾，指出了跨模态音乐创作的挑战</td>
+                                <td class="research-focus">音质、风格控制、版权</td>
+                            </tr>
+                            <tr>
+                                <td class="research-direction">教育与个性化学习</td>
+                                <td class="research-tech">AIGC‑驱动的学习资源生成、个性化学习路径推荐</td>
+                                <td class="research-representative">《Mechanisms and Challenges of the Impact of Personalized Learning Based on AIGC Technology on Educational Sustainability》（2025‑03）探讨了 AIGC 在高校学生个性化学习中的应用与可持续性影响</td>
+                                <td class="research-focus">教学效果评估、伦理合规</td>
+                            </tr>
+                            <tr>
+                                <td class="research-direction">舆情与社会影响</td>
+                                <td class="research-tech">基于 Bi‑LSTM‑Attention 的时空情感演化分析、社交媒体大数据抓取</td>
+                                <td class="research-representative">《Spatio‑Temporal Evolution Analysis of AIGC Public Sentiment Based on Bi‑LSTM‑Attention Algorithm》（2025‑04）通过 8,765 条微博数据揭示了 AIGC 讨论的指数增长与地区差异</td>
+                                <td class="research-focus">技术接受度、监管需求</td>
+                            </tr>
+                            <tr>
+                                <td class="research-direction">政策、伦理与治理</td>
+                                <td class="research-tech">法规框架、隐私保护、深伪造检测</td>
+                                <td class="research-representative">《AIGC发展研究》（2025-10）报告中系统梳理了国内外监管动向与伦理争议</td>
+                                <td class="research-focus">合规审查、行业标准制定</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 重要学术论文与报告 -->
+        <section id="papers" class="latest-section" style="background-color: var(--section-background);">
+            <div class="container">
+                <h2 class="latest-section-heading">
+                    <i class="fas fa-book latest-section-icon"></i>
+                    重要学术论文与报告
+                </h2>
+        
+                
+                <div class="papers-timeline">
+                    <!-- 论文 1 -->
+                    <div class="paper-item">
+                        <div class="paper-date">
+                            <i class="far fa-calendar"></i> 2024年12月
+                        </div>
+                        <div class="paper-content">
+                            <h3 class="paper-title">《AIGC for Various Data Modalities: A Survey》</h3>
+                            <p class="paper-description">
+                                全面覆盖单模态与跨模态生成技术，提供数据集与评测基准。系统梳理了图像、视频、3D形体、音频等模态的最新方法，是了解多模态AIGC技术发展的重要参考文献。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 论文 2 -->
+                    <div class="paper-item">
+                        <div class="paper-date">
+                            <i class="far fa-calendar"></i> 2024年
+                        </div>
+                        <div class="paper-content">
+                            <h3 class="paper-title">《Recent advances in artificial intelligence generated content》</h3>
+                            <p class="paper-description">
+                                聚焦提示学习、跨语言摘要、细粒度强化学习等前沿方法。详细阐述了提示学习在文本/图像生成中的最新进展，为大语言模型的应用提供了重要指导。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 论文 3 -->
+                    <div class="paper-item">
+                        <div class="paper-date">
+                            <i class="far fa-calendar"></i> 2025年4月
+                        </div>
+                        <div class="paper-content">
+                            <h3 class="paper-title">《Spatio‑Temporal Evolution Analysis of AIGC Public Sentiment Based on Bi‑LSTM‑Attention Algorithm》</h3>
+                            <p class="paper-description">
+                                基于微博数据的情感时空演化模型，展示了技术传播的社会动态。通过8,765条微博数据揭示了AIGC讨论的指数增长与地区差异，为理解技术社会影响提供了实证研究。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 论文 4 -->
+                    <div class="paper-item">
+                        <div class="paper-date">
+                            <i class="far fa-calendar"></i> 2025年3月
+                        </div>
+                        <div class="paper-content">
+                            <h3 class="paper-title">《Mechanisms and Challenges of the Impact of Personalized Learning Based on AIGC Technology on Educational Sustainability》</h3>
+                            <p class="paper-description">
+                                案例研究AIGC在高校个性化学习中的效能与可持续性。探讨了AIGC驱动的个性化学习对教育可持续发展的影响机制与挑战。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 论文 5 -->
+                    <div class="paper-item">
+                        <div class="paper-date">
+                            <i class="far fa-calendar"></i> 2025年10月
+                        </div>
+                        <div class="paper-content">
+                            <h3 class="paper-title">《AIGC发展研究》</h3>
+                            <p class="paper-description">
+                                国内研究机构对AIGC产业链、政策监管、技术趋势的系统报告。系统梳理了国内外监管动向与伦理争议，为政策制定者提供了重要参考。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 未来研究方向 -->
+        <section id="future" class="latest-section">
+            <div class="container">
+                <h2 class="latest-section-heading">
+                    <i class="fas fa-bullseye latest-section-icon"></i>
+                    未来研究方向
+                </h2>
+      
+                
+                <div class="future-directions-grid">
+                    <!-- 方向 1 -->
+                    <div class="future-direction-card">
+                        <div class="future-direction-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="future-direction-title">统一多模态生成框架</h3>
+                        <p class="future-direction-description">
+                            构建能够一次性接受任意模态输入并输出多模态内容的通用模型，降低跨模态转换的成本，实现更自然的人机交互体验。
+                        </p>
+                    </div>
+                    
+                    <!-- 方向 2 -->
+                    <div class="future-direction-card">
+                        <div class="future-direction-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="future-direction-title">可解释与可控生成</h3>
+                        <p class="future-direction-description">
+                            提升提示工程的自动化程度，实现对风格、伦理约束的细粒度控制，增强生成内容的可靠性与透明度。
+                        </p>
+                    </div>
+                    
+                    <!-- 方向 3 -->
+                    <div class="future-direction-card">
+                        <div class="future-direction-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="future-direction-title">高效微调与少样本学习</h3>
+                        <p class="future-direction-description">
+                            在资源受限的场景（如小语种、专业领域）实现快速适配，降低AIGC技术的应用门槛和成本。
+                        </p>
+                    </div>
+                    
+                    <!-- 方向 4 -->
+                    <div class="future-direction-card">
+                        <div class="future-direction-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="future-direction-title">安全与治理</h3>
+                        <p class="future-direction-description">
+                            深化深伪造检测、版权追踪与合规审计技术，配合政策法规的落地，构建可信赖的AIGC生态系统。
+                        </p>
+                    </div>
+                    
+                    <!-- 方向 5 -->
+                    <div class="future-direction-card">
+                        <div class="future-direction-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="future-direction-title">教育与职业培训</h3>
+                        <p class="future-direction-description">
+                            探索AIGC在个性化教材、虚拟实验室、职业技能模拟中的长效价值，推动教育模式的创新与变革。
+                        </p>
+                    </div>
+                    
+                    <!-- 方向 6 -->
+                    <div class="future-direction-card">
+                        <div class="future-direction-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="future-direction-title">实时交互式生成</h3>
+                        <p class="future-direction-description">
+                            结合边缘计算与低延迟模型，实现实时视频、AR/VR内容的即时生成，拓展沉浸式应用场景。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+     <!-- 总结与展望 -->
+<section id="summary" class="latest-section" style="background-color: var(--section-background);">
+    <div class="container">
+        <h2 class="latest-section-heading">
+            <i class="fas fa-clipboard-check latest-section-icon"></i>
+            总结与展望
+        </h2>
+
+        
+        <div class="summary-section">
+            <!-- 技术层面总结 -->
+            <div class="summary-category">
+                <div class="summary-category-header">
+                    <span class="roman-numeral">Ⅰ</span>
+                    <h3 class="summary-category-title">技术层面</h3>
+                </div>
+                <div class="summary-category-content">
+                    <p>
+                        2024‑2025 年 AIGC 正在从单模态向多模态、从离线生成向实时交互、从"生成"向<span class="summary-highlight">"可控、可解释"</span>转变。技术的融合创新正在推动生成内容的质量和多样性达到新高度，同时算法的效率优化和资源消耗降低也成为研究重点。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 应用层面总结 -->
+            <div class="summary-category">
+                <div class="summary-category-header">
+                    <span class="roman-numeral">Ⅱ</span>
+                    <h3 class="summary-category-title">应用层面</h3>
+                </div>
+                <div class="summary-category-content">
+                    <p>
+                        教育、媒体舆情、3D 内容创作、音频音乐、政策监管等场景已形成较为成熟的落地案例。AIGC正在从<span class="summary-highlight">"技术演示"</span>向<span class="summary-highlight">"商业价值"</span>转变，在各行各业中创造实际的生产力提升和用户体验改善。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 挑战总结 -->
+            <div class="summary-category">
+                <div class="summary-category-header">
+                    <span class="roman-numeral">Ⅲ</span>
+                    <h3 class="summary-category-title">挑战与难点</h3>
+                </div>
+                <div class="summary-category-content">
+                    <p>
+                        数据稀缺、跨模态对齐、伦理合规、深伪造风险仍是研究的核心难点。随着技术的普及，<span class="summary-highlight">版权归属</span>、<span class="summary-highlight">内容真实性验证</span>和<span class="summary-highlight">算法偏见</span>等问题也日益凸显，需要学术界、产业界和监管机构的协同努力。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 展望 -->
+            <div class="summary-category">
+                <div class="summary-category-header">
+                    <span class="roman-numeral">Ⅳ</span>
+                    <h3 class="summary-category-title">未来展望</h3>
+                </div>
+                <div class="summary-category-content">
+                    <p>
+                        随着技术的不断成熟，AIGC将在<span class="summary-highlight">个性化服务</span>、<span class="summary-highlight">创意产业赋能</span>和<span class="summary-highlight">人机协同创新</span>等领域发挥更大作用。同时，建立完善的技术标准、伦理规范和法律框架将成为确保AIGC健康可持续发展的关键。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        <!-- 统一网站页脚 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- 关于我们区域 -->
+      <div class="footer-about">
+        <h2 class="footer-logo">
+          <a href="index.html">
+            <i class="fas fa-brain" aria-hidden="true"></i>
+            AIGC探索
+          </a>
+        </h2>
+        <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
+        <div class="footer-social">
+          <a href="https://weibo.com" aria-label="访问微博" target="_blank"><i class="fab fa-weibo"></i></a>
+          <a href="https://www.bilibili.com" aria-label="访问B站" target="_blank"><i class="fab fa-bilibili"></i></a>
+          <a href="https://www.qq.com" aria-label="访问QQ" target="_blank"><i class="fab fa-qq"></i></a>
+          <a href="https://www.zhihu.com" aria-label="访问知乎" target="_blank"><i class="fab fa-zhihu"></i></a>
+        </div>
+      </div>
+      
+      <!-- 快速链接区域 - 更新为8个导航链接 -->
+      <div class="footer-nav">
+        <h3 class="footer-nav-title">核心导航</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="tech.html">技术原理</a></li>
+          <li><a href="applications.html">应用场景</a></li>
+          <li><a href="trends.html">发展趋势</a></li>
+          <li><a href="resources.html">学习资源</a></li>
+          <li><a href="AIGC-tools.html">实用工具</a></li>
+          <li><a href="case-study.html">案例实践</a></li>
+          <li><a href="lately.html">研究前沿</a></li>
+        </ul>
+      </div>
+      
+      <!-- 联系区域 -->
+      <div class="footer-contact">
+        <h3 class="footer-contact-title">联系我们</h3>
+        <ul class="footer-contact-list">
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">邮箱</span>
+              <a href="mailto:zyh20070814@163.com">zyh20070814@163.com</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">电话</span>
+              <a href="tel:123456789">123456789</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">地址</span>
+              <a href="#">北京市海淀区中关村科技园</a>
+            </div>
+          </li>
+        </ul>
+        
+        
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span>&copy; 2025 数字媒体技术课程项目 - AIGC探索小组 | 本网站仅供教育用途</span>
+        <a >知识共享许可协议</a>
+      </div>
+      <div class="footer-legal">
+        <div class="accessibility-statement">
+          <a  aria-label="查看我们的无障碍声明">
+            <i class="fas fa-universal-access" aria-hidden="true"></i>
+            无障碍声明
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- 辅助功能工具 -->
+    <div class="accessibility-tools">
+        <button id="contrast-toggle" class="accessibility-btn" aria-label="切换高对比度模式">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button id="font-increase" class="accessibility-btn" aria-label="增大字体大小">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button id="font-decrease" class="accessibility-btn" aria-label="减小字体大小">
+            <i class="fas fa-text-width"></i>
+        </button>
+    </div>
+    
+    <script>
+        // 移动菜单功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                
+                // 点击菜单外区域关闭菜单
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        mobileMenuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 辅助功能工具
+            const contrastToggle = document.getElementById('contrast-toggle');
+            const fontIncrease = document.getElementById('font-increase');
+            const fontDecrease = document.getElementById('font-decrease');
+            
+            if (contrastToggle) {
+                contrastToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('high-contrast');
+                    
+                    // 保存用户偏好
+                    const isHighContrast = document.body.classList.contains('high-contrast');
+                    localStorage.setItem('highContrast', isHighContrast);
+                    
+                    // 提供视觉反馈
+                    this.style.backgroundColor = isHighContrast ? '#000' : '#3a4e8c';
+                });
+            }
+            
+            if (fontIncrease) {
+                fontIncrease.addEventListener('click', function() {
+                    changeFontSize(1);
+                });
+            }
+            
+            if (fontDecrease) {
+                fontDecrease.addEventListener('click', function() {
+                    changeFontSize(-1);
+                });
+            }
+            
+            function changeFontSize(direction) {
+                const currentSize = parseInt(getComputedStyle(document.documentElement).fontSize);
+                const newSize = currentSize + direction;
+                
+                // 限制字体大小范围
+                if (newSize >= 12 && newSize <= 24) {
+                    document.documentElement.style.fontSize = newSize + 'px';
+                    
+                    // 保存用户偏好
+                    localStorage.setItem('fontSize', newSize);
+                }
+            }
+            
+            // 恢复用户偏好
+            function restoreUserPreferences() {
+                // 恢复高对比度设置
+                const highContrast = localStorage.getItem('highContrast');
+                if (highContrast === 'true') {
+                    document.body.classList.add('high-contrast');
+                    if (contrastToggle) {
+                        contrastToggle.style.backgroundColor = '#000';
+                    }
+                }
+                
+                // 恢复字体大小
+                const fontSize = localStorage.getItem('fontSize');
+                if (fontSize) {
+                    document.documentElement.style.fontSize = fontSize + 'px';
+                }
+            }
+            
+            // ========== 侧边导航栏功能 ==========
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarNav = document.getElementById('sidebarNav');
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav-link');
+            
+            // 切换侧边导航栏
+            if (sidebarToggle && sidebarNav) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    sidebarToggle.classList.toggle('active');
+                    sidebarNav.classList.toggle('active');
+                    
+                    // 更新ARIA状态
+                    const isExpanded = sidebarNav.classList.contains('active');
+                    sidebarToggle.setAttribute('aria-expanded', isExpanded);
+                    sidebarToggle.setAttribute('aria-label', isExpanded ? '收起页内导航' : '展开页内导航');
+                });
+                
+                // 点击侧边导航外部关闭
+                document.addEventListener('click', function(e) {
+                    if (!sidebarNav.contains(e.target) && !sidebarToggle.contains(e.target) && sidebarNav.classList.contains('active')) {
+                        sidebarToggle.classList.remove('active');
+                        sidebarNav.classList.remove('active');
+                        sidebarToggle.setAttribute('aria-expanded', 'false');
+                        sidebarToggle.setAttribute('aria-label', '展开页内导航');
+                    }
+                });
+                
+                // 阻止侧边导航内的点击事件冒泡
+                sidebarNav.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            // 平滑滚动到页面锚点
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // 计算偏移量，考虑固定导航栏的高度
+                        const headerHeight = document.querySelector('.site-header').offsetHeight;
+                        const offset = headerHeight + 20;
+                        
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 更新URL哈希
+                        history.pushState(null, null, targetId);
+                        
+                        // 更新导航栏活动状态
+                        updateNavActiveState();
+                        
+                        // 在移动设备上点击后关闭侧边导航
+                        if (window.innerWidth <= 768) {
+                            sidebarToggle.classList.remove('active');
+                            sidebarNav.classList.remove('active');
+                            sidebarToggle.setAttribute('aria-expanded', 'false');
+                            sidebarToggle.setAttribute('aria-label', '展开页内导航');
+                        }
+                    }
+                });
+            });
+            
+            // 更新导航栏活动状态
+            function updateNavActiveState() {
+                // 获取所有部分
+                const sections = document.querySelectorAll('.latest-section');
+                const scrollPosition = window.scrollY + 150; // 增加偏移量以便更早激活
+                
+                // 移除所有活动状态
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // 确定当前活动部分
+                let currentActiveSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentActiveSection = '#' + section.id;
+                    }
+                });
+                
+                // 如果没有活动部分，默认选择第一个
+                if (!currentActiveSection && sections.length > 0) {
+                    currentActiveSection = '#' + sections[0].id;
+                }
+                
+                // 为对应链接添加活动状态
+                sidebarLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentActiveSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', updateNavActiveState);
+            
+            // 窗口大小改变时重新计算
+            window.addEventListener('resize', updateNavActiveState);
+            
+            // 时间线动画触发
+            function animateTimelineItems() {
+                const timelineItems = document.querySelectorAll('.paper-item');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animationPlayState = 'running';
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.2 });
+                
+                timelineItems.forEach(item => {
+                    // 初始状态暂停动画
+                    item.style.animationPlayState = 'paused';
+                    observer.observe(item);
+                });
+            }
+            
+            // 初始化页面
+            restoreUserPreferences();
+            updateNavActiveState();
+            animateTimelineItems();
+            
+            // 将最新研究设为当前（第8个栏目）
+            const currentNavItem = document.querySelector('.nav-item:nth-child(8)');
+            if (currentNavItem) currentNavItem.classList.add('current');
+        });
+         // 在现有的滚动监听中添加导航栏隐藏/显示逻辑
+let lastScrollTop = 0;
+const latelyNavSection = document.querySelector('.case-nav-section');
+const headerHeight = document.querySelector('.site-header').offsetHeight;
+
+window.addEventListener('scroll', function() {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // 向下滚动时隐藏导航栏
+  if (scrollTop > lastScrollTop && scrollTop > 100) {
+    latelySection.style.transform = 'translateY(-100%)';
+    latelySection.style.transition = 'transform 0.3s ease';
+  } 
+  // 向上滚动时显示导航栏
+  else {
+    latelyNavSection.style.transform = 'translateY(0)';
+  }
+  
+  lastScrollTop = scrollTop;
+  
+  // 原有的更新导航状态逻辑
+  updateNavActiveState();
+});
+        
+        
+    </script>
+</body>
+</html>

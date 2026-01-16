@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="探索人工智能生成内容(AIGC)的实际应用案例与成功实践">
+    <title>AIGC案例集 | AIGC探索</title>
+    <link rel="stylesheet" href="style-new.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;800&family=Noto+Serif+SC:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== 案例研究页面专属样式 ========== */
+        
+        /* 英雄区域 - 深蓝紫色渐变;*/
+
+        .case-hero {
+            
+            background: linear-gradient(155deg, 
+                #1a2b3e 0%, 
+                #243c56 50%, 
+                #3a4e8c 100%);
+            );
+            color: white;
+            padding: 5rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+
+       
+        .case-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .case-hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .case-hero-title-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .case-hero-heading {
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            color: #ffffff;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .case-hero-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #c9a959 20%, 
+                #e0c98a 50%, 
+                #c9a959 80%, 
+                transparent 100%);
+            border-radius: 2px;
+        }
+
+        .case-hero-subtitle {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 800px;
+            font-weight: 300;
+            line-height: 1.6;
+            margin: 1.5rem auto 0;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        /* ========== 新增的法式鸢尾花(⚜)装饰元素 ========== */
+        .case-hero-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .case-fleur-de-lis {
+            position: absolute;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: rgba(201, 169, 89, 0.25); /* 金色半透明，与页面主题色协调 */
+            font-size: 7rem;
+            opacity: 0.3;
+            animation: caseFleurSpin 40s infinite linear;
+            pointer-events: none;
+        }
+        
+        @keyframes caseFleurSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* 每个鸢尾花的不同位置和动画参数 - 左边两朵，右边一朵 */
+.case-fleur-de-lis:nth-child(1) {
+    top: 20%;
+    left: 8%;
+    animation-delay: 0s;
+    font-size: 7rem;
+}
+
+.case-fleur-de-lis:nth-child(2) {
+    bottom: 20%;
+    left: 12%;
+    animation-delay: 5s;
+    animation-direction: reverse; /* 反向旋转 */
+    font-size: 6rem;
+}
+
+.case-fleur-de-lis:nth-child(3) {
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    animation-delay: 10s;
+    font-size: 8rem;
+}
+
+.case-fleur-de-lis:nth-child(4) {
+    display: none; /* 隐藏第四朵花，因为我们只需要三朵 */
+}
+        
+        /* 法式条纹装饰 */
+        .case-stripe {
+            position: absolute;
+            height: 100%;
+            width: 80px;
+            opacity: 0.04;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.5) 50%, 
+                transparent 100%);
+            animation: caseStripeMove 25s infinite linear;
+            pointer-events: none;
+        }
+        
+        @keyframes caseStripeMove {
+            0% {
+                transform: translateX(-100%) skewX(15deg);
+            }
+            100% {
+                transform: translateX(100vw) skewX(15deg);
+            }
+        }
+        
+        .case-stripe:nth-child(5) {
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+        
+        .case-stripe:nth-child(6) {
+            top: 0;
+            left: 200px;
+            animation-delay: 4s;
+            animation-duration: 30s;
+        }
+        
+        .case-stripe:nth-child(7) {
+            top: 0;
+            left: 500px;
+            animation-delay: 8s;
+            animation-duration: 35s;
+        }
+       
+        /* 目录导航区 - 简化标签页样式 */
+        .case-nav-section {
+            background-color: white;
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 115px;
+            z-index: 90;
+            box-shadow: 0 2px 10px rgba(44, 62, 118, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .case-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .case-nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 1rem;
+        }
+
+        .case-nav-tab {
+            flex: 0 1 auto;
+        }
+
+        .case-nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            background-color: #f5f7fa;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-color-light));
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            z-index: -1;
+        }
+
+        .case-nav-link:hover, 
+        .case-nav-link:focus,
+        .case-nav-link.active {
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .case-nav-link:hover::before,
+        .case-nav-link:focus::before,
+        .case-nav-link.active::before {
+            opacity: 1;
+        }
+
+        /* 案例内容区 */
+        .case-content-section {
+            padding: 5rem 0;
+            scroll-margin-top: 160px; /* 考虑导航栏高度 */
+        }
+
+        .case-content-section:nth-child(odd) {
+            background-color:  #f5f7fa;
+        }
+
+        .case-content-section:nth-child(even) {
+            background-color: var(--section-background);
+        }
+
+        .case-section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .case-section-header {
+            margin-bottom: 3.5rem;
+            text-align: center;
+        }
+
+        .case-section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .case-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+            border-radius: 2px;
+        }
+
+        .case-section-intro {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.7;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* ========== 多种内容展示方式 ========== */
+        
+        /* 1. 卡片网格布局 - 适用于多个案例 */
+        .case-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 简约卡片设计 */
+        .case-card {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+            opacity: 0.8;
+        }
+
+        .case-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .case-card-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .case-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            line-height: 1.3;
+        }
+
+        .case-card-challenge {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            padding-left: 1rem;
+            border-left: 3px solid var(--border-color-light);
+        }
+
+        /* 改进的技术栈标签 */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background-color: rgba(26, 91, 158, 0.08);
+            color: var(--philosophy-accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(26, 91, 158, 0.15);
+            transition: all var(--transition-fast);
+        }
+
+        .tech-tag:hover {
+            background-color: rgba(26, 91, 158, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(26, 91, 158, 0.1);
+        }
+
+        /* 关键指标展示 */
+        .case-card-results {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color-light);
+        }
+
+        .results-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .results-title::before {
+            content: '';
+            width: 20px;
+            height: 2px;
+            background-color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(201, 169, 89, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(201, 169, 89, 0.1);
+            transition: transform var(--transition-fast);
+        }
+
+        .result-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(201, 169, 89, 0.1);
+        }
+
+        .result-metric {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* 2. 时间线布局 - 适用于发展历程 */
+        .timeline-layout {
+            position: relative;
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .timeline-layout::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--philosophy-accent-blue));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+
+        .timeline-content {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            width: 90%;
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            z-index: 1;
+            border: 4px solid white;
+            box-shadow: 0 0 0 3px var(--primary-color);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            right: auto;
+            left: -12px;
+        }
+
+        .timeline-year {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: rgba(44, 62, 118, 0.1);
+            border-radius: var(--radius-sm);
+        }
+
+        /* 3. 对比表格布局 - 适用于技术对比 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5rem 0;
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            font-size: 1rem;
+        }
+
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .comparison-table td {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-fast);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: var(--section-background);
+        }
+
+        .comparison-table tr:hover {
+            background-color: rgba(44, 62, 118, 0.05);
+        }
+
+        /* 4. 数据可视化区块 - 适用于统计信息 */
+        .data-visualization {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .data-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+        }
+
+        .data-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .data-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .data-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* 5. 混合布局 - 图文结合 */
+        .mixed-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin: 3rem 0;
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .mixed-content {
+            padding-right: 1rem;
+        }
+
+        .mixed-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .mixed-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .mixed-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mixed-visual img {
+            max-width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 6. 详细案例展示区块 */
+        .detailed-case {
+            background-color: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detailed-case::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--primary-color-light));
+        }
+
+        .detailed-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .detailed-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .detailed-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .detailed-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .detailed-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detailed-section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--primary-color);
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(44, 62, 118, 0.1);
+            position: relative;
+        }
+
+        .detailed-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .detailed-section-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .detailed-section-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .detailed-section-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .detailed-section-content li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+
+        /* 7. 瀑布流布局 - 适用于创意内容 */
+        .waterfall-layout {
+            column-count: 3;
+            column-gap: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .waterfall-item {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+            background-color: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform var(--transition-normal);
+        }
+
+        .waterfall-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .waterfall-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .waterfall-content {
+            padding: 1.5rem;
+        }
+
+        /* 章节分隔装饰 */
+        .section-divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+            margin: 4rem auto;
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .case-hero-heading {
+                font-size: 2.8rem;
+            }
+            
+            .case-hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            /* 响应式调整法式鸢尾花 */
+            .case-fleur-de-lis {
+                font-size: 5rem;
+            }
+            
+            .case-fleur-de-lis:nth-child(2) {
+                font-size: 6rem;
+            }
+            
+            .case-fleur-de-lis:nth-child(4) {
+                font-size: 5.5rem;
+            }
+            
+            .mixed-layout {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                padding: 2rem;
+            }
+            
+            .mixed-content {
+                padding-right: 0;
+            }
+            
+            .waterfall-layout {
+                column-count: 2;
+            }
+            
+            .timeline-layout::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                padding-right: 0;
+                padding-left: 80px;
+                justify-content: flex-start;
+            }
+            
+            .timeline-item:nth-child(even) {
+                padding-left: 80px;
+            }
+            
+            .timeline-content::before {
+                left: -50px;
+                right: auto;
+            }
+            
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -50px;
+            }
+            
+            .detailed-case {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-hero {
+                padding: 4rem 0 3rem;
+                min-height: 50vh;
+            }
+            
+            .case-hero-heading {
+                font-size: 2.4rem;
+            }
+            
+            .case-hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            /* 响应式调整法式鸢尾花 */
+            .case-fleur-de-lis {
+                font-size: 4rem;
+                opacity: 0.2;
+            }
+            
+            .case-fleur-de-lis:nth-child(2) {
+                font-size: 5rem;
+            }
+            
+            .case-fleur-de-lis:nth-child(3),
+            .case-fleur-de-lis:nth-child(4) {
+                font-size: 3.5rem;
+            }
+            
+            .case-nav-section {
+                top: 70px;
+            }
+            
+            .case-nav-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+                gap: 1rem;
+            }
+            
+            .case-nav-tab {
+                flex: 0 0 auto;
+            }
+            
+            .case-section-title {
+                font-size: 2rem;
+            }
+            
+            .case-section-intro {
+                font-size: 1.15rem;
+            }
+            
+            .case-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .waterfall-layout {
+                column-count: 1;
+            }
+            
+            .data-visualization {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .mixed-layout {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .case-hero-heading {
+                font-size: 2rem;
+            }
+            
+            .case-hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            /* 响应式调整法式鸢尾花 */
+            .case-fleur-de-lis {
+                font-size: 3rem;
+            }
+            
+            .case-fleur-de-lis:nth-child(2) {
+                font-size: 4rem;
+            }
+            
+            .case-fleur-de-lis:nth-child(3),
+            .case-fleur-de-lis:nth-child(4) {
+                font-size: 2.5rem;
+            }
+            
+            .case-section-title {
+                font-size: 1.8rem;
+            }
+            
+            .case-section-intro {
+                font-size: 1.1rem;
+            }
+            
+            .detailed-case {
+                padding: 1.8rem;
+            }
+            
+            .data-item {
+                padding: 2rem 1.5rem;
+            }
+            
+            .data-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 跳过导航链接 - 辅助功能 -->
+    <a class="skip-to-main" href="#main-content">跳过导航直接进入主要内容</a>
+    
+    <!-- 网站头部 -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-area">
+                <h1 class="site-title">
+                    <a href="index-new.html" aria-label="AIGC探索网站首页">
+                        <!-- 使用fa-brain图标表示人工智能 -->
+                        <span class="logo-icon"><i class="fas fa-brain"></i></span>
+                        AIGC指南
+                    </a>
+                </h1>
+                <!-- 副标题已通过CSS隐藏 -->
+                <p class="site-subtitle">人工智能生成内容的前沿进展</p>
+            </div>
+            
+            <!-- 统一主导航 - 八大栏目 -->
+            <nav class="main-nav" aria-label="主导航">
+                <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="切换导航菜单">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+                
+                <ul id="primary-menu" class="nav-menu">
+                    <!-- 首页 -->
+                    <li class="nav-item"><a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">
+                            <span>首</span>
+                            <span>页</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 技术原理 -->
+                    <li class="nav-item"><a href="tech.html" class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <span class="nav-text">
+                            <span>技术</span>
+                            <span>原理</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 应用场景 -->
+                    <li class="nav-item"><a href="applications.html" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <span class="nav-text">
+                            <span>应用</span>
+                            <span>场景</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 发展趋势 -->
+                    <li class="nav-item"><a href="trends.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">
+                            <span>发展</span>
+                            <span>趋势</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 学习资源 -->
+                    <li class="nav-item"><a href="resources.html" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        <span class="nav-text">
+                            <span>学习</span>
+                            <span>资源</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- AIGC工具 -->
+                    <li class="nav-item"><a href="AIGC-tools.html" class="nav-link">
+                        <i class="fas fa-tools"></i>
+                        <span class="nav-text">
+                            <span>实用</span>
+                            <span>工具</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 案例研究（当前页面） -->
+                    <li class="nav-item current"><a href="case-study.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">
+                            <span>案例</span>
+                            <span>实践</span>
+                        </span>
+                    </a></li>
+                    
+                    <!-- 最新研究 -->
+                    <li class="nav-item"><a href="lately.html" class="nav-link">
+                        <i class="fas fa-infinity"></i>
+                        <span class="nav-text">
+                            <span>研究</span>
+                            <span>前沿</span>
+                        </span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 主内容区域 -->
+    <main id="main-content" class="main-content" tabindex="-1">
+        <!-- 案例研究英雄区域 -->
+        <section class="case-hero" aria-labelledby="hero-heading">
+            <!-- 新增的法式鸢尾花装饰元素 -->
+            <div class="case-hero-decoration">
+                <!-- 法式鸢尾花装饰 -->
+                <div class="case-fleur-de-lis">⚜</div>
+                <div class="case-fleur-de-lis">⚜</div>
+                <div class="case-fleur-de-lis">⚜</div>
+                <div class="case-fleur-de-lis">⚜</div>
+                
+                <!-- 法式条纹 -->
+                <div class="case-stripe"></div>
+                <div class="case-stripe"></div>
+                <div class="case-stripe"></div>
+            </div>
+            
+            <div class="iris-decoration">
+                <div class="iris-flower iris-flower-1">
+                    <div class="iris-petal iris-petal-1"></div>
+                    <div class="iris-petal iris-petal-2"></div>
+                    <div class="iris-petal iris-petal-3"></div>
+                    <div class="iris-petal iris-petal-4"></div>
+                    <div class="iris-petal iris-petal-5"></div>
+                    <div class="iris-center"></div>
+                </div>
+                <div class="iris-flower iris-flower-2">
+                    <div class="iris-petal iris-petal-1"></div>
+                    <div class="iris-petal iris-petal-2"></div>
+                    <div class="iris-petal iris-petal-3"></div>
+                    <div class="iris-petal iris-petal-4"></div>
+                    <div class="iris-petal iris-petal-5"></div>
+                    <div class="iris-center"></div>
+                </div>
+                <div class="iris-flower iris-flower-3">
+                    <div class="iris-petal iris-petal-1"></div>
+                    <div class="iris-petal iris-petal-2"></div>
+                    <div class="iris-petal iris-petal-3"></div>
+                    <div class="iris-petal iris-petal-4"></div>
+                    <div class="iris-petal iris-petal-5"></div>
+                    <div class="iris-center"></div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="case-hero-container">
+                <div class="case-hero-content">
+                    <div class="case-hero-title-area">
+                        <h1 id="hero-heading" class="case-hero-heading">AIGC案例集</h1>
+                        <p class="case-hero-subtitle">深入剖析人工智能生成内容在各行业的创新应用，探索AIGC如何重塑企业增效、智慧教育、智能建造、媒体创作与行业洞察</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 目录导航区 -->
+        <section class="case-nav-section" id="case-nav">
+            <div class="case-nav-container">
+                <ul class="case-nav-tabs">
+                    <li class="case-nav-tab">
+                        <a href="#enterprise" class="case-nav-link active">企业增效</a>
+                    </li>
+                    <li class="case-nav-tab">
+                        <a href="#education" class="case-nav-link">智慧教育</a>
+                    </li>
+                    <li class="case-nav-tab">
+                        <a href="#construction" class="case-nav-link">智能建造</a>
+                    </li>
+                    <li class="case-nav-tab">
+                        <a href="#media" class="case-nav-link">媒体与创作</a>
+                    </li>
+                    <li class="case-nav-tab">
+                        <a href="#insights" class="case-nav-link">行业洞察</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 案例内容区 -->
+        <div id="case-studies">
+            
+            <!-- 企业增效板块 -->
+            <section id="enterprise" class="case-content-section">
+                <div class="case-section-container">
+                    <div class="case-section-header">
+                        <h2 class="case-section-title">企业增效：AI Agent助手的流程革命</h2>
+                        <p class="case-section-intro">AIGC技术通过AI Agent助手优化企业内部流程，自动化处理工单、文档生成与会议纪要，显著提升工作效率与响应速度。</p>
+                    </div>
+                    
+                    <!-- 数据可视化区块 -->
+                    <div class="data-visualization">
+                        <div class="data-item">
+                            <div class="data-value">30%</div>
+                            <div class="data-label">工单响应时间缩短</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-value">45%</div>
+                            <div class="data-label">文档质量提升</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-value">500+</div>
+                            <div class="data-label">月节省工时(小时)</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-value">60%</div>
+                            <div class="data-label">会议纪要效率提升</div>
+                        </div>
+                    </div>
+                    
+                    <div class="case-cards-grid">
+                        <!-- 案例卡片 1 -->
+                        <div class="case-card">
+                            <div class="case-card-header">
+                                <h3 class="case-card-title">AI Agent内部流程自动化</h3>
+                                <p class="case-card-challenge">某大型互联网公司内部工单处理流程繁琐，文档生成与会议纪要撰写占用大量人力资源，响应时间长且质量不稳定。</p>
+                            </div>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">大语言模型</span>
+                                <span class="tech-tag">自然语言处理</span>
+                                <span class="tech-tag">流程自动化</span>
+                                <span class="tech-tag">知识图谱</span>
+                            </div>
+                            
+                            <div class="case-card-results">
+                                <div class="results-title">核心成效</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <div class="result-metric">30%</div>
+                                        <div class="result-label">工单响应时间缩短</div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-metric">45%</div>
+                                        <div class="result-label">文档质量提升</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例卡片 2 -->
+                        <div class="case-card">
+                            <div class="case-card-header">
+                                <h3 class="case-card-title">智能客户服务助手</h3>
+                                <p class="case-card-challenge">电商平台客服系统面临大量重复性问题，人工客服效率低下，客户等待时间长，满意度有待提升。</p>
+                            </div>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">对话系统</span>
+                                <span class="tech-tag">情感分析</span>
+                                <span class="tech-tag">多轮对话</span>
+                                <span class="tech-tag">知识库集成</span>
+                            </div>
+                            
+                            <div class="case-card-results">
+                                <div class="results-title">核心成效</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <div class="result-metric">70%</div>
+                                        <div class="result-label">重复问题自动处理</div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-metric">40%</div>
+                                        <div class="result-label">客户满意度提升</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 章节分隔 -->
+            <div class="section-divider"></div>
+            
+            <!-- 智慧教育板块 -->
+            <section id="education" class="case-content-section">
+                <div class="case-section-container">
+                    <div class="case-section-header">
+                        <h2 class="case-section-title">智慧教育：个性化与版权保护的新范式</h2>
+                        <p class="case-section-intro">AIGC技术赋能教育领域，实现个性化教学资源生成与版权保护，提升教学质量同时确保教育资源安全。</p>
+                    </div>
+                    
+                  <!-- 混合布局 - 图文结合 -->
+<div class="mixed-layout">
+    <div class="mixed-content">
+        <h3>教育场景的水印生成系统</h3>
+        <p>在AI教育平台中，利用AIGC自动为教材、图片、音频、视频生成防伪水印。通过文本‑图像‑音频‑视频四种形态的水印技术，提升教学资源的版权保护与溯源能力。</p>
+        
+        <div class="tech-tags" style="margin-top: 1.5rem;">
+            <span class="tech-tag">大语言模型</span>
+            <span class="tech-tag">Stable Diffusion</span>
+            <span class="tech-tag">音频合成模型</span>
+            <span class="tech-tag">帧级嵌入技术</span>
+        </div>
+    </div>
+    <div class="mixed-visual">
+        <!-- 替换为指定图片 -->
+        <img src="https://shuiyinyun.com/upload/default/20220617/d74596b3ab9c326a255731f7b57d98e6.png" alt="水印生成系统示意图" style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+    </div>
+</div>
+                    
+                    <!-- 对比表格布局 -->
+                    <h3 style="margin-top: 4rem; margin-bottom: 1.8rem; font-size: 1.8rem; color: var(--primary-color);">不同水印技术对比</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>水印类型</th>
+                                <th>技术原理</th>
+                                <th>检测准确率</th>
+                                <th>抗攻击能力</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>文本水印</td>
+                                <td>大语言模型生成</td>
+                                <td>98%</td>
+                                <td>高</td>
+                            </tr>
+                            <tr>
+                                <td>图像水印</td>
+                                <td>Stable Diffusion生成</td>
+                                <td>96%</td>
+                                <td>中</td>
+                            </tr>
+                            <tr>
+                                <td>音频水印</td>
+                                <td>音频合成模型嵌入</td>
+                                <td>95%</td>
+                                <td>中</td>
+                            </tr>
+                            <tr>
+                                <td>视频水印</td>
+                                <td>帧级嵌入技术</td>
+                                <td>94%</td>
+                                <td>高</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="case-cards-grid" style="margin-top: 4rem;">
+                        <!-- 案例卡片 3 -->
+                        <div class="case-card">
+                            <div class="case-card-header">
+                                <h3 class="case-card-title">智能教学案例生成</h3>
+                                <p class="case-card-challenge">清华大学新闻与传播学院需要大量高质量教学案例，传统人工创作耗时耗力，难以满足个性化教学需求。</p>
+                            </div>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">GPT-4</span>
+                                <span class="tech-tag">文心一言</span>
+                                <span class="tech-tag">内容生成模型</span>
+                                <span class="tech-tag">教育大数据</span>
+                            </div>
+                            
+                            <div class="case-card-results">
+                                <div class="results-title">核心成效</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <div class="result-metric">80%</div>
+                                        <div class="result-label">案例生成时间缩短</div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-metric">300+</div>
+                                        <div class="result-label">个性化案例生成</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例卡片 4 -->
+                        <div class="case-card">
+                            <div class="case-card-header">
+                                <h3 class="case-card-title">数据采集与分析课程</h3>
+                                <p class="case-card-challenge">广东东软学院编程课程缺乏典型问题与代码示例，学生实践机会有限，难以快速掌握数据分析方法。</p>
+                            </div>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">ChatGPT</span>
+                                <span class="tech-tag">代码生成</span>
+                                <span class="tech-tag">数据分析</span>
+                                <span class="tech-tag">自适应学习</span>
+                            </div>
+                            
+                            <div class="case-card-results">
+                                <div class="results-title">核心成效</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <div class="result-metric">50%</div>
+                                        <div class="result-label">学习效率提升</div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-metric">85%</div>
+                                        <div class="result-label">学生通过率提升</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 章节分隔 -->
+            <div class="section-divider"></div>
+            
+            <!-- 智能建造板块 -->
+            <section id="construction" class="case-content-section">
+                <div class="case-section-container">
+                    <div class="case-section-header">
+                        <h2 class="case-section-title">智能建造：智慧工地安全预警新方案</h2>
+                        <p class="case-section-intro">AIGC技术结合物联网与BIM模型，实现智慧工地安全预警与自动化报告生成，显著提升建筑项目协同效率与安全性。</p>
+                    </div>
+                    
+                    <!-- 详细案例展示区块 -->
+                    <div class="detailed-case">
+                        <div class="detailed-header">
+                            <h3 class="detailed-title">智慧工地安全预警系统</h3>
+                            <p class="detailed-subtitle">在"智慧工地安全预警系统"项目中，学生团队结合物联网传感器、数据可视化和AIGC技术，实现了BIM模型与传感器数据的自动关联，并自动生成安全报告和应急预案。</p>
+                        </div>
+                        
+                        <div class="detailed-sections">
+                            <div class="detailed-section">
+                                <h4 class="detailed-section-title">技术架构</h4>
+                                <div class="detailed-section-content">
+                                    <ul>
+                                        <li>物联网传感器实时监控工地环境与设备状态</li>
+                                        <li>BIM模型与传感器数据自动关联与可视化</li>
+                                        <li>AIGC自动生成安全报告与应急预案</li>
+                                        <li>风险预警与智能调度，提前预防安全事故</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="detailed-section">
+                                <h4 class="detailed-section-title">实施效果</h4>
+                                <div class="detailed-section-content">
+                                    <div class="results-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 1rem;">
+                                        <div class="result-item">
+                                            <div class="result-metric">65%</div>
+                                            <div class="result-label">安全事故减少</div>
+                                        </div>
+                                        <div class="result-item">
+                                            <div class="result-metric">40%</div>
+                                            <div class="result-label">报告生成效率</div>
+                                        </div>
+                                        <div class="result-item">
+                                            <div class="result-metric">50%</div>
+                                            <div class="result-label">协同效率提升</div>
+                                        </div>
+                                        <div class="result-item">
+                                            <div class="result-metric">实时</div>
+                                            <div class="result-label">风险预警响应</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 章节分隔 -->
+            <div class="section-divider"></div>
+            
+            <!-- 媒体与创作板块 -->
+            <section id="media" class="case-content-section">
+                <div class="case-section-container">
+                    <div class="case-section-header">
+                        <h2 class="case-section-title">媒体与创作：AIGC赋能内容生产新纪元</h2>
+                        <p class="case-section-intro">AIGC技术重塑视频剪辑、电商直播、动画制作与城市宣传片创作流程，大幅提升内容生产效率与创意表现力。</p>
+                    </div>
+                    
+                    <!-- 时间线布局 -->
+                    <div class="timeline-layout">
+                        <h3 style="text-align: center; margin-bottom: 3rem; font-size: 1.8rem; color: var(--primary-color);">AIGC媒体应用发展历程</h3>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">2022</div>
+                                <h4>视频智能剪辑与推荐</h4>
+                                <p>Adobe Premiere Pro引入"智能剪辑"功能，利用AIGC对素材进行内容分析、关键镜头自动挑选、节奏调节与转场添加。</p>
+                                <div class="tech-tags" style="margin-top: 0.8rem;">
+                                    <span class="tech-tag">视觉特征提取</span>
+                                    <span class="tech-tag">生成式编辑</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">2023</div>
+                                <h4>电商直播与虚拟主播</h4>
+                                <p>电商平台利用AIGC生成产品描述、自动回答常见问题，并通过虚拟主播实现24/7全天候直播。</p>
+                                <div class="tech-tags" style="margin-top: 0.8rem;">
+                                    <span class="tech-tag">虚拟人技术</span>
+                                    <span class="tech-tag">实时交互分析</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">2024</div>
+                                <h4>城市形象宣传片</h4>
+                                <p>全国首个系列城市主题AI宣传片《万千气象 AI 中国》采用Midjourney、Sora等生成式模型完成视觉内容。</p>
+                                <div class="tech-tags" style="margin-top: 0.8rem;">
+                                    <span class="tech-tag">文本‑图像‑视频生成</span>
+                                    <span class="tech-tag">多渠道传播</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="case-cards-grid" style="margin-top: 4rem;">
+                        <!-- 案例卡片 5 -->
+                        <div class="case-card">
+                            <div class="case-card-header">
+                                <h3 class="case-card-title">动画制作AIGC赋能</h3>
+                                <p class="case-card-challenge">动画短片《The Dog and the Boy》全流程采用AIGC辅助，包括角色造型、场景布局、剧本创作以及配乐。</p>
+                            </div>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">GAN模型</span>
+                                <span class="tech-tag">文本‑图像生成</span>
+                                <span class="tech-tag">AI音频合成</span>
+                                <span class="tech-tag">VR/AR预览</span>
+                            </div>
+                            
+                            <div class="case-card-results">
+                                <div class="results-title">核心成效</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <div class="result-metric">40%</div>
+                                        <div class="result-label">制作周期缩短</div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-metric">30%</div>
+                                        <div class="result-label">成本降低</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例卡片 6 -->
+                        <div class="case-card">
+                            <div class="case-card-header">
+                                <h3 class="case-card-title">电商直播智能优化</h3>
+                                <p class="case-card-challenge">某电商平台直播转化率有待提升，人工主播无法实现全天候覆盖，产品介绍缺乏个性化。</p>
+                            </div>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">虚拟主播</span>
+                                <span class="tech-tag">动态脚本生成</span>
+                                <span class="tech-tag">实时数据分析</span>
+                                <span class="tech-tag">个性化推荐</span>
+                            </div>
+                            
+                            <div class="case-card-results">
+                                <div class="results-title">核心成效</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <div class="result-metric">24/7</div>
+                                        <div class="result-label">全天候直播</div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-metric">25%</div>
+                                        <div class="result-label">转化率提升</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 章节分隔 -->
+            <div class="section-divider"></div>
+            
+            <!-- 行业洞察板块 -->
+            <section id="insights" class="case-content-section">
+                <div class="case-section-container">
+                    <div class="case-section-header">
+                        <h2 class="case-section-title">行业洞察：AIGC融资与并购趋势分析</h2>
+                        <p class="case-section-intro">2023-2024年间，AIGC领域融资规模和并购交易数量逆势上升，展现强大市场潜力与技术创新活力。</p>
+                    </div>
+                    
+                    <!-- 数据可视化区块 -->
+                    <div class="data-visualization">
+                        <div class="data-item">
+                            <div class="data-value">$5B+</div>
+                            <div class="data-label">2023-2024年融资规模</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-value">30%</div>
+                            <div class="data-label">并购交易数量增长</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-value">85%</div>
+                            <div class="data-label">趋势预测准确率</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-value">10+</div>
+                            <div class="data-label">成功投资案例</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 详细案例展示区块 -->
+                    <div class="detailed-case">
+                        <div class="detailed-header">
+                            <h3 class="detailed-title">AIGC领域融资与并购分析</h3>
+                            <p class="detailed-subtitle">AIGC行业快速发展，投资者需要准确洞察市场趋势与投资机会，传统分析方法难以处理海量市场数据。</p>
+                        </div>
+                        
+                        <div class="detailed-sections">
+                            <div class="detailed-section">
+                                <h4 class="detailed-section-title">技术应用</h4>
+                                <div class="detailed-section-content">
+                                    <ul>
+                                        <li>AIGC自动分析全球投融资数据与趋势</li>
+                                        <li>智能识别高潜力初创企业与技术方向</li>
+                                        <li>并购机会预测与风险评估</li>
+                                        <li>自动生成行业洞察报告与投资建议</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="detailed-section">
+                                <h4 class="detailed-section-title">关键发现</h4>
+                                <div class="detailed-section-content">
+                                    <p>2023-2024年间，AIGC领域融资规模和并购交易数量逆势上升。多家初创企业获得数亿美元投资，用于研发文本生成、图像合成和多模态模型等核心技术。</p>
+                                    <p>投资重点从基础模型研发向垂直行业应用转移，医疗、教育、金融等领域的AIGC应用成为投资热点。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- 统一网站页脚 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- 关于我们区域 -->
+      <div class="footer-about">
+        <h2 class="footer-logo">
+          <a href="index.html">
+            <i class="fas fa-brain" aria-hidden="true"></i>
+            AIGC探索
+          </a>
+        </h2>
+        <p class="footer-description">探索人工智能生成内容的前沿进展、工具与应用，推动AI与人类创造力的融合，构建智能时代的知识桥梁。</p>
+        <div class="footer-social">
+          <a href="https://weibo.com" aria-label="访问微博" target="_blank"><i class="fab fa-weibo"></i></a>
+          <a href="https://www.bilibili.com" aria-label="访问B站" target="_blank"><i class="fab fa-bilibili"></i></a>
+          <a href="https://www.qq.com" aria-label="访问QQ" target="_blank"><i class="fab fa-qq"></i></a>
+          <a href="https://www.zhihu.com" aria-label="访问知乎" target="_blank"><i class="fab fa-zhihu"></i></a>
+        </div>
+      </div>
+      
+      <!-- 快速链接区域 - 更新为8个导航链接 -->
+      <div class="footer-nav">
+        <h3 class="footer-nav-title">核心导航</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="tech.html">技术原理</a></li>
+          <li><a href="applications.html">应用场景</a></li>
+          <li><a href="trends.html">发展趋势</a></li>
+          <li><a href="resources.html">学习资源</a></li>
+          <li><a href="AIGC-tools.html">实用工具</a></li>
+          <li><a href="case-study.html">案例实践</a></li>
+          <li><a href="lately.html">研究前沿</a></li>
+        </ul>
+      </div>
+      
+      <!-- 联系区域 -->
+      <div class="footer-contact">
+        <h3 class="footer-contact-title">联系我们</h3>
+        <ul class="footer-contact-list">
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">邮箱</span>
+              <a href="mailto:zyh20070814@163.com">zyh20070814@163.com</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">电话</span>
+              <a href="tel:123456789">123456789</a>
+            </div>
+          </li>
+          <li class="footer-contact-item">
+            <div class="footer-contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="footer-contact-text">
+              <span class="footer-contact-label">地址</span>
+              <a href="#">北京市海淀区中关村科技园</a>
+            </div>
+          </li>
+        </ul>
+        
+        
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span>&copy; 2025 数字媒体技术课程项目 - AIGC探索小组 | 本网站仅供教育用途</span>
+        <a >知识共享许可协议</a>
+      </div>
+      <div class="footer-legal">
+        <div class="accessibility-statement">
+          <a  aria-label="查看我们的无障碍声明">
+            <i class="fas fa-universal-access" aria-hidden="true"></i>
+            无障碍声明
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- 辅助功能工具 -->
+    <div class="accessibility-tools">
+        <button id="contrast-toggle" class="accessibility-btn" aria-label="切换高对比度模式">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button id="font-increase" class="accessibility-btn" aria-label="增大字体大小">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button id="font-decrease" class="accessibility-btn" aria-label="减小字体大小">
+            <i class="fas fa-text-width"></i>
+        </button>
+    </div>
+    
+    <script>
+        // 移动菜单功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                
+                // 点击菜单外区域关闭菜单
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        mobileMenuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 辅助功能工具
+            const contrastToggle = document.getElementById('contrast-toggle');
+            const fontIncrease = document.getElementById('font-increase');
+            const fontDecrease = document.getElementById('font-decrease');
+            
+            if (contrastToggle) {
+                contrastToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('high-contrast');
+                    
+                    // 保存用户偏好
+                    const isHighContrast = document.body.classList.contains('high-contrast');
+                    localStorage.setItem('highContrast', isHighContrast);
+                    
+                    // 提供视觉反馈
+                    this.style.backgroundColor = isHighContrast ? '#000' : '#3a4e8c';
+                });
+            }
+            
+            if (fontIncrease) {
+                fontIncrease.addEventListener('click', function() {
+                    changeFontSize(1);
+                });
+            }
+            
+            if (fontDecrease) {
+                fontDecrease.addEventListener('click', function() {
+                    changeFontSize(-1);
+                });
+            }
+            
+            function changeFontSize(direction) {
+                const currentSize = parseInt(getComputedStyle(document.documentElement).fontSize);
+                const newSize = currentSize + direction;
+                
+                // 限制字体大小范围
+                if (newSize >= 12 && newSize <= 24) {
+                    document.documentElement.style.fontSize = newSize + 'px';
+                    
+                    // 保存用户偏好
+                    localStorage.setItem('fontSize', newSize);
+                }
+            }
+            
+            // 恢复用户偏好
+            function restoreUserPreferences() {
+                // 恢复高对比度设置
+                const highContrast = localStorage.getItem('highContrast');
+                if (highContrast === 'true') {
+                    document.body.classList.add('high-contrast');
+                    if (contrastToggle) {
+                        contrastToggle.style.backgroundColor = '#000';
+                    }
+                }
+                
+                // 恢复字体大小
+                const fontSize = localStorage.getItem('fontSize');
+                if (fontSize) {
+                    document.documentElement.style.fontSize = fontSize + 'px';
+                }
+            }
+            
+            // 目录导航功能
+            const navLinks = document.querySelectorAll('.case-nav-link');
+            const sections = document.querySelectorAll('.case-content-section');
+            
+            // 平滑滚动到锚点
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // 计算偏移量，考虑固定导航栏的高度
+                        const headerHeight = document.querySelector('.site-header').offsetHeight;
+                        const navHeight = document.querySelector('.case-nav-section').offsetHeight;
+                        const offset = headerHeight + navHeight + 20;
+                        
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 更新URL哈希
+                        history.pushState(null, null, targetId);
+                        
+                        // 更新导航栏活动状态
+                        updateNavActiveState();
+                    }
+                });
+            });
+            
+            // 更新导航栏活动状态
+            function updateNavActiveState() {
+                const scrollPosition = window.scrollY + 200;
+                
+                // 移除所有活动状态
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // 确定当前活动部分
+                let currentActiveSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentActiveSection = '#' + section.id;
+                    }
+                });
+                
+                // 为对应链接添加活动状态
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentActiveSection) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // 如果没有活动部分，默认选择第一个
+                if (!currentActiveSection && scrollPosition < sections[0].offsetTop) {
+                    navLinks[0].classList.add('active');
+                }
+            }
+            
+            // 监听滚动事件
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateNavActiveState, 100);
+            });
+            
+            // 窗口大小改变时重新计算
+            window.addEventListener('resize', updateNavActiveState);
+            
+            // 案例卡片交互效果
+            document.querySelectorAll('.case-card, .data-item, .waterfall-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 技术标签交互效果
+            document.querySelectorAll('.tech-tag').forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(26, 91, 158, 0.1)';
+                });
+                
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // 初始化页面
+            restoreUserPreferences();
+            updateNavActiveState();
+            
+            // 设置案例研究为当前导航项（第7个）
+            const currentNavItem = document.querySelector('.nav-item:nth-child(7)');
+            if (currentNavItem) currentNavItem.classList.add('current');
+        });
+        // 在现有的滚动监听中添加导航栏隐藏/显示逻辑
+let lastScrollTop = 0;
+const caseNavSection = document.querySelector('.case-nav-section');
+const headerHeight = document.querySelector('.site-header').offsetHeight;
+
+window.addEventListener('scroll', function() {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  
+  
+  lastScrollTop = scrollTop;
+  
+  // 原有的更新导航状态逻辑
+  updateNavActiveState();
+});
+        
+    </script>
+</body>
+</html>
